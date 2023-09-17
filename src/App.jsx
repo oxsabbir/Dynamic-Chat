@@ -13,12 +13,12 @@ import Login from "./components/Login";
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const database = getDatabase(app);
 
 function App() {
   // chechikng if user logged in or not
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     onAuthStateChanged(auth, (userData) => {
       console.log(userData);
