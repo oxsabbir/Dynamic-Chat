@@ -4,11 +4,11 @@
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
+const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
-  apiKey: "AIzaSyBu84JCq9W5lkYA7Amkh4WrGJ81htwBm_Q",
+  apiKey: apiKey,
   authDomain: "auth-practice-c867e.firebaseapp.com",
   projectId: "auth-practice-c867e",
   storageBucket: "auth-practice-c867e.appspot.com",
