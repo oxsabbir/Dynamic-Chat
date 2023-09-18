@@ -1,0 +1,17 @@
+.dashboard{
+    background-color: rgb(109, 102, 82);
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5%;
+    margin: auto;
+}
+
+.people {
+    background-color: red;
+}
+.activeChat {
+    background-color: red;
+    flex: 1;
+}
