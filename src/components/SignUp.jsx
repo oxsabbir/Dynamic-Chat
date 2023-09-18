@@ -1,80 +1,72 @@
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-} from "firebase/auth";
+import classes from "./SignUp.module.css";
+import Button from "./UI/Button";
+import GLogo from "../assets/Glogo.png";
+import { useState } from "react";
 import { useRef } from "react";
-
-const SignUp = function ({ auth }) {
+const SignUp = function () {
+  const enteredName = useRef();
+  const enteredPassword = useRef();
   const enteredEmail = useRef();
-  const enteredPass = useRef();
 
-  const formHandler = function (events) {
-    events.preventDefault();
-    const email = enteredEmail.current.value;
-    const pass = enteredPass.current.value;
-    console.log(email, pass);
+  const [isSignIn, setIsSignIn] = useState(true);
 
-    // firebase auth useCreation
-
-    createUserWithEmailAndPassword(auth, email, pass)
-      .then((userInfo) => {
-        const user = userInfo.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMsg = error.message;
-
-        console.log(errorCode, errorMsg);
-      });
+  const createNewAccount = function (event) {
+    event.preventDefault();
+    console.log("clicked");
   };
 
-  // sign in with google
-  const googleAuthHandler = function () {
-    console.log("sign up");
-    const provider = new GoogleAuthProvider();
-
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // this gives us google acces token we can use it on google api
-        const cred = GoogleAuthProvider.credentialFromResult(result);
-        const token = cred.accessToken;
-        // the signed in user info
-        const user = result.user;
-
-        console.log(cred, token, user);
-      })
-      .catch((err) => {
-        const errorCode = err.code;
-        const errorMsg = err.message;
-        console.log(errorCode, errorMsg);
-      });
-  };
-  const googleIn = function () {
-    console.log("sign in ");
-    const provider = new GoogleAuthProvider();
-    // already created account for login
-    signInWithRedirect(auth, provider).then((result) => {
-      const user = result.user;
-      console.log(user);
-    });
+  const signUpWithGoogle = function (e) {
+    e.preventDefault();
+    console.log("with google");
   };
 
   return (
     <>
-      <h2>Sign Up</h2>
-      <form onSubmit={formHandler}>
-        <label htmlFor="Email">Email</label>
-        <input ref={enteredEmail} type="email" required />
-        <label htmlFor="Password">Password</label>
-        <input ref={enteredPass} type="password" required />
-
-        <button type="submit">Create An Account</button>
-      </form>
-      <button onClick={googleAuthHandler}>Sign up with Google</button>
-      <button onClick={googleIn}>Sign In with Google</button>
+      <div className={classes.center}>
+        <form
+          action=""
+          onSubmit={createNewAccount}
+          className={classes.form_elements}
+        >
+          <h2>{isSignIn ? "Sign Up" : "Login"}</h2>
+          {isSignIn && (
+            <>
+              <label htmlFor="name">Full Name</label>
+              <input ref={enteredName} type="text" name="username" />
+            </>
+          )}
+          <label htmlFor="email">Email</label>
+          <input ref={enteredEmail} type="email" required />
+          <label htmlFor="signup">Password</label>
+          <input
+            ref={enteredPassword}
+            type="password"
+            min={6}
+            step={1}
+            required
+          />
+          {isSignIn && <Button type="submit">Register Now</Button>}
+          {!isSignIn && <Button type="submit">Login</Button>}
+          <div className={classes.google_btn}>
+            <Button onClick={signUpWithGoogle}>
+              <img src={GLogo} />
+              <p>Continue with Google</p>
+            </Button>
+          </div>
+          {isSignIn && (
+            <p className={classes.loginBtn}>
+              Or if you already have an account,
+              <span onClick={() => setIsSignIn(false)}>Login</span>
+            </p>
+          )}
+          {!isSignIn && (
+            <p className={classes.loginBtn}>
+              Back to Register Form,
+              <span onClick={() => setIsSignIn(true)}>Signup</span>
+            </p>
+          )}
+        </form>
+      </div>
     </>
   );
 };

@@ -1,0 +1,74 @@
+.heading {
+    padding: 20;
+    background-color: red;
+    color: white;
+}
+.center {
+    background-color: gray;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form_elements {
+    background-color: rgb(31, 30, 30);
+    color: white;
+    padding: 40px;
+    min-width: 330px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    font-size: 20px;
+    gap: 10px;
+    border-top-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+.loginBtn {
+    text-align: center;
+    font-size: 15px;
+    padding-top: 15px;
+    color: rgb(172, 160, 160);
+}
+.loginBtn span {
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+.loginBtn span:hover {
+    background-color: var(--UI);
+    color: white;
+    cursor: pointer;
+}
+.form_elements h2 {
+    margin-bottom: 20px;
+}
+.form_elements input {
+    padding: 10px;
+    border: 0;
+    font-size: 18px;
+    border-radius: 5px;
+
+}
+.form_elements button {
+    margin-top: 20px;
+}
+.google_btn{
+    margin: auto;
+    vertical-align: middle;
+}
+.google_btn img {
+    width: 50px;
+    border-radius: 20px;
+    display: block;
+}
+.google_btn button {
+    padding: 0 10px 0 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    color: white;
+    gap: 10px;
+    /* width: 100%; */
+}
