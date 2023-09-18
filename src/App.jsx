@@ -6,6 +6,10 @@ import { getAuth } from "firebase/auth";
 import "./App.css";
 import SignUp from "./components/SignUp";
 import Header from "./components/Header";
+import FindFriend from "./components/Dashboard/FindFriend";
+import Inbox from "./components/Dashboard/Inbox";
+import Chat from "./components/Dashboard/Chat";
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -20,6 +24,9 @@ function App() {
     <>
       {/* <Header />
       <SignUp /> */}
+      {/* <FindFriend /> */}
+      {/* <Inbox /> */}
+      <Chat />
     </>
   );
 }
