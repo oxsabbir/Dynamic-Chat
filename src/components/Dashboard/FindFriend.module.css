@@ -1,0 +1,52 @@
+.findSection {
+    background-color: var(--Primary);
+    padding: 15px;
+    max-width: 450px;
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    min-height: 60vh;
+
+}
+.searchBar{
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+.searchBar button {
+    padding: 15px;
+}
+.findSection input {
+    border: none;
+    padding: 15px;
+    flex-grow: 1;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.friendCard {
+    background-color: rgb(57, 32, 85);
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    /* justify-content: space-between; */
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+.friendCard img {
+    border-radius: 50%;
+    flex-grow: 1;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.friendCard button {
+    padding: 10px;
+    flex-grow: 1;
+}
+.friendCard h3 {
+    color: white;
+    font-size: 20px;
+    flex-grow: 3;
+}
