@@ -1,0 +1,17 @@
+header {
+    background-color: var(--Primary);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+}
+.navbar ul {
+    list-style-type: none;
+}
+.navbar ul li {
+    display: inline-block;
+    margin: 0 5px;
+}
