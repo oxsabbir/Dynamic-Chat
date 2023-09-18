@@ -15,7 +15,8 @@ const Inbox = function () {
         <>
           <div className={classes.inbox}>
             <div className={classes.contact}>
-              <h3>Contacts</h3>
+              <img src={Glogo} />
+              <h2>Sabbir Hossain</h2>
               <Button onClick={() => setIsSearching(true)}>Search</Button>
             </div>
             <div className={classes.friendList}>
