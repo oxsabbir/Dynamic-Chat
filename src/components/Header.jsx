@@ -1,11 +1,12 @@
 import classes from "./Header.module.css";
 import Button from "./UI/Button";
+import brandLogo from "../assets/brandLogo.png";
 const Header = function () {
   return (
     <>
       <header>
         <nav className={classes.navbar}>
-          <h4>Chat'sUp</h4>
+          <img src={brandLogo} alt="brand-logo" />
           <ul>
             <li>
               <Button>Dashboard</Button>
@@ -14,7 +15,7 @@ const Header = function () {
               <Button>How it work's</Button>
             </li>
             <li>
-              <Button>Sign in</Button>
+              <Button>About us</Button>
             </li>
           </ul>
         </nav>

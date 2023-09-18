@@ -2,11 +2,11 @@
     background-color: var(--Primary);
     padding: 15px;
     max-width: 450px;
+    width: 450px;
     display: flex;
     flex-flow: column;
     gap: 10px;
-    min-height: 60vh;
-
+    height: 90vh;
 }
 .searchBar{
     display: flex;
@@ -36,7 +36,6 @@
 }
 .friendCard img {
     border-radius: 50%;
-    flex-grow: 1;
     width: 50px;
     height: 50px;
     object-fit: cover;

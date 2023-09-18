@@ -1,12 +1,15 @@
 header {
-    background-color: var(--Primary);
+    background-color: rgb(67, 14, 102);
 }
-
 .navbar {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 15px 35px;
     align-items: center;
+}
+.navbar img {
+    width: 190px;
+    filter: saturate(0);
 }
 .navbar ul {
     list-style-type: none;
