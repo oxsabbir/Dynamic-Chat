@@ -45,10 +45,9 @@
 }
 .form_elements input {
     padding: 10px;
-    border: 0;
     font-size: 18px;
     border-radius: 5px;
-
+    border: 0;
 }
 .form_elements button {
     margin-top: 20px;

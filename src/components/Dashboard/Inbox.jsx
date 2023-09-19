@@ -3,8 +3,18 @@ import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import FindFriend from "./FindFriend";
 import { useState } from "react";
-
+import { getAuth } from "firebase/auth";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 const Inbox = function () {
+  const auth = getAuth();
+  const currentUser = auth?.currentUser;
+  let profilePhoto = currentUser?.photoURL;
+  let userName = currentUser?.displayName;
+  !userName ? (userName = "NO NAME") : null;
+  if (!profilePhoto) {
+    profilePhoto = defaultProfile;
+  }
+
   const [isSearching, setIsSearching] = useState(false);
   const getBack = () => setIsSearching(false);
 
@@ -15,8 +25,8 @@ const Inbox = function () {
         <>
           <div className={classes.inbox}>
             <div className={classes.contact}>
-              <img src={Glogo} />
-              <h2>Sabbir Hossain</h2>
+              <img src={profilePhoto} />
+              <h2>{userName}</h2>
               <Button onClick={() => setIsSearching(true)}>Search</Button>
             </div>
             <div className={classes.friendList}>
