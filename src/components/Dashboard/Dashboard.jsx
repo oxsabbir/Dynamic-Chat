@@ -11,6 +11,9 @@ const Dashboard = function () {
           <Inbox />
         </div>
         <div className={classes.activeChat}>
+          {
+            // chat components need an roomId to show all the incoming and outgoing message
+          }
           <Chat />
         </div>
       </div>
