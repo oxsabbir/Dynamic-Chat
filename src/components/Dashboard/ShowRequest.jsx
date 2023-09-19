@@ -5,17 +5,18 @@ import { useContext, useEffect, useState } from "react";
 import { stateContext } from "../auth/Context";
 
 import { getDatabase, onValue, ref } from "firebase/database";
-import { getAuth } from "firebase/auth";
 
 const ShowRequest = function ({ uid }) {
   const { show } = useContext(stateContext);
   const [friendList, setFriendList] = useState(null);
 
   useEffect(() => {
-    const db = getDatabase();
     if (!uid) return;
+    const db = getDatabase();
+
     const dbRef = ref(db, "users/" + uid + "/friends");
     onValue(dbRef, (snap) => {
+      if (!snap.exists()) return;
       const data = snap.val();
       const mainData = Object.values(data);
       setFriendList(mainData);
@@ -26,6 +27,13 @@ const ShowRequest = function ({ uid }) {
     const reqUid = event.target.id;
     console.log(reqUid);
     const db = getDatabase();
+    // go to the chat room and send a message to the with the room id
+
+    // go to the requester database and add a friend section put this as an accepted friend
+
+    // go into auth user friend section and change the status to success
+
+    // then add all the success status profile to the inbox and when user click on one of them then using there chatRoom id we can open message section
   };
 
   console.log(friendList);

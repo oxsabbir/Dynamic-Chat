@@ -49,6 +49,7 @@ const FindFriend = function ({ getBack }) {
     // This add the data to other user friends object with an unique id
 
     const newKey = push(child(ref(db), "friends/")).key;
+
     console.log(newKey);
     // creating a unique message room
     set(ref(db, "chat-room/" + newKey), {
