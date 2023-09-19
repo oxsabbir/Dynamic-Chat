@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import classes from "./FindFriend.module.css";
-import { getDatabase } from "firebase/database";
-import { ref, onValue } from "firebase/database";
+import { getDatabase, set } from "firebase/database";
+import { ref, onValue, child, push, update } from "firebase/database";
+import { getAuth } from "firebase/auth";
+
 const FindFriend = function ({ getBack }) {
   const db = getDatabase();
   const allUsers = ref(db, "/users");
   const [userData, setUserData] = useState(null);
   const [searchedUser, setSearchedUser] = useState([]);
+  let timer;
 
   useEffect(() => {
     onValue(allUsers, (snaps) => {
@@ -18,7 +21,6 @@ const FindFriend = function ({ getBack }) {
     });
   }, []);
 
-  let timer;
   const searchHandler = function (e) {
     const inputValue = e.target.value;
 
@@ -30,14 +32,44 @@ const FindFriend = function ({ getBack }) {
       const mainData = userData?.filter((item) => {
         const names = item.userName.toLowerCase();
         const input = inputValue.toLowerCase();
-        return names.includes(input);
+        return names.startsWith(input);
       });
       console.log(mainData);
       setSearchedUser(mainData);
     }, 1300);
   };
 
-  console.log(searchedUser);
+  const addRequestHandler = function (event) {
+    const requireId = event.target.id;
+    const db = getDatabase();
+    const auth = getAuth();
+    const currentUser = auth.currentUser.uid;
+    const names = auth.currentUser.displayName;
+
+    // This add the data to other user friends object with an unique id
+
+    const newKey = push(child(ref(db), "friends/")).key;
+    console.log(newKey);
+    // creating a unique message room
+    set(ref(db, "chat-room/" + newKey), {
+      from: currentUser,
+      names: names,
+      message: "Hello",
+    })
+      .then(() => console.log("room created"))
+      .catch((err) => console.log(err));
+
+    const friendData = {
+      userId: currentUser,
+      roomId: newKey,
+      name: names,
+      status: "pending",
+    };
+
+    const updates = {};
+    updates["users/" + requireId + "/friends/" + newKey] = friendData;
+    return update(ref(db), updates).then(() => console.log("sendit"));
+  };
 
   return (
     <>
@@ -65,7 +97,9 @@ const FindFriend = function ({ getBack }) {
                   <div className={classes.friendCard}>
                     <img src={Glogo} />
                     <h3>{item.userName}</h3>
-                    <Button id={item.uid}>Say Hello</Button>
+                    <Button onClick={addRequestHandler} id={item.uid}>
+                      Say Hello
+                    </Button>
                   </div>
                 </div>
               </li>

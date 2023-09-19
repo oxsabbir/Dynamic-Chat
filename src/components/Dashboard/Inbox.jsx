@@ -5,9 +5,12 @@ import FindFriend from "./FindFriend";
 import { useState } from "react";
 import { getAuth } from "firebase/auth";
 import defaultProfile from "../../assets/defaultProfile.jpg";
+import { useLoaderData } from "react-router-dom";
+import { useEffect } from "react";
 const Inbox = function () {
-  const auth = getAuth();
-  const currentUser = auth?.currentUser;
+  const currentUser = useLoaderData();
+  const [friend, setFriend] = useState(null);
+
   let profilePhoto = currentUser?.photoURL;
   let userName = currentUser?.displayName;
   !userName ? (userName = "NO NAME") : null;
@@ -29,6 +32,7 @@ const Inbox = function () {
               <h2>{userName}</h2>
               <Button onClick={() => setIsSearching(true)}>Search</Button>
             </div>
+
             <div className={classes.friendList}>
               <div className={classes.friendCard}>
                 <img src={Glogo} />
@@ -39,14 +43,6 @@ const Inbox = function () {
                     yousdfsdfsdfsdfsdgsadferaefrsdfeaefafeasdfsdfsdfasefeee
                   </div>
                 </div>
-              </div>
-              <div className={classes.friendCard}>
-                <img src={Glogo} />
-                <h3>Sabbir Hossain</h3>
-              </div>
-              <div className={classes.friendCard}>
-                <img src={Glogo} />
-                <h3>Sabbir Hossain</h3>
               </div>
             </div>
           </div>
