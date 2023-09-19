@@ -4,7 +4,6 @@ import SignUp from "./SignUp";
 const Home = function () {
   return (
     <>
-      <Header />
       <div className={classes.wrapper}>
         <div className={classes.mainContent}>
           <div className="hero">

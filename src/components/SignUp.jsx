@@ -3,21 +3,90 @@ import Button from "./UI/Button";
 import GLogo from "../assets/Glogo.png";
 import { useState } from "react";
 import { useRef } from "react";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+
 const SignUp = function () {
   const enteredName = useRef();
   const enteredPassword = useRef();
   const enteredEmail = useRef();
 
+  const auth = getAuth();
+
   const [isSignIn, setIsSignIn] = useState(true);
 
   const createNewAccount = function (event) {
     event.preventDefault();
-    console.log("clicked");
+    const email = enteredEmail.current?.value;
+    const password = enteredPassword.current?.value;
+    const userName = enteredName.current?.value;
+    const writeUserData = function (name, email, userId, isVerifyed) {
+      const db = getDatabase();
+      const userRef = ref(db, "users/" + userId);
+      set(userRef, {
+        email: email,
+        userName: name,
+        isVerifyed,
+        uid: userId,
+      });
+    };
+
+    const updateName = function (name) {
+      const auth = getAuth();
+      console.log(name);
+      updateProfile(auth.currentUser, {
+        displayName: name,
+      })
+        .then(() => {
+          console.log("profile updated");
+        })
+        .catch((err) => console.log(err));
+    };
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userInfo) => {
+        const userId = userInfo.user.uid;
+        const isVerifyed = userInfo.user.emailVerified;
+        writeUserData(userName, email, userId, isVerifyed);
+        updateName(userName);
+      })
+      .catch((error) => console.log(error));
   };
 
   const signUpWithGoogle = function (e) {
     e.preventDefault();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const user = result.user;
+        console.log(user, "-----", accessToken, "-----", credential);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     console.log("with google");
+  };
+
+  const userLoginHandler = function (e) {
+    e.preventDefault();
+    const email = enteredEmail.current.value;
+    const password = enteredPassword.current.value;
+    console.log(email, password);
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((info) => {
+        console.log(info);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -45,8 +114,17 @@ const SignUp = function () {
             step={1}
             required
           />
-          {isSignIn && <Button type="submit">Register Now</Button>}
-          {!isSignIn && <Button type="submit">Login</Button>}
+          {isSignIn && (
+            <Button onClick={createNewAccount} type="submit">
+              Register Now
+            </Button>
+          )}
+
+          {!isSignIn && (
+            <Button onClick={userLoginHandler} type="submit">
+              Login
+            </Button>
+          )}
           <div className={classes.google_btn}>
             <Button onClick={signUpWithGoogle}>
               <img src={GLogo} />

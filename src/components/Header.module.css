@@ -11,6 +11,10 @@ header {
     width: 190px;
     filter: saturate(0);
 }
+.navbar button a {
+    text-decoration: none;
+    color: white;
+}
 .navbar ul {
     list-style-type: none;
 }

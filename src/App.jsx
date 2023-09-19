@@ -1,38 +1,31 @@
-import { useEffect } from "react";
+import "./App.css";
 import { initializeApp } from "firebase/app";
-import { onAuthStateChanged } from "firebase/auth";
 import { firebaseConfig } from "./firebase-config";
 import { getAuth } from "firebase/auth";
-import "./App.css";
-import SignUp from "./components/SignUp";
-import FindFriend from "./components/Dashboard/FindFriend";
-import Inbox from "./components/Dashboard/Inbox";
-import Chat from "./components/Dashboard/Chat";
-import Dashboard from "./components/Dashboard/Dashboard";
 import Home from "./components/Home";
+import Error from "./components/Error";
+import RootLayout from "./components/Root";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-const router = createBrowserRouter([{ path: "/", element: <Home /> }]);
+import Dashboard from "./components/Dashboard/Dashboard";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-function App() {
-  useEffect(() => {
-    const unsubcribe = onAuthStateChanged(auth, (snapshot) => {
-      console.log(snapshot);
-    });
-    return unsubcribe();
-  }, []);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    errorElement: <Error />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "dashboard", element: <Dashboard /> },
+    ],
+  },
+]);
 
+function App() {
   return (
     <>
-      {/* <Header />
-      <SignUp /> */}
-      {/* <FindFriend /> */}
-      {/* <Inbox /> */}
-      {/* <Chat /> */}
-
       <RouterProvider router={router} />
     </>
   );
