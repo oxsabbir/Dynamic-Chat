@@ -1,0 +1,46 @@
+
+.show, .content {
+    width: 400px;
+    background-color:var(--Primary);
+    padding: 15px;
+    position: absolute;
+    z-index: 3;
+    transition: all 1s;
+    border-radius: 10px;
+    
+}
+.content {
+    transform: translateX(-450px);
+}
+
+.show {
+    transform: translateX(0px);
+}
+
+
+.friendCard {
+    background-color: rgb(57, 32, 85);
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    /* justify-content: space-between; */
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+.friendCard img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.friendCard button {
+    padding: 10px;
+    flex-grow: 1;
+}
+.friendCard h3 {
+    color: white;
+    font-size: 20px;
+    flex-grow: 3;
+}
+

@@ -22,21 +22,22 @@ const SignUp = function () {
 
   const [isSignIn, setIsSignIn] = useState(true);
 
+  const writeUserData = function (name, email, userId, isVerifyed) {
+    const db = getDatabase();
+    const userRef = ref(db, "users/" + userId);
+    set(userRef, {
+      email: email,
+      userName: name,
+      isVerifyed,
+      uid: userId,
+    });
+  };
+
   const createNewAccount = function (event) {
     event.preventDefault();
     const email = enteredEmail.current?.value;
     const password = enteredPassword.current?.value;
     const userName = enteredName.current?.value;
-    const writeUserData = function (name, email, userId, isVerifyed) {
-      const db = getDatabase();
-      const userRef = ref(db, "users/" + userId);
-      set(userRef, {
-        email: email,
-        userName: name,
-        isVerifyed,
-        uid: userId,
-      });
-    };
 
     const updateName = function (name) {
       const auth = getAuth();
@@ -68,7 +69,13 @@ const SignUp = function () {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const accessToken = credential.accessToken;
         const user = result.user;
-        console.log(user, "-----", accessToken, "-----", credential);
+
+        writeUserData(
+          user.displayName,
+          user.email,
+          user.uid,
+          user.emailVerified
+        );
       })
       .catch((error) => {
         console.log(error);
