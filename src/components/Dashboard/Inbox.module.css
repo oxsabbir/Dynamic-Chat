@@ -2,6 +2,7 @@
     background-color: var(--Primary);
     padding: 15px;
     max-width: 450px;
+    width: 450px;
     display: flex;
     flex-flow: column;
     gap: 10px;
@@ -14,6 +15,11 @@
     border-radius: 10px;
 }
 
+
+.friendCard  * {
+    pointer-events: none;
+}
+
 .friendCard {
     background-color: rgb(57, 32, 85);
     display: flex;
@@ -24,6 +30,7 @@
     gap: 10px;
     margin: 10px 0;
 }
+
 .message {
     color: rgb(194, 184, 184);
     width: 60%;
@@ -48,6 +55,7 @@
 .contact {
     background-color: rgb(70, 34, 136);
     padding: 15px;
+    gap: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;

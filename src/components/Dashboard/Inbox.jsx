@@ -3,14 +3,23 @@ import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import FindFriend from "./FindFriend";
 import { useState } from "react";
-import { getAuth } from "firebase/auth";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import { useLoaderData } from "react-router-dom";
-import { useEffect } from "react";
+import ShowRequest from "./ShowRequest";
+import FallbackMessage from "../UI/FallbackMessage";
+
 const Inbox = function () {
   const currentUser = useLoaderData();
-  const [friend, setFriend] = useState(null);
 
+  const [isSearching, setIsSearching] = useState(false);
+  const [acceptedFriend, setAcceptedFriend] = useState(null);
+
+  const frinedSetter = function (children) {
+    setAcceptedFriend(children);
+  };
+  const getBack = () => setIsSearching(false);
+
+  // Profile pic validation
   let profilePhoto = currentUser?.photoURL;
   let userName = currentUser?.displayName;
   !userName ? (userName = "NO NAME") : null;
@@ -18,14 +27,17 @@ const Inbox = function () {
     profilePhoto = defaultProfile;
   }
 
-  const [isSearching, setIsSearching] = useState(false);
-  const getBack = () => setIsSearching(false);
+  const openChatHandler = function (event) {
+    const roomId = event.target.id;
+    console.log(roomId);
+  };
 
   return (
     <>
       {isSearching && <FindFriend getBack={getBack} />}
       {!isSearching && (
         <>
+          <ShowRequest getFriend={frinedSetter} uid={currentUser?.uid} />
           <div className={classes.inbox}>
             <div className={classes.contact}>
               <img src={profilePhoto} />
@@ -33,18 +45,32 @@ const Inbox = function () {
               <Button onClick={() => setIsSearching(true)}>Search</Button>
             </div>
 
-            <div className={classes.friendList}>
-              <div className={classes.friendCard}>
-                <img src={Glogo} />
-                <div>
-                  <h3>Sabbir Hossain</h3>
-                  <div className={classes.message}>
-                    hello bro how are
-                    yousdfsdfsdfsdfsdgsadferaefrsdfeaefafeasdfsdfsdfasefeee
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ul style={{ listStyle: "none" }}>
+              {acceptedFriend && !acceptedFriend.length > 0 && (
+                <FallbackMessage>Inbox is empty</FallbackMessage>
+              )}
+              {acceptedFriend &&
+                acceptedFriend.map((item) => (
+                  <li key={item.userId}>
+                    <div className={classes.friendList}>
+                      <div
+                        id={item.roomId}
+                        onClick={openChatHandler}
+                        className={classes.friendCard}
+                      >
+                        <img src={Glogo} />
+                        <div>
+                          <h3>{item.name}</h3>
+                          <div className={classes.message}>
+                            hello bro how are
+                            yousdfsdfsdfsdfsdgsadferaefrsdfeaefafeasdfsdfsdfasefeee
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+            </ul>
           </div>
         </>
       )}

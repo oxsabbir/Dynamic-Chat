@@ -24,8 +24,6 @@ const Header = function () {
   return (
     <>
       <header>
-        <ShowRequest uid={uid} />
-
         <nav className={classes.navbar}>
           <img src={brandLogo} alt="brand-logo" />
           <ul>

@@ -11,7 +11,7 @@ import {
 import { GoogleAuthProvider } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, onValue, ref, set } from "firebase/database";
 
 const SignUp = function () {
   const enteredName = useRef();
@@ -24,13 +24,24 @@ const SignUp = function () {
 
   const writeUserData = function (name, email, userId, isVerifyed) {
     const db = getDatabase();
+
     const userRef = ref(db, "users/" + userId);
-    set(userRef, {
-      email: email,
-      userName: name,
-      isVerifyed,
-      uid: userId,
+
+    onValue(userRef, (snap) => {
+      console.log(snap.exists());
+
+      if (!snap.exists()) {
+        // blocking reWriting if old user signin
+        console.log("writing new data");
+        set(userRef, {
+          email: email,
+          userName: name,
+          isVerifyed,
+          uid: userId,
+        });
+      }
     });
+    // Stop reWriting if already data exist
   };
 
   const createNewAccount = function (event) {
@@ -64,6 +75,7 @@ const SignUp = function () {
   const signUpWithGoogle = function (e) {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
+
     signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -77,6 +89,7 @@ const SignUp = function () {
           user.emailVerified
         );
       })
+
       .catch((error) => {
         console.log(error);
       });

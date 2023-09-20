@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import classes from "./FindFriend.module.css";
-import { getDatabase, set } from "firebase/database";
-import { ref, onValue, child, push, update } from "firebase/database";
+import { getDatabase } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import AddFriend from "../AddFriend";
 
 const FindFriend = function ({ getBack }) {
   const db = getDatabase();
@@ -39,37 +40,15 @@ const FindFriend = function ({ getBack }) {
     }, 1300);
   };
 
+  /// adding friend
   const addRequestHandler = function (event) {
     const requireId = event.target.id;
     const db = getDatabase();
     const auth = getAuth();
-    const currentUser = auth.currentUser.uid;
-    const names = auth.currentUser.displayName;
+    const currentUser = auth?.currentUser?.uid;
+    const names = auth.currentUser?.displayName;
 
-    // This add the data to other user friends object with an unique id
-
-    const newKey = push(child(ref(db), "friends/")).key;
-
-    console.log(newKey);
-    // creating a unique message room
-    set(ref(db, "chat-room/" + newKey), {
-      from: currentUser,
-      names: names,
-      message: "Hello",
-    })
-      .then(() => console.log("room created"))
-      .catch((err) => console.log(err));
-
-    const friendData = {
-      userId: currentUser,
-      roomId: newKey,
-      name: names,
-      status: "pending",
-    };
-
-    const updates = {};
-    updates["users/" + requireId + "/friends/" + newKey] = friendData;
-    return update(ref(db), updates).then(() => console.log("sendit"));
+    AddFriend("add", requireId, currentUser, names);
   };
 
   return (
