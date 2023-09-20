@@ -16,13 +16,13 @@
     width: 100%;
 }
 .bottomOption input {
-    border: none;
     padding: 15px;
     font-size: 16px;
     border-radius: 10px;
     flex-grow: 1;
     width: 100%;
 }
+
 
 .message {
     padding: 5px;
@@ -60,7 +60,7 @@
     background-color: rgb(55, 53, 53);
     padding: 10px 15px;
     word-break: keep-all;
-    width: 70%;
+    max-width: 70%;
     line-height: 24px;
     border-radius: 20px;
 }
@@ -89,4 +89,12 @@
     color: white;
     font-size: 20px;
     flex-grow: 3;
+}
+.scroller{
+    padding-bottom: 45px;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+    color: purple;
 }

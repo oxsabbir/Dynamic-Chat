@@ -4,18 +4,25 @@ import Chat from "./Chat";
 import { getAuth } from "firebase/auth";
 import { redirect } from "react-router-dom";
 import { getDatabase, ref, onValue } from "firebase/database";
+import { useState } from "react";
 const Dashboard = function () {
+  const [roomId, setRoomId] = useState(null);
+
+  const getRoomId = function (children) {
+    setRoomId(children);
+  };
+
   return (
     <>
       <div className={classes.dashboard}>
         <div className={classes.people}>
-          <Inbox />
+          <Inbox getRoom={getRoomId} />
         </div>
         <div className={classes.activeChat}>
           {
             // chat components need an roomId to show all the incoming and outgoing message
           }
-          <Chat />
+          <Chat roomId={roomId} />
         </div>
       </div>
     </>

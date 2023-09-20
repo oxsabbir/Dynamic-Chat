@@ -1,7 +1,67 @@
 import Button from "../UI/Button";
 import classes from "./Chat.module.css";
 import Glogo from "../../assets/Glogo.png";
-const Chat = function () {
+import { getAuth } from "firebase/auth";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { useEffect, useRef, useState } from "react";
+import ListPrinter from "../UI/ListPrinter";
+import { push, child, set, query, limitToLast } from "firebase/database";
+
+const Chat = function ({ roomId }) {
+  const auth = getAuth();
+  const authUser = auth?.currentUser?.uid;
+  const [message, SetMessage] = useState(null);
+  const enteredMessage = useRef();
+  const scrollElement = useRef();
+
+  const scrollIntoViews = () => {
+    scrollElement.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
+  };
+
+  useEffect(() => {
+    const db = getDatabase();
+
+    const dbRef = query(ref(db, "chat-room/" + roomId), limitToLast(15));
+
+    onValue(dbRef, (snap) => {
+      if (!snap.exists()) return;
+      const data = snap.val();
+      const mainData = Object.values(data);
+      SetMessage(mainData);
+    });
+  }, [roomId]);
+
+  console.log(message);
+
+  const sendMessage = function (event) {
+    event.preventDefault();
+
+    const db = getDatabase();
+    const message = enteredMessage.current?.value;
+
+    if (message.trim().length <= 0) {
+      enteredMessage.current.focus();
+      return;
+    }
+
+    // generating new key for message
+    const newKey = push(child(ref(db), "friends/")).key;
+
+    set(ref(db, "chat-room/" + roomId + `/${newKey}`), {
+      from: authUser,
+      names: auth?.currentUser?.displayName,
+      message: message,
+    })
+      .then(() => {
+        enteredMessage.current.value = "";
+        scrollIntoViews();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <div className={classes.chatBody}>
@@ -13,30 +73,42 @@ const Chat = function () {
           </div>
         </div>
         <div className={classes.message}>
-          <div className={classes.otherUser}>
-            <img src={Glogo} />
-            <div className={classes.textMsg}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta
-              totam ut mollitia asperiores. Sunt, reiciendis temporibus
-              exercitationem a similique inventore porro commodi dolor,
-              accusamus nostrum deserunt rerum. Quidem, minus! Quis!
-            </div>
-          </div>
-
-          <div className={classes.authUser}>
-            <div className={classes.authTextMsg}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta
-              totam ut mollitia asperiores. Sunt, reiciendis temporibus
-              exercitationem a similique inventore porro commodi dolor,
-              accusamus nostrum deserunt rerum. Quidem, minus! Quis!
-            </div>
-          </div>
+          <ListPrinter>
+            {message &&
+              message.map((item, i) => {
+                return (
+                  <li key={i}>
+                    <div
+                      className={
+                        item.from === authUser
+                          ? classes.authUser
+                          : classes.otherUser
+                      }
+                    >
+                      {item.from !== authUser && <img src={Glogo} />}
+                      <div
+                        className={
+                          item.from === authUser
+                            ? classes.authTextMsg
+                            : classes.textMsg
+                        }
+                      >
+                        {item.message}
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+          </ListPrinter>
+          <div className={classes.scroller} ref={scrollElement}></div>
         </div>
-        <div className={classes.bottomOption}>
-          <Button>More</Button>
-          <input type="text" placeholder="Write here" />
-          <Button>Send</Button>
-        </div>
+        <form onSubmit={sendMessage}>
+          <div className={classes.bottomOption}>
+            <Button>More</Button>
+            <input ref={enteredMessage} type="text" placeholder="Write here" />
+            <Button type={"submit"}>Send</Button>
+          </div>
+        </form>
       </div>
     </>
   );
