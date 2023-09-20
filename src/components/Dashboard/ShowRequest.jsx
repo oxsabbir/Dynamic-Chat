@@ -5,10 +5,12 @@ import { useContext, useEffect, useState } from "react";
 import { stateContext } from "../auth/Context";
 
 import { getDatabase, onValue, ref } from "firebase/database";
+import AddFriend from "../AddFriend";
+import { getAuth } from "firebase/auth";
 
-const ShowRequest = function ({ uid }) {
+const ShowRequest = function ({ uid, getFriend }) {
   const { show } = useContext(stateContext);
-  const [friendList, setFriendList] = useState(null);
+  const [pendingList, setPendingList] = useState(null);
 
   useEffect(() => {
     if (!uid) return;
@@ -16,19 +18,41 @@ const ShowRequest = function ({ uid }) {
 
     const dbRef = ref(db, "users/" + uid + "/friends");
     onValue(dbRef, (snap) => {
-      if (!snap.exists()) return;
+      if (!snap.exists()) {
+        console.log("there is nothing");
+        getFriend([]);
+        setPendingList(null);
+        return;
+      }
       const data = snap.val();
       const mainData = Object.values(data);
-      setFriendList(mainData);
+
+      const pendingFriend = mainData?.filter(
+        (item) => item.status === "pending"
+      );
+      const acceptedFriend = mainData?.filter(
+        (item) => item.status === "success"
+      );
+      setPendingList(pendingFriend);
+      getFriend(acceptedFriend);
     });
   }, [uid]);
 
   const acceptHandler = function (event) {
     const reqUid = event.target.id;
-    console.log(reqUid);
-    const db = getDatabase();
+    const auth = getAuth();
+    const currentUser = {
+      uid: auth?.currentUser?.uid,
+      names: auth?.currentUser.displayName,
+    };
+
+    const { name, roomId, userId } = pendingList?.find(
+      (item) => item.userId === reqUid
+    );
+
     // go to the chat room and send a message to the with the room id
 
+    AddFriend("accept", reqUid, currentUser, name, roomId);
     // go to the requester database and add a friend section put this as an accepted friend
 
     // go into auth user friend section and change the status to success
@@ -36,19 +60,17 @@ const ShowRequest = function ({ uid }) {
     // then add all the success status profile to the inbox and when user click on one of them then using there chatRoom id we can open message section
   };
 
-  console.log(friendList);
   return (
     <>
       <div className={show ? classes.show : classes.content}>
-        {!friendList && (
+        {!pendingList && (
           <h2 style={{ color: "white", textAlign: "center", padding: "5px" }}>
             There is no request
           </h2>
         )}
         <ul style={{ listStyle: "none" }}>
-          {friendList &&
-            friendList.map((item) => {
-              if (!item.status === "pending") return;
+          {pendingList &&
+            pendingList.map((item) => {
               return (
                 <li key={item.userId}>
                   <div className={classes.friendCard}>
