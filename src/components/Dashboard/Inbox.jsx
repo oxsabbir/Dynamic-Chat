@@ -8,7 +8,7 @@ import { useLoaderData } from "react-router-dom";
 import ShowRequest from "./ShowRequest";
 import FallbackMessage from "../UI/FallbackMessage";
 
-const Inbox = function () {
+const Inbox = function ({ getRoom }) {
   const currentUser = useLoaderData();
 
   const [isSearching, setIsSearching] = useState(false);
@@ -30,6 +30,7 @@ const Inbox = function () {
   const openChatHandler = function (event) {
     const roomId = event.target.id;
     console.log(roomId);
+    getRoom(roomId);
   };
 
   return (
@@ -61,10 +62,9 @@ const Inbox = function () {
                         <img src={Glogo} />
                         <div>
                           <h3>{item.name}</h3>
-                          <div className={classes.message}>
-                            hello bro how are
-                            yousdfsdfsdfsdfsdgsadferaefrsdfeaefafeasdfsdfsdfasefeee
-                          </div>
+                          <p className={classes.message}>
+                            Last Message for the moomment
+                          </p>
                         </div>
                       </div>
                     </div>
