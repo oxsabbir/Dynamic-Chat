@@ -34,6 +34,11 @@
     gap: 10px;
     margin: 10px 0;
 }
+.friendCard p{
+    color: gray;
+    padding: 10px ;
+
+}
 .friendCard img {
     border-radius: 50%;
     width: 50px;

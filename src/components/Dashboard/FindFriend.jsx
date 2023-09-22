@@ -9,14 +9,21 @@ import AddFriend from "../AddFriend";
 
 const FindFriend = function ({ getBack }) {
   const db = getDatabase();
+  const auth = getAuth();
   const allUsers = ref(db, "/users");
   const [userData, setUserData] = useState(null);
+  const [authUserFriend, setAuthUserFriend] = useState(null);
+
   const [searchedUser, setSearchedUser] = useState([]);
   let timer;
 
   useEffect(() => {
+    const authUid = auth?.currentUser?.uid;
     onValue(allUsers, (snaps) => {
       const data = snaps.val();
+      const currentUserFriend = Object.values(data[authUid].friends);
+      const newuser = currentUserFriend.map((item) => item.userId);
+      setAuthUserFriend(newuser);
       const values = Object.values(data);
       setUserData(values);
     });
@@ -71,19 +78,29 @@ const FindFriend = function ({ getBack }) {
 
         <ul style={{ listStyle: "none" }}>
           {searchedUser &&
-            searchedUser.map((item) => (
-              <li key={item.uid}>
-                <div className={classes.friendList}>
-                  <div className={classes.friendCard}>
-                    <img src={Glogo} />
-                    <h3>{item.userName}</h3>
-                    <Button onClick={addRequestHandler} id={item.uid}>
-                      Say Hello
-                    </Button>
+            searchedUser.map((item) => {
+              const isAdded = authUserFriend.includes(item.uid);
+              if (auth.currentUser.uid === item.uid) {
+                setSearchedUser([]);
+              }
+
+              return (
+                <li key={item.uid}>
+                  <div className={classes.friendList}>
+                    <div className={classes.friendCard}>
+                      <img src={Glogo} />
+                      <h3>{item.userName}</h3>
+                      {isAdded && <p>Added</p>}
+                      {!isAdded && (
+                        <Button onClick={addRequestHandler} id={item.uid}>
+                          Say Hello
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
         </ul>
       </div>
     </>

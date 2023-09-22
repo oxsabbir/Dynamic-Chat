@@ -27,6 +27,8 @@
 .message {
     padding: 5px;
     overflow: auto;
+    display: flex;
+    flex-flow: column;
 }
 .otherUser {
     display: flex;
@@ -91,7 +93,9 @@
     flex-grow: 3;
 }
 .scroller{
-    padding-bottom: 45px;
+    padding-bottom: 100px;
+    background-color: red;
+    height: 100px;
 }
 
 ::-webkit-scrollbar {
