@@ -7,9 +7,11 @@ import { getDatabase, ref, onValue } from "firebase/database";
 import { useState } from "react";
 const Dashboard = function () {
   const [roomId, setRoomId] = useState(null);
+  const [userId, setUserId] = useState(null);
 
-  const getRoomId = function (children) {
-    setRoomId(children);
+  const getRoomId = function (roomId, userId) {
+    setRoomId(roomId);
+    setUserId(userId);
   };
 
   return (
@@ -22,7 +24,7 @@ const Dashboard = function () {
           {
             // chat components need an roomId to show all the incoming and outgoing message
           }
-          <Chat roomId={roomId} />
+          <Chat roomId={roomId} userId={userId} />
         </div>
       </div>
     </>

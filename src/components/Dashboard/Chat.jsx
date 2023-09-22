@@ -5,12 +5,14 @@ import { getAuth } from "firebase/auth";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
-import { push, child, set, query, limitToLast } from "firebase/database";
+import { push, child, set, query, limitToLast, get } from "firebase/database";
 
-const Chat = function ({ roomId }) {
+const Chat = function ({ roomId, userId }) {
   const auth = getAuth();
   const authUser = auth?.currentUser?.uid;
   const [message, SetMessage] = useState(null);
+  const [userInfo, setUserInfo] = useState("NoName");
+
   const enteredMessage = useRef();
   const scrollElement = useRef();
 
@@ -22,19 +24,28 @@ const Chat = function ({ roomId }) {
   };
 
   useEffect(() => {
+    const userRef = ref(getDatabase());
+
+    get(child(userRef, `users/${userId}`))
+      .then((snaps) => {
+        if (snaps.exists()) {
+          const data = snaps.val();
+          setUserInfo(data);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [userId]);
+
+  useEffect(() => {
     const db = getDatabase();
-
-    const dbRef = query(ref(db, "chat-room/" + roomId), limitToLast(15));
-
-    onValue(dbRef, (snap) => {
+    const chatRef = query(ref(db, "chat-room/" + roomId), limitToLast(20));
+    onValue(chatRef, (snap) => {
       if (!snap.exists()) return;
       const data = snap.val();
       const mainData = Object.values(data);
       SetMessage(mainData);
     });
   }, [roomId]);
-
-  console.log(message);
 
   const sendMessage = function (event) {
     event.preventDefault();
@@ -57,7 +68,6 @@ const Chat = function ({ roomId }) {
     })
       .then(() => {
         enteredMessage.current.value = "";
-        scrollIntoViews();
       })
       .catch((err) => console.log(err));
   };
@@ -68,7 +78,7 @@ const Chat = function ({ roomId }) {
         <div className="top">
           <div className={classes.friendCard}>
             <img src={Glogo} />
-            <h3>Sabbir Hossain</h3>
+            <h3>{userInfo.userName}</h3>
             <Button>Profile</Button>
           </div>
         </div>

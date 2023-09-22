@@ -2,7 +2,7 @@ import classes from "./Inbox.module.css";
 import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import FindFriend from "./FindFriend";
-import { useState } from "react";
+import { useId, useState } from "react";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import { useLoaderData } from "react-router-dom";
 import ShowRequest from "./ShowRequest";
@@ -13,6 +13,8 @@ const Inbox = function ({ getRoom }) {
 
   const [isSearching, setIsSearching] = useState(false);
   const [acceptedFriend, setAcceptedFriend] = useState(null);
+
+  console.log(acceptedFriend);
 
   const frinedSetter = function (children) {
     setAcceptedFriend(children);
@@ -29,8 +31,9 @@ const Inbox = function ({ getRoom }) {
 
   const openChatHandler = function (event) {
     const roomId = event.target.id;
-    console.log(roomId);
-    getRoom(roomId);
+    const userId = event.target.dataset.test;
+
+    getRoom(roomId, userId);
   };
 
   return (
@@ -56,6 +59,7 @@ const Inbox = function ({ getRoom }) {
                     <div className={classes.friendList}>
                       <div
                         id={item.roomId}
+                        data-test={item.userId}
                         onClick={openChatHandler}
                         className={classes.friendCard}
                       >
