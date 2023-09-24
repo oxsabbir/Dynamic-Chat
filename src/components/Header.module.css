@@ -22,3 +22,11 @@ header {
     display: inline-block;
     margin: 0 5px;
 }
+
+
+@media screen and (max-width: 576px) { 
+    header {
+        background-color: green;
+        display: none;
+    }
+}

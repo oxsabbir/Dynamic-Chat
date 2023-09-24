@@ -1,17 +1,27 @@
 .dashboard{
-    background-color: rgb(109, 102, 82);
     display: flex;
     width: 90%;
     justify-content: space-between;
     align-items: center;
-    gap: 5%;
+    gap: 10px;
     margin: auto;
 }
 
 .people {
-    background-color: red;
+    flex: 2;
 }
 .activeChat {
-    background-color: red;
-    flex: 1;
+    flex: 3;
+}
+
+@media screen and (max-width: 576px) { 
+    .dashboard{
+        background-color: rgb(109, 102, 82);
+        display: block;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5%;
+        width: 100%;
+        margin: auto;
+    }
 }

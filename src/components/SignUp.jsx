@@ -12,11 +12,13 @@ import { GoogleAuthProvider } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, onValue, ref, set } from "firebase/database";
+import Loading from "./UI/Loading";
 
 const SignUp = function () {
   const enteredName = useRef();
   const enteredPassword = useRef();
   const enteredEmail = useRef();
+  const [isLoading, setIsLoading] = useState(false);
 
   const auth = getAuth();
 
@@ -49,6 +51,7 @@ const SignUp = function () {
     const email = enteredEmail.current?.value;
     const password = enteredPassword.current?.value;
     const userName = enteredName.current?.value;
+    setIsLoading(true);
 
     const updateName = function (name) {
       const auth = getAuth();
@@ -68,6 +71,7 @@ const SignUp = function () {
         const isVerifyed = userInfo.user.emailVerified;
         writeUserData(userName, email, userId, isVerifyed);
         updateName(userName);
+        setIsLoading(false);
       })
       .catch((error) => console.log(error));
   };
@@ -101,10 +105,11 @@ const SignUp = function () {
     const email = enteredEmail.current.value;
     const password = enteredPassword.current.value;
     console.log(email, password);
-
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((info) => {
         console.log(info);
+        setIsLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -117,6 +122,8 @@ const SignUp = function () {
           onSubmit={createNewAccount}
           className={classes.form_elements}
         >
+          {isLoading && <Loading />}
+
           <h2>{isSignIn ? "Sign Up" : "Login"}</h2>
           {isSignIn && (
             <>
@@ -153,13 +160,13 @@ const SignUp = function () {
           </div>
           {isSignIn && (
             <p className={classes.loginBtn}>
-              Or if you already have an account,
+              Or if you already have an account, <br />
               <span onClick={() => setIsSignIn(false)}>Login</span>
             </p>
           )}
           {!isSignIn && (
             <p className={classes.loginBtn}>
-              Back to Register Form,
+              Back to Register Form, <br />
               <span onClick={() => setIsSignIn(true)}>Signup</span>
             </p>
           )}

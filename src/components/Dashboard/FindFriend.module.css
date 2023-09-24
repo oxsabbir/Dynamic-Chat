@@ -1,16 +1,14 @@
 .findSection {
     background-color: var(--Primary);
     padding: 15px;
-    max-width: 450px;
-    width: 450px;
     display: flex;
     flex-flow: column;
     gap: 10px;
-    height: 90vh;
+    height: 100vh;
 }
 .searchBar{
     display: flex;
-    gap: 5px;
+    gap: 15px;
     justify-content: space-between;
 }
 .searchBar button {

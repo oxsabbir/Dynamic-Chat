@@ -9,9 +9,8 @@ const Home = function () {
           <div className="hero">
             <h1>hero</h1>
           </div>
-          <div className={classes.signUp}>
-            <SignUp />
-          </div>
+          <div className={classes.signUp}></div>
+          <SignUp />
         </div>
       </div>
     </>

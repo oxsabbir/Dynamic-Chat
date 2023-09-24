@@ -6,12 +6,18 @@ import { getDatabase, ref, onValue } from "firebase/database";
 import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
 import { push, child, set, query, limitToLast, get } from "firebase/database";
+import { icons } from "../UI/Icons";
+import { stateContext } from "../auth/Context";
+import { useContext } from "react";
 
 const Chat = function ({ roomId, userId }) {
   const auth = getAuth();
   const authUser = auth?.currentUser?.uid;
+  const { toggleInbox, isInboxOpen } = useContext(stateContext);
+
   const [message, SetMessage] = useState(null);
   const [userInfo, setUserInfo] = useState("NoName");
+  const [loadCount, setLoadCount] = useState(20);
 
   const enteredMessage = useRef();
   const scrollElement = useRef();
@@ -38,14 +44,18 @@ const Chat = function ({ roomId, userId }) {
 
   useEffect(() => {
     const db = getDatabase();
-    const chatRef = query(ref(db, "chat-room/" + roomId), limitToLast(20));
+    const chatRef = query(
+      ref(db, "chat-room/" + roomId),
+      limitToLast(loadCount)
+    );
     onValue(chatRef, (snap) => {
       if (!snap.exists()) return;
       const data = snap.val();
       const mainData = Object.values(data);
       SetMessage(mainData);
+      scrollIntoViews();
     });
-  }, [roomId]);
+  }, [roomId, loadCount]);
 
   const sendMessage = function (event) {
     event.preventDefault();
@@ -68,24 +78,38 @@ const Chat = function ({ roomId, userId }) {
     })
       .then(() => {
         enteredMessage.current.value = "";
+        scrollIntoViews();
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <>
-      <div className={classes.chatBody}>
+      <div
+        className={`${classes.chatBody} ${
+          !isInboxOpen ? classes.hidebody : ""
+        }`}
+      >
         <div className="top">
           <div className={classes.friendCard}>
+            <Button onClick={toggleInbox} className={classes.backBtn}>
+              {icons.back}
+            </Button>
             <img src={Glogo} />
             <h3>{userInfo.userName}</h3>
             <Button>Profile</Button>
           </div>
         </div>
         <div className={classes.message}>
+          <Button onClick={() => setLoadCount((prev) => prev + 20)}>
+            Load More
+          </Button>
           <ListPrinter>
             {message &&
               message.map((item, i) => {
+                if (message.length - 1 === i) {
+                  scrollIntoViews();
+                }
                 return (
                   <li key={i}>
                     <div
@@ -114,9 +138,9 @@ const Chat = function ({ roomId, userId }) {
         </div>
         <form onSubmit={sendMessage}>
           <div className={classes.bottomOption}>
-            <Button>More</Button>
+            <Button>{icons.image}</Button>
             <input ref={enteredMessage} type="text" placeholder="Write here" />
-            <Button type={"submit"}>Send</Button>
+            <Button type={"submit"}>{icons.send}</Button>
           </div>
         </form>
       </div>
