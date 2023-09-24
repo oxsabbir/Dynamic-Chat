@@ -6,6 +6,7 @@ const initialState = {
   setLogin: () => {},
   setLogOut: () => {},
   toggleFriend: () => {},
+  toggleInbox: () => {},
 };
 
 export const stateContext = createContext();
@@ -13,6 +14,7 @@ export const stateContext = createContext();
 const ContextWrapper = function ({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(initialState.isLoggedIn);
   const [show, setShow] = useState(false);
+  const [isInboxOpen, setIsInboxOpen] = useState(false);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -27,13 +29,18 @@ const ContextWrapper = function ({ children }) {
   const toggleFriend = function () {
     setShow((prev) => !prev);
   };
+  const toggleInbox = function () {
+    setIsInboxOpen((prev) => !prev);
+  };
 
   const mainState = {
     isLoggedIn: isLoggedIn,
     setLogin,
     setLogOut,
     toggleFriend,
+    toggleInbox,
     show,
+    isInboxOpen,
   };
 
   return (

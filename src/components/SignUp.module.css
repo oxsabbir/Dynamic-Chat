@@ -4,7 +4,6 @@
     color: white;
 }
 .center {
-    background-color: gray;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,6 +21,7 @@
     gap: 10px;
     border-top-left-radius: 25px;
     border-bottom-right-radius: 25px;
+    box-shadow: 8px 8px 11px 1px #151519;
 }
 .loginBtn {
     text-align: center;
@@ -34,6 +34,7 @@
     padding: 5px;
     border: 1px solid gray;
     border-radius: 10px;
+    margin: 10px 0;
 }
 .loginBtn span:hover {
     background-color: var(--UI);
@@ -72,3 +73,20 @@
     gap: 10px;
     /* width: 100%; */
 }
+
+
+@media screen and (max-width: 576px) { 
+    .mainContent{
+        flex-flow: column;
+    }
+    .form_elements {
+        min-width: 0;
+        width: 100%;
+        font-size: 18px;
+    }
+    .center {
+        width: 100%;
+    }
+    
+}
+

@@ -14,6 +14,7 @@ const RootLayout = function () {
   useEffect(() => {
     const unsubcribe = onAuthStateChanged(auth, (snapshot) => {
       if (snapshot) {
+        console.log(snapshot);
         data.setLogin(true);
         navigate("/dashboard");
       }

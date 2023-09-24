@@ -6,36 +6,47 @@ import { getDatabase } from "firebase/database";
 import { ref, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import AddFriend from "../AddFriend";
+import { icons } from "../UI/Icons";
 
 const FindFriend = function ({ getBack }) {
   const db = getDatabase();
   const auth = getAuth();
   const allUsers = ref(db, "/users");
   const [userData, setUserData] = useState(null);
-  const [authUserFriend, setAuthUserFriend] = useState(null);
-
+  const [authUserFriend, setAuthUserFriend] = useState([]);
   const [searchedUser, setSearchedUser] = useState([]);
+  const [friendAdded, setFriendAdded] = useState(false);
+  const [isRequested, setIsRequested] = useState([]);
+
   let timer;
 
   useEffect(() => {
     const authUid = auth?.currentUser?.uid;
     onValue(allUsers, (snaps) => {
       const data = snaps.val();
-      const currentUserFriend = Object.values(data[authUid].friends);
-      const newuser = currentUserFriend.map((item) => item.userId);
-      setAuthUserFriend(newuser);
+
+      if (data[authUid].friends) {
+        if (Object.values(data[authUid].friends)) {
+          const currentUserFriend = Object.values(data[authUid].friends);
+          const newuser = currentUserFriend.map((item) => item.userId);
+          setAuthUserFriend(newuser);
+        }
+      }
+
       const values = Object.values(data);
+
       setUserData(values);
     });
-  }, []);
+  }, [friendAdded]);
 
   const searchHandler = function (e) {
     const inputValue = e.target.value;
-
+    console.log(inputValue);
     if (inputValue.trim().length === 0) {
       return;
     }
     clearTimeout(timer);
+
     timer = setTimeout(() => {
       const mainData = userData?.filter((item) => {
         const names = item.userName.toLowerCase();
@@ -43,10 +54,24 @@ const FindFriend = function ({ getBack }) {
         return names.startsWith(input);
       });
       console.log(mainData);
+      // checking if friend already exist
+      mainData.map((item) => {
+        if (!item.friends) return;
+        const theirFrinds = Object.values(item.friends);
+        const listOfPending = theirFrinds.map((item) => {
+          if (item.status === "pending") {
+            return item.userId;
+          }
+        });
+
+        setIsRequested(listOfPending);
+      });
+
       setSearchedUser(mainData);
     }, 1300);
   };
 
+  console.log(isRequested);
   /// adding friend
   const addRequestHandler = function (event) {
     const requireId = event.target.id;
@@ -54,15 +79,15 @@ const FindFriend = function ({ getBack }) {
     const auth = getAuth();
     const currentUser = auth?.currentUser?.uid;
     const names = auth.currentUser?.displayName;
-
     AddFriend("add", requireId, currentUser, names);
+    setFriendAdded((prev) => !prev);
   };
 
   return (
     <>
       <div className={classes.findSection}>
         <div className={classes.searchBar}>
-          <Button onClick={getBack}>Back</Button>
+          <Button onClick={getBack}>{icons.back}</Button>
           <input
             onKeyUp={searchHandler}
             type="search"
@@ -80,6 +105,8 @@ const FindFriend = function ({ getBack }) {
           {searchedUser &&
             searchedUser.map((item) => {
               const isAdded = authUserFriend.includes(item.uid);
+              const requested = isRequested.includes(auth.currentUser.uid);
+
               if (auth.currentUser.uid === item.uid) {
                 setSearchedUser([]);
               }
@@ -91,7 +118,9 @@ const FindFriend = function ({ getBack }) {
                       <img src={Glogo} />
                       <h3>{item.userName}</h3>
                       {isAdded && <p>Added</p>}
-                      {!isAdded && (
+                      {requested && <p>Pending</p>}
+
+                      {!isAdded && !requested && (
                         <Button onClick={addRequestHandler} id={item.uid}>
                           Say Hello
                         </Button>

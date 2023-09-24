@@ -1,16 +1,20 @@
 .mainContent {
-    background-color: purple;
-    width: 90%;
     margin: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.signUp{
-    background-color: bisque;
-}
 .wrapper{
     background-image: linear-gradient(14deg,rgba(87, 15, 181, 0.694),rgb(88 15 181));
-    height: 90vh;
+    height: 100vh;
     display: flex;
 }
+
+
+@media screen and (max-width: 576px) { 
+    .mainContent{
+        flex-flow: column;
+        width: auto;
+    }
+}
+
