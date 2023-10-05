@@ -1,46 +1,56 @@
-
-.show, .content {
-    width: 400px;
-    background-color:var(--Primary);
-    padding: 15px;
-    position: absolute;
-    z-index: 3;
-    transition: all 1s;
-    border-radius: 10px;
-    
-}
+.show,
 .content {
-    transform: translateX(-450px);
+  width: 400px;
+  background-color: var(--Primary);
+  padding: 15px;
+  position: absolute;
+  z-index: 3;
+  transition: all 0.5s;
+  border-radius: 10px;
+}
+.show button,
+.content button {
+  margin: 20px 0;
+  width: 100%;
+}
+
+.content {
+  transform: translateX(-1050px);
 }
 
 .show {
-    transform: translateX(0px);
+  transform: translateX(0px);
 }
-
 
 .friendCard {
-    background-color: rgb(57, 32, 85);
-    display: flex;
-    padding: 10px;
-    border-radius: 10px;
-    /* justify-content: space-between; */
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
+  background-color: rgb(57, 32, 85);
+  display: flex;
+  padding: 10px;
+  border-radius: 10px;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
 }
 .friendCard img {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
 }
 .friendCard button {
-    padding: 10px;
-    flex-grow: 1;
+  padding: 10px;
+  flex-grow: 1;
 }
 .friendCard h3 {
-    color: white;
-    font-size: 20px;
-    flex-grow: 3;
+  color: white;
+  font-size: 20px;
+  flex-grow: 3;
 }
 
+@media screen and (max-width: 576px) {
+  .show,
+  .content {
+    width: 100%;
+  }
+}

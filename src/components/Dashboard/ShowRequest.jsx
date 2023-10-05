@@ -4,7 +4,16 @@ import classes from "./ShowRequest.module.css";
 import { useContext, useEffect, useState } from "react";
 import { stateContext } from "../auth/Context";
 
-import { getDatabase, onValue, ref, update } from "firebase/database";
+import {
+  getDatabase,
+  onValue,
+  ref,
+  update,
+  query,
+  orderByChild,
+  limitToLast,
+} from "firebase/database";
+
 import AddFriend from "../AddFriend";
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
@@ -20,7 +29,6 @@ const ShowRequest = function ({ uid, getFriend }) {
     const dbRef = ref(db, "users/" + uid + "/friends");
     onValue(dbRef, (snap) => {
       if (!snap.exists()) {
-        console.log("there is nothing");
         getFriend([]);
         setPendingList(null);
         return;
@@ -34,6 +42,12 @@ const ShowRequest = function ({ uid, getFriend }) {
       const acceptedFriend = mainData?.filter(
         (item) => item.status === "success"
       );
+      console.log(acceptedFriend);
+
+      acceptedFriend.sort((item, items) => {
+        return items.lastSent - item.lastSent;
+      });
+
       setPendingList(pendingFriend);
       getFriend(acceptedFriend);
     });
@@ -77,7 +91,6 @@ const ShowRequest = function ({ uid, getFriend }) {
             <h2 style={{ color: "white", textAlign: "center", padding: "5px" }}>
               There is no request
             </h2>
-            <Button onClick={toggleFriend}>{icons.remove}</Button>
           </>
         )}
 
@@ -100,6 +113,7 @@ const ShowRequest = function ({ uid, getFriend }) {
               );
             })}
         </ul>
+        <Button onClick={toggleFriend}> Close {icons.remove}</Button>
       </div>
     </>
   );

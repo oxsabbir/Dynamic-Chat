@@ -13,12 +13,15 @@ import { signInWithPopup } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, onValue, ref, set } from "firebase/database";
 import Loading from "./UI/Loading";
+import { json } from "react-router-dom";
 
 const SignUp = function () {
   const enteredName = useRef();
   const enteredPassword = useRef();
   const enteredEmail = useRef();
   const [isLoading, setIsLoading] = useState(false);
+
+  const [hasError, setHasError] = useState({ error: false, message: "null" });
 
   const auth = getAuth();
 
@@ -73,7 +76,9 @@ const SignUp = function () {
         updateName(userName);
         setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((err) => {
+        setHasError({ error: true, message: err.message });
+      });
   };
 
   const signUpWithGoogle = function (e) {
@@ -111,8 +116,15 @@ const SignUp = function () {
         console.log(info);
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err.message);
+        setHasError({ error: true, message: err.message });
+        enteredPassword.current.focus();
+        setIsLoading(false);
+      });
   };
+
+  console.log(hasError);
 
   return (
     <>
@@ -131,6 +143,9 @@ const SignUp = function () {
               <input ref={enteredName} type="text" name="username" />
             </>
           )}
+
+          {hasError.error && <h3>{hasError.message}</h3>}
+
           <label htmlFor="email">Email</label>
           <input ref={enteredEmail} type="email" required />
           <label htmlFor="signup">Password</label>

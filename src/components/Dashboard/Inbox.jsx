@@ -2,7 +2,7 @@ import classes from "./Inbox.module.css";
 import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import FindFriend from "./FindFriend";
-import { useId, useState } from "react";
+import { useState } from "react";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import { useLoaderData } from "react-router-dom";
 import ShowRequest from "./ShowRequest";
@@ -13,9 +13,10 @@ import { useContext } from "react";
 import { stateContext } from "../auth/Context";
 import Loading from "../UI/Loading";
 
+import LastMessage from "./LastMessage";
+
 const Inbox = function ({ getRoom }) {
   const currentUser = useLoaderData();
-
   const { toggleInbox, isInboxOpen } = useContext(stateContext);
 
   const [isSearching, setIsSearching] = useState(false);
@@ -34,7 +35,6 @@ const Inbox = function ({ getRoom }) {
   if (!profilePhoto) {
     profilePhoto = defaultProfile;
   }
-
   const openChatHandler = function (event) {
     const roomId = event.target.id;
     const userId = event.target.dataset.test;
@@ -74,25 +74,15 @@ const Inbox = function ({ getRoom }) {
               {acceptedFriend && !acceptedFriend.length > 0 && (
                 <FallbackMessage>Inbox is empty</FallbackMessage>
               )}
+
               {acceptedFriend &&
                 acceptedFriend.map((item) => (
                   <li key={item.userId}>
-                    <div className={classes.friendList}>
-                      <div
-                        id={item.roomId}
-                        data-test={item.userId}
-                        onClick={openChatHandler}
-                        className={classes.friendCard}
-                      >
-                        <img src={Glogo} />
-                        <div>
-                          <h3>{item.name}</h3>
-                          <p className={classes.message}>
-                            Last Message for the moomment
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                    <LastMessage
+                      item={item}
+                      chatHandler={openChatHandler}
+                      uid={currentUser.uid}
+                    />
                   </li>
                 ))}
             </ul>
