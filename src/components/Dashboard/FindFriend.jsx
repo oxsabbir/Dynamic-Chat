@@ -7,6 +7,7 @@ import { ref, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import AddFriend from "../AddFriend";
 import { icons } from "../UI/Icons";
+import FriendList from "./FriendList";
 
 const FindFriend = function ({ getBack }) {
   const db = getDatabase();
@@ -17,7 +18,6 @@ const FindFriend = function ({ getBack }) {
   const [authUserFriend, setAuthUserFriend] = useState([]);
   const [searchedUser, setSearchedUser] = useState([]);
   const [isRequested, setIsRequested] = useState([]);
-  const [added, setAdded] = useState(false);
 
   let timer;
 
@@ -40,21 +40,6 @@ const FindFriend = function ({ getBack }) {
     });
   }, []);
 
-  const getPending = function (mainData) {
-    mainData.map((item) => {
-      if (!item.friends) return;
-      const theirFrinds = Object.values(item.friends);
-      const listOfPending = theirFrinds.map((item) => {
-        if (item.status === "pending") {
-          return item.userId;
-        }
-      });
-
-      console.log("upadate Pending");
-      setIsRequested(listOfPending);
-    });
-  };
-
   const searchHandler = function (e) {
     const inputValue = e.target.value;
     console.log(inputValue);
@@ -71,24 +56,24 @@ const FindFriend = function ({ getBack }) {
       });
       console.log(mainData);
       // checking if friend already exist
-      getPending(mainData);
+      mainData.map((item) => {
+        if (!item.friends) {
+          setIsRequested([]);
+          return;
+        }
+        const theirFrinds = Object.values(item.friends);
+        const listOfPending = theirFrinds.map((item) => {
+          if (item.status === "pending") {
+            return item.userId;
+          }
+        });
+
+        console.log(listOfPending, mainData);
+        setIsRequested(listOfPending);
+      });
+
       setSearchedUser(mainData);
     }, 1300);
-  };
-
-  console.log(isRequested);
-  /// adding friend
-  const addRequestHandler = function (event) {
-    const requireId = event.target.id;
-    const db = getDatabase();
-    const auth = getAuth();
-    const currentUser = auth?.currentUser?.uid;
-    const names = auth.currentUser?.displayName;
-
-    AddFriend("add", requireId, currentUser, names);
-    searchRef.current.focus();
-    searchRef.current.value = "";
-    setAdded(true);
   };
 
   return (
@@ -115,6 +100,7 @@ const FindFriend = function ({ getBack }) {
             searchedUser.map((item) => {
               const isAdded = authUserFriend.includes(item.uid);
               const requested = isRequested.includes(auth.currentUser.uid);
+              console.log(isRequested, requested);
 
               if (auth.currentUser.uid === item.uid) {
                 setSearchedUser([]);
@@ -122,24 +108,11 @@ const FindFriend = function ({ getBack }) {
 
               return (
                 <li key={item.uid}>
-                  <div className={classes.friendList}>
-                    <div className={classes.friendCard}>
-                      <img src={Glogo} />
-                      <h3>{item.userName}</h3>
-                      {isAdded && <p>Added</p>}
-                      {requested && <p>Pending</p>}
-
-                      {!isAdded && !requested && (
-                        <Button
-                          disabled={added}
-                          onClick={addRequestHandler}
-                          id={item.uid}
-                        >
-                          Say Hello
-                        </Button>
-                      )}
-                    </div>
-                  </div>
+                  <FriendList
+                    isAdded={isAdded}
+                    requested={requested}
+                    item={item}
+                  />
                 </li>
               );
             })}

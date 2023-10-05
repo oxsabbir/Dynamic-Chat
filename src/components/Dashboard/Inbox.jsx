@@ -12,12 +12,14 @@ import MobileUi from "./MobileUi";
 import { useContext } from "react";
 import { stateContext } from "../auth/Context";
 import Loading from "../UI/Loading";
+import ListPrinter from "../UI/ListPrinter";
 
 import LastMessage from "./LastMessage";
 
 const Inbox = function ({ getRoom }) {
   const currentUser = useLoaderData();
-  const { toggleInbox, isInboxOpen } = useContext(stateContext);
+  const { toggleInbox, isInboxOpen, toggleActiveChat } =
+    useContext(stateContext);
 
   const [isSearching, setIsSearching] = useState(false);
   const [acceptedFriend, setAcceptedFriend] = useState(null);
@@ -35,6 +37,7 @@ const Inbox = function ({ getRoom }) {
   if (!profilePhoto) {
     profilePhoto = defaultProfile;
   }
+
   const openChatHandler = function (event) {
     const roomId = event.target.id;
     const userId = event.target.dataset.test;
@@ -44,7 +47,9 @@ const Inbox = function ({ getRoom }) {
       roomId,
       userId,
     });
+
     toggleInbox();
+    toggleActiveChat(userId);
   };
 
   return (
@@ -69,7 +74,7 @@ const Inbox = function ({ getRoom }) {
               </Button>
             </div>
 
-            <ul style={{ listStyle: "none" }}>
+            <ul style={{ listStyle: "none", overflow: "auto" }}>
               {!acceptedFriend && <Loading />}
               {acceptedFriend && !acceptedFriend.length > 0 && (
                 <FallbackMessage>Inbox is empty</FallbackMessage>

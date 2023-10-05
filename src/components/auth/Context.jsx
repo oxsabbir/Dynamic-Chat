@@ -7,6 +7,7 @@ const initialState = {
   setLogOut: () => {},
   toggleFriend: () => {},
   toggleInbox: () => {},
+  toggleActiveChat: () => {},
 };
 
 export const stateContext = createContext();
@@ -15,6 +16,7 @@ const ContextWrapper = function ({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(initialState.isLoggedIn);
   const [show, setShow] = useState(false);
   const [isInboxOpen, setIsInboxOpen] = useState(false);
+  const [activeChat, setActiveChat] = useState("");
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -33,6 +35,10 @@ const ContextWrapper = function ({ children }) {
     setIsInboxOpen((prev) => !prev);
   };
 
+  const toggleActiveChat = function (uid) {
+    setActiveChat(uid);
+  };
+
   const mainState = {
     isLoggedIn: isLoggedIn,
     setLogin,
@@ -41,6 +47,8 @@ const ContextWrapper = function ({ children }) {
     toggleInbox,
     show,
     isInboxOpen,
+    activeChat,
+    toggleActiveChat,
   };
 
   return (
