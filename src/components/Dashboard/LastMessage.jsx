@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import classes from "./Inbox.module.css";
 import Glogo from "../../assets/Glogo.png";
 import {
@@ -9,8 +9,11 @@ import {
   limitToLast,
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import { stateContext } from "../auth/Context";
 
 const LastMessage = function ({ item, chatHandler, uid }) {
+  const { activeChat } = useContext(stateContext);
+  console.log(activeChat);
   const auth = getAuth();
 
   const [lastMessage, setLastMessage] = useState("");
@@ -30,14 +33,14 @@ const LastMessage = function ({ item, chatHandler, uid }) {
     });
   }, [item.roomId]);
 
-  console.log(lastMessage.from === uid);
-
   return (
     <div
       id={item.roomId}
       data-test={item.userId}
       onClick={chatHandler}
-      className={`${classes.friendCard} ${classes.activeCard}`}
+      className={`${classes.friendCard} ${
+        activeChat === item.userId ? classes.active : ""
+      }`}
     >
       <img src={Glogo} />
       <div>

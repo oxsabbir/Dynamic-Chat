@@ -21,7 +21,7 @@ const Chat = function ({ roomId, userId }) {
   const authUser = auth?.currentUser?.uid;
   const { toggleInbox, isInboxOpen } = useContext(stateContext);
 
-  const [message, SetMessage] = useState(null);
+  const [message, SetMessage] = useState([]);
   const [userInfo, setUserInfo] = useState("NoName");
   const [loadCount, setLoadCount] = useState(20);
 
@@ -82,6 +82,7 @@ const Chat = function ({ roomId, userId }) {
       from: authUser,
       names: auth?.currentUser?.displayName,
       message: message,
+      time: serverTimestamp(),
     };
 
     const updates = {};
@@ -98,7 +99,6 @@ const Chat = function ({ roomId, userId }) {
     // updates["chat-room/" + roomId + "/createdAt"] = serverTimestamp();
 
     return update(ref(db), updates).then(() => {
-      console.log("sent success");
       enteredMessage.current.value = "";
       scrollIntoViews();
     });
@@ -122,9 +122,12 @@ const Chat = function ({ roomId, userId }) {
           </div>
         </div>
         <div className={classes.message}>
-          <Button onClick={() => setLoadCount((prev) => prev + 20)}>
-            Load More
-          </Button>
+          {message.length >= 20 && (
+            <Button onClick={() => setLoadCount((prev) => prev + 20)}>
+              Load More
+            </Button>
+          )}
+
           <ListPrinter>
             {message &&
               message.map((item, i) => {
