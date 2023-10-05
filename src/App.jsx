@@ -8,7 +8,6 @@ import RootLayout from "./components/Root";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { loader as inboxLoader } from "./components/Dashboard/Dashboard";
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 

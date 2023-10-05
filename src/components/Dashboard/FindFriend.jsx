@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import classes from "./FindFriend.module.css";
@@ -10,13 +10,14 @@ import { icons } from "../UI/Icons";
 
 const FindFriend = function ({ getBack }) {
   const db = getDatabase();
+  const searchRef = useRef();
   const auth = getAuth();
   const allUsers = ref(db, "/users");
   const [userData, setUserData] = useState(null);
   const [authUserFriend, setAuthUserFriend] = useState([]);
   const [searchedUser, setSearchedUser] = useState([]);
-  const [friendAdded, setFriendAdded] = useState(false);
   const [isRequested, setIsRequested] = useState([]);
+  const [added, setAdded] = useState(false);
 
   let timer;
 
@@ -37,7 +38,22 @@ const FindFriend = function ({ getBack }) {
 
       setUserData(values);
     });
-  }, [friendAdded]);
+  }, []);
+
+  const getPending = function (mainData) {
+    mainData.map((item) => {
+      if (!item.friends) return;
+      const theirFrinds = Object.values(item.friends);
+      const listOfPending = theirFrinds.map((item) => {
+        if (item.status === "pending") {
+          return item.userId;
+        }
+      });
+
+      console.log("upadate Pending");
+      setIsRequested(listOfPending);
+    });
+  };
 
   const searchHandler = function (e) {
     const inputValue = e.target.value;
@@ -55,18 +71,7 @@ const FindFriend = function ({ getBack }) {
       });
       console.log(mainData);
       // checking if friend already exist
-      mainData.map((item) => {
-        if (!item.friends) return;
-        const theirFrinds = Object.values(item.friends);
-        const listOfPending = theirFrinds.map((item) => {
-          if (item.status === "pending") {
-            return item.userId;
-          }
-        });
-
-        setIsRequested(listOfPending);
-      });
-
+      getPending(mainData);
       setSearchedUser(mainData);
     }, 1300);
   };
@@ -79,8 +84,11 @@ const FindFriend = function ({ getBack }) {
     const auth = getAuth();
     const currentUser = auth?.currentUser?.uid;
     const names = auth.currentUser?.displayName;
+
     AddFriend("add", requireId, currentUser, names);
-    setFriendAdded((prev) => !prev);
+    searchRef.current.focus();
+    searchRef.current.value = "";
+    setAdded(true);
   };
 
   return (
@@ -90,6 +98,7 @@ const FindFriend = function ({ getBack }) {
           <Button onClick={getBack}>{icons.back}</Button>
           <input
             onKeyUp={searchHandler}
+            ref={searchRef}
             type="search"
             name="search"
             placeholder="Search your friend"
@@ -121,7 +130,11 @@ const FindFriend = function ({ getBack }) {
                       {requested && <p>Pending</p>}
 
                       {!isAdded && !requested && (
-                        <Button onClick={addRequestHandler} id={item.uid}>
+                        <Button
+                          disabled={added}
+                          onClick={addRequestHandler}
+                          id={item.uid}
+                        >
                           Say Hello
                         </Button>
                       )}

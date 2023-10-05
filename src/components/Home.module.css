@@ -14,7 +14,7 @@
 @media screen and (max-width: 576px) { 
     .mainContent{
         flex-flow: column;
-        width: auto;
+        width: 95%;
     }
 }
 

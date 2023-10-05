@@ -2,7 +2,13 @@ import Button from "../UI/Button";
 import classes from "./Chat.module.css";
 import Glogo from "../../assets/Glogo.png";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  serverTimestamp,
+  update,
+} from "firebase/database";
 import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
 import { push, child, set, query, limitToLast, get } from "firebase/database";
@@ -45,9 +51,10 @@ const Chat = function ({ roomId, userId }) {
   useEffect(() => {
     const db = getDatabase();
     const chatRef = query(
-      ref(db, "chat-room/" + roomId),
+      ref(db, "chat-room/" + `${roomId}/chats`),
       limitToLast(loadCount)
     );
+
     onValue(chatRef, (snap) => {
       if (!snap.exists()) return;
       const data = snap.val();
@@ -71,16 +78,30 @@ const Chat = function ({ roomId, userId }) {
     // generating new key for message
     const newKey = push(child(ref(db), "friends/")).key;
 
-    set(ref(db, "chat-room/" + roomId + `/${newKey}`), {
+    const messages = {
       from: authUser,
       names: auth?.currentUser?.displayName,
       message: message,
-    })
-      .then(() => {
-        enteredMessage.current.value = "";
-        scrollIntoViews();
-      })
-      .catch((err) => console.log(err));
+    };
+
+    const updates = {};
+
+    // updating timestamps on the both side for the sorting
+
+    updates[`users/${auth.currentUser.uid}/friends/${roomId}/lastSent`] =
+      serverTimestamp();
+
+    updates[`users/${userId}/friends/${roomId}/lastSent`] = serverTimestamp();
+
+    updates["chat-room/" + roomId + `/chats/${newKey}`] = messages;
+
+    // updates["chat-room/" + roomId + "/createdAt"] = serverTimestamp();
+
+    return update(ref(db), updates).then(() => {
+      console.log("sent success");
+      enteredMessage.current.value = "";
+      scrollIntoViews();
+    });
   };
 
   return (

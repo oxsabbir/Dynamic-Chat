@@ -19,7 +19,7 @@
 }
 
 .friendCard {
-    background-color: rgb(57, 32, 85);
+    background-color: rgb(55, 53, 56);
     display: flex;
     padding: 10px;
     border-radius: 10px;
@@ -30,8 +30,9 @@
 }
 
 .message {
-    color: rgb(194, 184, 184);
+    color: rgb(170, 170, 170);
     padding: 5px 0;
+    max-width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -65,6 +66,25 @@
     height: 50px;
     object-fit: cover;
 }
+.dot::after {
+        content: '';
+        width: 10px;
+        border-radius: 50%;
+        height: 10px;
+        background-color: #28cb2a;
+        position: absolute;
+}
+.dot {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    align-items: center;
+    padding: 5px;
+}
+.bolder {
+    color: #f8f8f8;
+}
+
 
 @media screen and (max-width: 576px) { 
     .hidebody{
