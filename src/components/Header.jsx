@@ -10,11 +10,11 @@ import { icons } from "./UI/Icons";
 const Header = function () {
   const navigate = useNavigate();
   const auth = getAuth();
-  const data = useContext(stateContext);
-  const toggleFriend = data.toggleFriend;
+  const { toggleFriend, isLoggedIn, setLogOut, show } =
+    useContext(stateContext);
 
   const LogoutHandler = function () {
-    auth.signOut().then(() => data.setLogOut(false));
+    auth.signOut().then(() => setLogOut(false));
     navigate("/");
   };
 
@@ -25,14 +25,14 @@ const Header = function () {
           <img src={brandLogo} alt="brand-logo" />
           <ul>
             <li>
-              {data.isLoggedIn && (
+              {isLoggedIn && (
                 <Button onClick={toggleFriend}>
-                  {data.show ? icons.hideRequest : icons.showRequest}
+                  {show ? icons.hideRequest : icons.showRequest}
                 </Button>
               )}
             </li>
             <li>
-              {data.isLoggedIn && (
+              {isLoggedIn && (
                 <Button onClick={LogoutHandler}>{icons.logout}</Button>
               )}
             </li>

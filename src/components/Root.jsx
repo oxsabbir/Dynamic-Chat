@@ -10,29 +10,33 @@ import Loading from "./UI/Loading";
 
 const RootLayout = function () {
   const auth = getAuth();
-  const data = useContext(stateContext);
-  const [isLoading, setIsLoading] = useState(false);
-
+  const { setLogin } = useContext(stateContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const unsubcribe = onAuthStateChanged(auth, (snapshot) => {
-      console.log("logged");
-      setIsLoading(true);
-
       if (snapshot) {
-        data.setLogin(true);
+        setLogin(true);
         navigate("/dashboard");
+        setLoading(false);
       }
-      setIsLoading(false);
+      if (!snapshot) {
+        setLoading(false);
+      }
     });
   }, []);
 
   return (
     <>
-      <Header />
-      {isLoading && <Loading />}
-      <Outlet />
+      {loading && <Loading />}
+      {!loading && (
+        <>
+          <Header />
+          <Outlet />
+        </>
+      )}
     </>
   );
 };

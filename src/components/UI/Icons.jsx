@@ -11,4 +11,6 @@ export const icons = {
   add: <i className="fa-solid fa-check"></i>,
   remove: <i className="fa-solid fa-xmark"></i>,
   chat: <i className="fa-regular fa-comments"></i>,
+  cancel: <i className="fa-solid fa-ban"></i>,
+  thumbsUp: <i className="fa-solid fa-thumbs-up"></i>,
 };

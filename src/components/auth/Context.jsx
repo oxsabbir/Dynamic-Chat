@@ -17,6 +17,7 @@ const ContextWrapper = function ({ children }) {
   const [show, setShow] = useState(false);
   const [isInboxOpen, setIsInboxOpen] = useState(false);
   const [activeChat, setActiveChat] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -37,6 +38,10 @@ const ContextWrapper = function ({ children }) {
 
   const toggleActiveChat = function (uid) {
     setActiveChat(uid);
+  };
+
+  const toggleLoading = function () {
+    setLoading(true);
   };
 
   const mainState = {

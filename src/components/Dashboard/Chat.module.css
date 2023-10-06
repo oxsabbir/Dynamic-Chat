@@ -76,9 +76,24 @@
     line-height: 24px;
     border-radius: 20px;
 }
+
+.textMsg img, .authTextMsg img {
+    /* width: 50%; */
+    height: auto;
+    object-fit: contain;
+    border-radius: 20px;
+}
 .authTextMsg {
     background-color: rgb(111, 71, 197);
 }
+
+
+.imageFile img{
+    background-color: red;
+    width: 50%;
+    height: auto;
+}
+
 .friendCard {
     background-color: rgb(57, 32, 85);
     display: flex;
@@ -106,18 +121,28 @@
     font-size: 20px;
     flex-grow: 3;
 }
+.hidden {
+    display: none;
+}
+
 .scroller{
     padding-top: 175px;
 }
 
+
 ::-webkit-scrollbar {
-    width: 3px;
-    color: purple;
+    background-color: rgba(85, 5, 160, 0.453);
 }
-
-
+::-webkit-scrollbar-thumb {
+    background-color: rgba(139, 125, 125, 0.453);
+    width: 15px;
+    border-radius: 10px;
+}
 @media screen and (max-width: 576px) { 
    
+    ::-webkit-scrollbar {
+        display: none;
+    }
     .friendCard button:first-child{
         display: block;
     }
