@@ -8,14 +8,10 @@ import {
   onValue,
   limitToLast,
 } from "firebase/database";
-import { getAuth } from "firebase/auth";
 import { stateContext } from "../auth/Context";
 
 const LastMessage = function ({ item, chatHandler, uid }) {
   const { activeChat } = useContext(stateContext);
-  console.log(activeChat);
-  const auth = getAuth();
-
   const [lastMessage, setLastMessage] = useState("");
 
   useEffect(() => {

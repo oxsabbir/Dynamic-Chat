@@ -1,5 +1,4 @@
 import classes from "./MobileUI.module.css";
-
 import ListPrinter from "../UI/ListPrinter";
 import Button from "../UI/Button";
 import { icons } from "../UI/Icons";
@@ -13,10 +12,10 @@ const MobileUi = function () {
   const { isInboxOpen, setLogOut, toggleFriend } = useContext(stateContext);
 
   const logOutHandler = function () {
-    console.log("okay");
     auth.signOut().then(() => setLogOut());
     navigate("/");
   };
+
   return (
     <>
       <nav
