@@ -1,5 +1,6 @@
 import classes from "./Chat.module.css";
 import Glogo from "../../assets/Glogo.png";
+import { Link } from "react-router-dom";
 
 const Messages = function ({ item, authUser }) {
   return (
@@ -11,19 +12,38 @@ const Messages = function ({ item, authUser }) {
       >
         {item.from !== authUser && <img src={Glogo} />}
 
-        <div
-          className={
-            item.from === authUser ? classes.authTextMsg : classes.textMsg
-          }
-        >
-          {item.image && (
-            <div className={classes.imageFile}>
+        {item.image && (
+          <div
+            className={`${
+              item.from === authUser
+                ? classes.imageFileAuth
+                : classes.imageFileOther
+            } ${classes.imageFile}`}
+          >
+            <Link to={item.image} target="blank">
               <img src={item.image} />
-            </div>
-          )}
+            </Link>
+            {item.message && (
+              <p
+                className={`${
+                  item.from === authUser ? classes.authTextMsg : classes.textMsg
+                } ${classes.textFull}`}
+              >
+                {item.message}
+              </p>
+            )}
+          </div>
+        )}
 
-          <p>{item.message}</p>
-        </div>
+        {!item.image && (
+          <div
+            className={
+              item.from === authUser ? classes.authTextMsg : classes.textMsg
+            }
+          >
+            <p>{item.message}</p>
+          </div>
+        )}
       </div>
     </>
   );

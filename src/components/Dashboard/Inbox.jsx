@@ -12,8 +12,6 @@ import MobileUi from "./MobileUi";
 import { useContext } from "react";
 import { stateContext } from "../auth/Context";
 import Loading from "../UI/Loading";
-import ListPrinter from "../UI/ListPrinter";
-
 import LastMessage from "./LastMessage";
 
 const Inbox = function ({ getRoom }) {
@@ -23,7 +21,6 @@ const Inbox = function ({ getRoom }) {
 
   const [isSearching, setIsSearching] = useState(false);
   const [acceptedFriend, setAcceptedFriend] = useState(null);
-  const [roomAndUser, setRoomAndUser] = useState({});
 
   const frinedSetter = function (children) {
     setAcceptedFriend(children);
@@ -41,12 +38,11 @@ const Inbox = function ({ getRoom }) {
   const openChatHandler = function (event) {
     const roomId = event.target.id;
     const userId = event.target.dataset.test;
+    const targetUser = acceptedFriend.find((item) => item.roomId === roomId);
+
+    console.log(targetUser);
 
     getRoom(roomId, userId);
-    setRoomAndUser({
-      roomId,
-      userId,
-    });
 
     toggleInbox();
     toggleActiveChat(userId);
@@ -64,7 +60,7 @@ const Inbox = function ({ getRoom }) {
               isInboxOpen ? classes.hidebody : ""
             }`}
           >
-            <MobileUi userInfo={roomAndUser} />
+            <MobileUi />
 
             <div className={classes.contact}>
               <img src={profilePhoto} />

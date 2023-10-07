@@ -15,8 +15,7 @@ import {
   getDownloadURL,
   ref as imageRef,
 } from "firebase/storage";
-
-import { Children, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
 import { push, child, set, query, limitToLast, get } from "firebase/database";
 import { icons } from "../UI/Icons";
@@ -26,11 +25,13 @@ import Messages from "./Messages";
 
 const Chat = function ({ roomId, userId }) {
   const auth = getAuth();
+
   const authUser = auth?.currentUser?.uid;
   const { toggleInbox, isInboxOpen } = useContext(stateContext);
   const [message, SetMessage] = useState([]);
   const [userInfo, setUserInfo] = useState("NoName");
   const [loadCount, setLoadCount] = useState(20);
+
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,9 +46,9 @@ const Chat = function ({ roomId, userId }) {
     });
   };
 
+  // doesn't need anymore
   useEffect(() => {
     const userRef = ref(getDatabase());
-
     get(child(userRef, `users/${userId}`))
       .then((snaps) => {
         if (snaps.exists()) {
@@ -57,6 +58,8 @@ const Chat = function ({ roomId, userId }) {
       })
       .catch((error) => console.log(error));
   }, [userId]);
+
+  // room Id can came from other side
 
   useEffect(() => {
     const db = getDatabase();
@@ -174,17 +177,6 @@ const Chat = function ({ roomId, userId }) {
     }
   };
 
-  const linkMaker = async function (child) {
-    console.log(child);
-    return child;
-    // upload
-    // build a message with that returned link
-    // send that messeage
-
-    // build message without image
-    // send to server
-  };
-
   const openInput = function () {
     enteredFile.current.click();
   };
@@ -259,8 +251,8 @@ const Chat = function ({ roomId, userId }) {
             </Button>
 
             <input ref={enteredMessage} type="text" placeholder="Write here" />
-            <Button type={"submit"}>
-              {isLoading ? icons.cancel : icons.send}
+            <Button disabled={isLoading} type={"submit"}>
+              {isLoading ? "..." : icons.send}
             </Button>
           </div>
         </form>
