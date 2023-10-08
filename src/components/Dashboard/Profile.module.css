@@ -1,0 +1,62 @@
+.profile{
+    position: absolute;
+    background-color:var(--Primary);
+    width: 60%;
+    height: 100%;
+    transition: .5s;
+    z-index: 3;
+    padding: 10px;
+    color: white;
+    
+}
+
+
+.profileShow {
+    right: 0;
+}
+.profileHide {
+    padding: 0;
+    right: -800px;
+}
+
+.profileCard {
+    margin: 10px 0;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.profileCard img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit:fill;
+}
+.profileCard h2{
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+
+
+.options {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    width: 70%;
+}
+.info {
+    text-align: center;
+    padding: 25px 0;
+}
+
+@media screen and (max-width: 576px) {
+    .profileShow {
+        width: 100%;
+    }
+}
+
+
+
+

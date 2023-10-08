@@ -1,0 +1,29 @@
+.confirmationBox {
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    transition: .5s;
+}
+
+.mainBox {
+    width: 80%;
+    padding: 16px;
+    border-radius: 10px;
+    text-align: center;
+    background-color:#151519;   
+    box-shadow: 5px 8px 20px -1px #151519;
+}
+.mainBox p {
+    line-height: 22px;
+}
+
+.mainBox * {
+    margin: 10px 5px;
+}
+
+

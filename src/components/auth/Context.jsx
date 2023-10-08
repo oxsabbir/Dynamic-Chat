@@ -17,7 +17,7 @@ const ContextWrapper = function ({ children }) {
   const [show, setShow] = useState(false);
   const [isInboxOpen, setIsInboxOpen] = useState(false);
   const [activeChat, setActiveChat] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isProfileShow, setIsProfileShow] = useState(false);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -39,9 +39,8 @@ const ContextWrapper = function ({ children }) {
   const toggleActiveChat = function (uid) {
     setActiveChat(uid);
   };
-
-  const toggleLoading = function () {
-    setLoading(true);
+  const toggleProfile = function () {
+    setIsProfileShow((prev) => !prev);
   };
 
   const mainState = {
@@ -54,6 +53,8 @@ const ContextWrapper = function ({ children }) {
     isInboxOpen,
     activeChat,
     toggleActiveChat,
+    isProfileShow,
+    toggleProfile,
   };
 
   return (
@@ -63,6 +64,11 @@ const ContextWrapper = function ({ children }) {
       </stateContext.Provider>
     </>
   );
+};
+
+export const contextData = function () {
+  const data = useContext(stateContext);
+  return data;
 };
 
 export default ContextWrapper;

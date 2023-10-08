@@ -19,21 +19,24 @@ import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
 import { push, child, set, query, limitToLast, get } from "firebase/database";
 import { icons } from "../UI/Icons";
-import { stateContext } from "../auth/Context";
-import { useContext } from "react";
+import { contextData } from "../auth/Context";
 import Messages from "./Messages";
+import Profile from "./Profile";
+
+import { blockFriend } from "../Friend/manageFriend";
 
 const Chat = function ({ roomId, userId }) {
   const auth = getAuth();
-
   const authUser = auth?.currentUser?.uid;
-  const { toggleInbox, isInboxOpen } = useContext(stateContext);
+
+  const { toggleInbox, isInboxOpen, toggleProfile } = contextData();
+
   const [message, SetMessage] = useState([]);
   const [userInfo, setUserInfo] = useState("NoName");
   const [loadCount, setLoadCount] = useState(20);
-
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [blocked, setBlocked] = useState({});
 
   const enteredMessage = useRef();
   const enteredFile = useRef();
@@ -74,6 +77,15 @@ const Chat = function ({ roomId, userId }) {
       const mainData = Object.values(data);
       SetMessage(mainData);
       scrollIntoViews();
+
+      console.log(mainData[mainData.length - 1].blocked);
+
+      if (mainData[mainData.length - 1].blocked) {
+        console.log("wow");
+        setBlocked(mainData[mainData.length - 1]);
+      } else {
+        setBlocked({});
+      }
     });
   }, [roomId, loadCount]);
 
@@ -192,6 +204,14 @@ const Chat = function ({ roomId, userId }) {
     console.log(enteredFile);
   };
 
+  const unBlockHandler = function () {
+    const blockId = blocked.blockId;
+    console.log(roomId, blockId);
+    blockFriend(roomId, "unblock", blockId);
+  };
+
+  const isBlockedFromMe = blocked.from === authUser;
+
   return (
     <>
       <div
@@ -199,6 +219,12 @@ const Chat = function ({ roomId, userId }) {
           !isInboxOpen ? classes.hidebody : ""
         }`}
       >
+        <Profile
+          userInfo={userInfo}
+          roomId={roomId}
+          blockStatus={blocked.blocked}
+        />
+
         <div className="top">
           <div className={classes.friendCard}>
             <Button onClick={toggleInbox} className={classes.backBtn}>
@@ -206,7 +232,7 @@ const Chat = function ({ roomId, userId }) {
             </Button>
             <img src={Glogo} />
             <h3>{userInfo.userName}</h3>
-            <Button>Profile</Button>
+            <Button onClick={toggleProfile}> Profile</Button>
           </div>
         </div>
         <div className={classes.message}>
@@ -231,29 +257,51 @@ const Chat = function ({ roomId, userId }) {
           </ListPrinter>
           <div className={classes.scroller} ref={scrollElement}></div>
         </div>
+        {blocked.blockId && (
+          <div className={classes.blockedUi}>
+            {isBlockedFromMe ? (
+              <Button onClick={unBlockHandler}>Unblock</Button>
+            ) : (
+              <p>
+                You can't communicate with this person anymore. <br />
+                For some reason this person <span>Blocked</span> your account.
+              </p>
+            )}
+          </div>
+        )}
 
         <form onSubmit={sendMessage} name="message">
-          <div className={classes.bottomOption}>
-            <input
-              className={classes.hidden}
-              ref={enteredFile}
-              type="file"
-              onChange={fileSelection}
-              accept=".png,.jpg,.jpeg,.gif"
-            />
+          <div
+            className={`${classes.bottomOption} ${
+              blocked.blocked ? classes.hidden : ""
+            }`}
+          >
+            <>
+              <input
+                className={classes.hidden}
+                ref={enteredFile}
+                type="file"
+                onChange={fileSelection}
+                accept=".png,.jpg,.jpeg,.gif"
+              />
 
-            <Button
-              onMouseUp={(e) => {
-                isImageSelected ? closeInput() : openInput();
-              }}
-            >
-              {isImageSelected ? icons.cancel : icons.image}
-            </Button>
+              <Button
+                onMouseUp={(e) => {
+                  isImageSelected ? closeInput() : openInput();
+                }}
+              >
+                {isImageSelected ? icons.cancel : icons.image}
+              </Button>
 
-            <input ref={enteredMessage} type="text" placeholder="Write here" />
-            <Button disabled={isLoading} type={"submit"}>
-              {isLoading ? "..." : icons.send}
-            </Button>
+              <input
+                ref={enteredMessage}
+                type="text"
+                placeholder="Write here"
+              />
+              <Button disabled={isLoading} type={"submit"}>
+                {isLoading ? "..." : icons.send}
+              </Button>
+            </>
           </div>
         </form>
       </div>
