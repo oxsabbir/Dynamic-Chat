@@ -12,3 +12,17 @@
     cursor: pointer;
     background-image: linear-gradient(45deg, rgb(101, 79, 229), rgb(26, 113, 218));
 }
+
+.buttonDanger {
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    color: white;
+    background-image: linear-gradient(90deg, rgb(166 16 41), rgb(219 85 35));
+}
+
+.buttonDanger:hover{
+    cursor: pointer;
+    background-image: linear-gradient(90deg, rgb(223 31 25), rgb(57, 32, 85));
+}
