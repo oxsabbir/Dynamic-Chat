@@ -1,10 +1,11 @@
 .findSection {
-    background-color: var(--Primary);
-    padding: 15px;
+    background-color: var(--GLASS-UI);
+    padding: 25px;
     display: flex;
     flex-flow: column;
     gap: 10px;
     height: 85vh;
+    border-radius: 20px;
 }
 .searchBar{
     display: flex;
@@ -56,5 +57,6 @@
 @media screen and (max-width: 576px){
 .findSection {
     height: 100vh;
+    border-radius: 0;
 }
 }

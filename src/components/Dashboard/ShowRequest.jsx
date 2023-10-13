@@ -3,34 +3,26 @@ import Glogo from "../../assets/GLogo.png";
 import classes from "./ShowRequest.module.css";
 import { useContext, useEffect, useState } from "react";
 import { stateContext } from "../auth/Context";
-
-import {
-  getDatabase,
-  onValue,
-  ref,
-  update,
-  query,
-  orderByChild,
-  limitToLast,
-} from "firebase/database";
-
+import { getDatabase, onValue, ref, update } from "firebase/database";
 import AddFriend from "../AddFriend";
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
+import FallbackMessage from "../UI/FallbackMessage";
 
-const ShowRequest = function ({ uid, getFriend }) {
+const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
   const { show, toggleFriend } = useContext(stateContext);
-  const [pendingList, setPendingList] = useState(null);
+  const [pendingList, setPendingList] = useState([]);
   const auth = getAuth();
+
   useEffect(() => {
     if (!uid) return;
     const db = getDatabase();
-
     const dbRef = ref(db, "users/" + uid + "/friends");
+
     onValue(dbRef, (snap) => {
       if (!snap.exists()) {
         getFriend([]);
-        setPendingList(null);
+        setPendingList([]);
         return;
       }
       const data = snap.val();
@@ -42,10 +34,17 @@ const ShowRequest = function ({ uid, getFriend }) {
       const acceptedFriend = mainData?.filter(
         (item) => item.status === "success"
       );
-      console.log(acceptedFriend);
 
       acceptedFriend.sort((item, items) => {
         return items.lastSent - item.lastSent;
+      });
+
+      const authUserRef = ref(db, `users/${uid}`);
+      onValue(authUserRef, (snap) => {
+        if (snap.exists()) {
+          const data = snap.val();
+          getCurrentUser(data);
+        }
       });
 
       setPendingList(pendingFriend);
@@ -57,7 +56,6 @@ const ShowRequest = function ({ uid, getFriend }) {
     const db = getDatabase();
     const roomId = event.target.id;
 
-    console.log(roomId);
     const deleteValue = null;
     const updateCreator = {};
 
@@ -77,20 +75,26 @@ const ShowRequest = function ({ uid, getFriend }) {
       names: auth?.currentUser.displayName,
     };
 
-    const { name, roomId, userId } = pendingList?.find(
-      (item) => item.userId === reqUid
+    const userPending = pendingList?.find((item) => item.userId === reqUid);
+    AddFriend(
+      "accept",
+      reqUid,
+      currentUser,
+      userPending.name,
+      userPending.roomId
     );
-    AddFriend("accept", reqUid, currentUser, name, roomId);
   };
-  console.log(pendingList);
   return (
     <>
       <div className={show ? classes.show : classes.content}>
+        <div className={classes.requestBar}>
+          <h2>Friend Request</h2>
+          <Button onClick={toggleFriend}>{icons.back}</Button>
+        </div>
+
         {pendingList && pendingList.length === 0 && (
           <>
-            <h2 style={{ color: "white", textAlign: "center", padding: "5px" }}>
-              There is no request
-            </h2>
+            <FallbackMessage>There is no request</FallbackMessage>
           </>
         )}
 
@@ -113,7 +117,6 @@ const ShowRequest = function ({ uid, getFriend }) {
               );
             })}
         </ul>
-        <Button onClick={toggleFriend}> Close {icons.remove}</Button>
       </div>
     </>
   );

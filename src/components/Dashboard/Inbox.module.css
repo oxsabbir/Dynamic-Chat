@@ -1,10 +1,11 @@
 .inbox {
-    background-color: var(--Primary);
-    padding: 15px;
+    background-color: var(--GLASS-UI);
+    padding: 25px;
     display: flex;
     flex-flow: column;
     gap: 10px;
-    height: 85vh;    
+    height: 85vh;
+    border-radius: 20px;  
 }
 .findSection input {
     border: none;
@@ -18,12 +19,13 @@
 }
 
 .friendCard {
-    background-color: rgb(55, 53, 56);
+    background-color: var(--GLASS-UI);
     display: flex;
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
     align-items: center;
+    transition: .4s;
     gap: 10px;
     margin: 10px 0;
 }
@@ -50,7 +52,7 @@
     font-size: 20px;
 }
 .contact {
-    background-color: rgb(70, 34, 136);
+    background-color:var(--GLASS-UI);
     padding: 15px;
     gap: 15px;
     display: flex;
@@ -94,5 +96,8 @@
     }
     .inbox{
         height: 100vh;
+        background-color: var(--GLASS-UI);
+        padding: 10px;
+        border-radius: 0;
     }
 }

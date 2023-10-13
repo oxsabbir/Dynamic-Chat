@@ -18,6 +18,8 @@ const ContextWrapper = function ({ children }) {
   const [isInboxOpen, setIsInboxOpen] = useState(false);
   const [activeChat, setActiveChat] = useState("");
   const [isProfileShow, setIsProfileShow] = useState(false);
+  const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -43,6 +45,14 @@ const ContextWrapper = function ({ children }) {
     setIsProfileShow((prev) => !prev);
   };
 
+  const toggleChatBox = function (state) {
+    setIsChatBoxOpen(state);
+  };
+
+  const toggleSetting = function () {
+    setIsSettingOpen((prev) => !prev);
+  };
+
   const mainState = {
     isLoggedIn: isLoggedIn,
     setLogin,
@@ -55,6 +65,10 @@ const ContextWrapper = function ({ children }) {
     toggleActiveChat,
     isProfileShow,
     toggleProfile,
+    isChatBoxOpen,
+    toggleChatBox,
+    isSettingOpen,
+    toggleSetting,
   };
 
   return (

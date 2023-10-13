@@ -1,5 +1,4 @@
 import classes from "./Inbox.module.css";
-import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import FindFriend from "./FindFriend";
 import { useState } from "react";
@@ -9,29 +8,32 @@ import ShowRequest from "./ShowRequest";
 import FallbackMessage from "../UI/FallbackMessage";
 import { icons } from "../UI/Icons";
 import MobileUi from "./MobileUi";
-import { useContext } from "react";
-import { stateContext } from "../auth/Context";
 import Loading from "../UI/Loading";
 import LastMessage from "./LastMessage";
+import Setting from "../Setting";
+import { contextData } from "../auth/Context";
 
 const Inbox = function ({ getRoom }) {
   const currentUser = useLoaderData();
-  const { toggleInbox, isInboxOpen, toggleActiveChat } =
-    useContext(stateContext);
-
+  const { toggleInbox, isInboxOpen, toggleActiveChat, toggleChatBox } =
+    contextData();
   const [isSearching, setIsSearching] = useState(false);
   const [acceptedFriend, setAcceptedFriend] = useState(null);
+  const [currentUserData, setCurrentUserData] = useState({});
 
   const frinedSetter = function (children) {
     setAcceptedFriend(children);
   };
+
+  const getCurrentUser = function (children) {
+    setCurrentUserData(children);
+  };
+
   const getBack = () => setIsSearching(false);
 
   // Profile pic validation
-  let profilePhoto = currentUser?.photoURL;
-  let userName = currentUser?.displayName;
-  !userName ? (userName = "NO NAME") : null;
-  if (!profilePhoto) {
+  let profilePhoto = currentUserData.profilePic;
+  if (!currentUserData.profilePic) {
     profilePhoto = defaultProfile;
   }
 
@@ -39,13 +41,10 @@ const Inbox = function ({ getRoom }) {
     const roomId = event.target.id;
     const userId = event.target.dataset.test;
     const targetUser = acceptedFriend.find((item) => item.roomId === roomId);
-
-    console.log(targetUser);
-
     getRoom(roomId, userId);
-
     toggleInbox();
     toggleActiveChat(userId);
+    toggleChatBox(true);
   };
 
   return (
@@ -53,7 +52,12 @@ const Inbox = function ({ getRoom }) {
       {isSearching && <FindFriend getBack={getBack} />}
       {!isSearching && (
         <>
-          <ShowRequest getFriend={frinedSetter} uid={currentUser?.uid} />
+          <Setting userInfo={currentUserData} />
+          <ShowRequest
+            getFriend={frinedSetter}
+            getCurrentUser={getCurrentUser}
+            uid={currentUser?.uid}
+          />
 
           <div
             className={`${classes.inbox} ${
@@ -61,10 +65,9 @@ const Inbox = function ({ getRoom }) {
             }`}
           >
             <MobileUi />
-
             <div className={classes.contact}>
               <img src={profilePhoto} />
-              <h2>{userName}</h2>
+              <h2>{currentUserData.userName}</h2>
               <Button onClick={() => setIsSearching(true)}>
                 {icons.search}
               </Button>

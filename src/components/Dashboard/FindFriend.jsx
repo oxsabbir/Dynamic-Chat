@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import classes from "./FindFriend.module.css";
 import { getDatabase } from "firebase/database";
 import { ref, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
-import AddFriend from "../AddFriend";
 import { icons } from "../UI/Icons";
 import FriendList from "./FriendList";
+import FallbackMessage from "../UI/FallbackMessage";
 
 const FindFriend = function ({ getBack }) {
   const db = getDatabase();
@@ -18,6 +17,7 @@ const FindFriend = function ({ getBack }) {
   const [authUserFriend, setAuthUserFriend] = useState([]);
   const [searchedUser, setSearchedUser] = useState([]);
   const [isRequested, setIsRequested] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   let timer;
 
@@ -38,11 +38,13 @@ const FindFriend = function ({ getBack }) {
 
       setUserData(values);
     });
-  }, []);
+  }, [isSearching]);
 
   const searchHandler = function (e) {
+    setIsSearching((prev) => !prev);
+
     const inputValue = e.target.value;
-    console.log(inputValue);
+
     if (inputValue.trim().length === 0) {
       return;
     }
@@ -54,21 +56,21 @@ const FindFriend = function ({ getBack }) {
         const input = inputValue.toLowerCase();
         return names.startsWith(input);
       });
-      console.log(mainData);
       // checking if friend already exist
       mainData.map((item) => {
         if (!item.friends) {
           setIsRequested([]);
           return;
         }
+        // heres a bug i will fix it later
         const theirFrinds = Object.values(item.friends);
+
         const listOfPending = theirFrinds.map((item) => {
           if (item.status === "pending") {
             return item.userId;
           }
         });
 
-        console.log(listOfPending, mainData);
         setIsRequested(listOfPending);
       });
 
@@ -90,17 +92,15 @@ const FindFriend = function ({ getBack }) {
           />
         </div>
         {searchedUser.length === 0 && (
-          <h2 style={{ padding: "20px", textAlign: "center", color: "white" }}>
-            No user found
-          </h2>
+          <FallbackMessage>No user found</FallbackMessage>
         )}
 
         <ul style={{ listStyle: "none" }}>
           {searchedUser &&
             searchedUser.map((item) => {
               const isAdded = authUserFriend.includes(item.uid);
+
               const requested = isRequested.includes(auth.currentUser.uid);
-              console.log(isRequested, requested);
 
               if (auth.currentUser.uid === item.uid) {
                 setSearchedUser([]);

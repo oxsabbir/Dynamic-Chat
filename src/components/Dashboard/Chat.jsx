@@ -1,36 +1,26 @@
 import Button from "../UI/Button";
 import classes from "./Chat.module.css";
-import Glogo from "../../assets/Glogo.png";
 import { getAuth } from "firebase/auth";
-import {
-  getDatabase,
-  ref,
-  onValue,
-  serverTimestamp,
-  update,
-} from "firebase/database";
-import {
-  getStorage,
-  uploadBytesResumable,
-  getDownloadURL,
-  ref as imageRef,
-} from "firebase/storage";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { getStorage, ref as imageRef } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
-import { push, child, set, query, limitToLast, get } from "firebase/database";
+import { push, child, query, limitToLast, get } from "firebase/database";
 import { icons } from "../UI/Icons";
 import { contextData } from "../auth/Context";
 import Messages from "./Messages";
 import Profile from "./Profile";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 
 import { blockFriend } from "../Friend/manageFriend";
+import uploadMedia from "../UploadMedia";
+import { messagesSender as sendMsg } from "../MessageSender";
+import { update } from "firebase/database";
 
 const Chat = function ({ roomId, userId }) {
   const auth = getAuth();
   const authUser = auth?.currentUser?.uid;
-
   const { toggleInbox, isInboxOpen, toggleProfile } = contextData();
-
   const [message, SetMessage] = useState([]);
   const [userInfo, setUserInfo] = useState("NoName");
   const [loadCount, setLoadCount] = useState(20);
@@ -63,7 +53,6 @@ const Chat = function ({ roomId, userId }) {
   }, [userId]);
 
   // room Id can came from other side
-
   useEffect(() => {
     const db = getDatabase();
     const chatRef = query(
@@ -76,17 +65,13 @@ const Chat = function ({ roomId, userId }) {
       const data = snap.val();
       const mainData = Object.values(data);
       SetMessage(mainData);
-      scrollIntoViews();
-
-      console.log(mainData[mainData.length - 1].blocked);
-
       if (mainData[mainData.length - 1].blocked) {
-        console.log("wow");
         setBlocked(mainData[mainData.length - 1]);
       } else {
         setBlocked({});
       }
     });
+    scrollIntoViews();
   }, [roomId, loadCount]);
 
   const messageSender = async function (
@@ -97,40 +82,17 @@ const Chat = function ({ roomId, userId }) {
     newKey,
     imageUrl
   ) {
-    const db = getDatabase();
-
-    const messages = {
-      from: authUser,
-      names: auth?.currentUser?.displayName,
-      message: message,
-      time: serverTimestamp(),
-    };
-    if (imageUrl) {
-      console.log(imageUrl);
-      messages.image = imageUrl;
-    }
-
-    const updates = {};
-    // updating timestamps on the both side for the sorting
-    // these two update are for sorting inbox card
-    updates[`users/${currentUserId}/friends/${roomId}/lastSent`] =
-      serverTimestamp();
-    updates[`users/${userId}/friends/${roomId}/lastSent`] = serverTimestamp();
-
-    updates["chat-room/" + roomId + `/chats/${newKey}`] = messages;
-    // updates["chat-room/" + roomId + "/createdAt"] = serverTimestamp();
-    return update(ref(db), updates).then(() => {
+    await sendMsg(...arguments).then(() => {
       enteredMessage.current.value = "";
       enteredMessage.current.focus();
       enteredFile.current.value = "";
+      setIsLoading(false);
       setIsImageSelected(false);
       scrollIntoViews();
     });
   };
 
-  const sendMessage = function (event) {
-    console.log("Trigger");
-
+  const sendMessage = async function (event) {
     event.preventDefault();
     const db = getDatabase();
     const message = enteredMessage.current?.value;
@@ -142,47 +104,24 @@ const Chat = function ({ roomId, userId }) {
     const newKey = push(child(ref(db), "friends/")).key;
 
     // Seding message with an image
+    const file = enteredFile.current.files[0];
+    const storage = getStorage();
+    const picRef = imageRef(
+      storage,
+      `image/${roomId}/${auth.currentUser.uid}/${newKey}`
+    );
 
     if (isImageSelected) {
       setIsLoading(true);
-      console.log("selected already");
-      const file = enteredFile.current.files[0];
-      const storage = getStorage();
-      const picRef = imageRef(
-        storage,
-        `image/${roomId}/${auth.currentUser.uid}/${newKey}`
-      );
-
-      const uploadTask = uploadBytesResumable(picRef, file, {
-        contentType: file.type,
-      });
-      uploadTask.on(
-        "state_changed",
-        (snaps) => {
-          const progess = (snaps.bytesTransferred / snaps.totalBytes) * 100;
-          console.log(progess);
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-            console.log(downloadUrl);
-            messageSender(
-              roomId,
-              auth.currentUser.uid,
-              userId,
-              message,
-              newKey,
-              downloadUrl
-            );
-            setIsLoading(false);
-            return;
-          });
-        }
-      );
+      // uploading pic and showing to chat
+      uploadMedia(file, picRef, messageSender, [
+        roomId,
+        authUser,
+        userId,
+        message,
+        newKey,
+      ]);
     }
-    console.log("still coming");
     // Sending only text message without image
     if (!isImageSelected) {
       messageSender(roomId, auth.currentUser.uid, userId, message, newKey);
@@ -201,16 +140,39 @@ const Chat = function ({ roomId, userId }) {
   const fileSelection = function () {
     setIsImageSelected(true);
     const fileLocation = enteredFile;
-    console.log(enteredFile);
   };
 
   const unBlockHandler = function () {
     const blockId = blocked.blockId;
-    console.log(roomId, blockId);
     blockFriend(roomId, "unblock", blockId);
   };
-
   const isBlockedFromMe = blocked.from === authUser;
+  let profilePic = userInfo.profilePic;
+  if (!userInfo.profilePic) {
+    profilePic = defaultProfile;
+  }
+
+  const typingHandler = function () {
+    const db = getDatabase();
+    const messages = {
+      isTyping: true,
+      from: authUser,
+      message: "typing...",
+    };
+    const updates = {};
+
+    updates["chat-room/" + roomId + `/chats/${"typing"}`] = messages;
+    // updates["chat-room/" + roomId + "/createdAt"] = serverTimestamp();
+    return update(ref(db), updates);
+  };
+
+  const blurHandler = function () {
+    const db = getDatabase();
+    const updates = {};
+    updates["chat-room/" + roomId + `/chats/${"typing"}`] = null;
+    // updates["chat-room/" + roomId + "/createdAt"] = serverTimestamp();
+    return update(ref(db), updates);
+  };
 
   return (
     <>
@@ -223,6 +185,7 @@ const Chat = function ({ roomId, userId }) {
           userInfo={userInfo}
           roomId={roomId}
           blockStatus={blocked.blocked}
+          profilePic={profilePic}
         />
 
         <div className="top">
@@ -230,7 +193,7 @@ const Chat = function ({ roomId, userId }) {
             <Button onClick={toggleInbox} className={classes.backBtn}>
               {icons.back}
             </Button>
-            <img src={Glogo} />
+            <img src={profilePic} />
             <h3>{userInfo.userName}</h3>
             <Button onClick={toggleProfile}> Profile</Button>
           </div>
@@ -250,13 +213,19 @@ const Chat = function ({ roomId, userId }) {
                 }
                 return (
                   <li key={i}>
-                    <Messages item={item} authUser={authUser} />
+                    <Messages
+                      item={item}
+                      authUser={authUser}
+                      profilePic={profilePic}
+                    />
                   </li>
                 );
               })}
           </ListPrinter>
+
           <div className={classes.scroller} ref={scrollElement}></div>
         </div>
+
         {blocked.blockId && (
           <div className={classes.blockedUi}>
             {isBlockedFromMe ? (
@@ -296,7 +265,9 @@ const Chat = function ({ roomId, userId }) {
               <input
                 ref={enteredMessage}
                 type="text"
+                onChange={typingHandler}
                 placeholder="Write here"
+                onBlur={blurHandler}
               />
               <Button disabled={isLoading} type={"submit"}>
                 {isLoading ? "..." : icons.send}

@@ -1,25 +1,35 @@
 .show,
 .content {
-  width: 400px;
+  width: 40%;
+  height: 85vh;
   background-color: var(--Primary);
   padding: 15px;
   position: absolute;
   z-index: 3;
-  transition: all 0.5s;
+  right: 30px;
+  transition:all 0.5s;
   border-radius: 10px;
 }
-.show button,
-.content button {
-  margin: 20px 0;
-  width: 100%;
+
+
+.requestBar{
+  display:  flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  text-align: center;
+  padding: 10px;
 }
 
+
 .content {
-  transform: translateX(-1050px);
+  visibility: hidden;
+  opacity:  0;
 }
 
 .show {
-  transform: translateX(0px);
+  visibility: visible;
+  opacity: 1;
 }
 
 .friendCard {
@@ -52,5 +62,14 @@
   .show,
   .content {
     width: 100%;
+    right: 0;
+    height: 100%;
   }
+  .content {
+    transform: translateX(-800px);
+  }
+  .show {
+    transform: translateX(0);
+  }
+ 
 }

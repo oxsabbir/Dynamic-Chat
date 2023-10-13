@@ -1,8 +1,13 @@
 import classes from "./Chat.module.css";
-import Glogo from "../../assets/Glogo.png";
 import { Link } from "react-router-dom";
 
-const Messages = function ({ item, authUser }) {
+const Messages = function ({ item, authUser, profilePic }) {
+  let message = item.message;
+  if (item.isTyping) {
+    console.log(item);
+    message = item.message;
+  }
+
   return (
     <>
       <div
@@ -10,7 +15,7 @@ const Messages = function ({ item, authUser }) {
           item.from === authUser ? classes.authUser : classes.otherUser
         }
       >
-        {item.from !== authUser && <img src={Glogo} />}
+        {item.from !== authUser && <img src={profilePic} />}
 
         {item.image && (
           <div
@@ -21,7 +26,7 @@ const Messages = function ({ item, authUser }) {
             } ${classes.imageFile}`}
           >
             <Link to={item.image} target="blank">
-              <img src={item.image} />
+              <img src={item.image} loading="lazy" />
             </Link>
             {item.message && (
               <p
@@ -37,11 +42,12 @@ const Messages = function ({ item, authUser }) {
 
         {!item.image && (
           <div
-            className={
+            className={`${
               item.from === authUser ? classes.authTextMsg : classes.textMsg
-            }
+            } ${item.isTyping && item.from === authUser && classes.hidden}`}
           >
-            <p>{item.message}</p>
+            {!item.isTyping && <p>{message}</p>}
+            {item.isTyping && item.from !== authUser && <p>{message}</p>}
           </div>
         )}
       </div>

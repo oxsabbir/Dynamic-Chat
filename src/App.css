@@ -8,10 +8,12 @@
 
 #root{
   --Primary :rgb(31, 30, 30);
-  --Secondery : gray;
   --UI : rgb(97, 59, 185);
   --Text-Normal : 20px;
   --Text-Small : 16px;
+  --UI-BACKGROUND : rgb(255 255 255 / 15%);
+  --GLASS-UI : rgb(0 0 0 / 35%);
+  --GLASS-UI-DARK : rgb(0 0 0 / 75%);
 }
 
 .hidden {
@@ -20,5 +22,6 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  background-color: black ;
+  background-image: linear-gradient(14deg,rgba(87, 15, 181, 0.694),rgb(88 15 181));
+  height: 100vh;
 }

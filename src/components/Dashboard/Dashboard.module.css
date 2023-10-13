@@ -1,22 +1,31 @@
 .dashboard{
     display: flex;
-    width: 90%;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 25px;
+}
+.contentWrapper {
+    height: 100vh;
+    padding: 30px;
+    width: 90%;
+    position: relative;
     margin: auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    gap: 10px;
 }
 
 .people {
-    flex: 2;
+    flex: 2;    
 }
 .activeChat {
     flex: 3;
 }
 
+
 @media screen and (max-width: 576px) { 
     .dashboard{
-        background-color: rgb(109, 102, 82);
         display: block;
         justify-content: space-between;
         align-items: center;
@@ -24,4 +33,9 @@
         width: 100%;
         margin: auto;
     }
+    .contentWrapper {
+        width: 100%;
+        padding: 0;
+    }
+    
 }

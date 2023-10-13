@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
 import { useContext, useState } from "react";
 import { stateContext } from "./auth/Context";
 import { useEffect } from "react";
@@ -33,7 +32,6 @@ const RootLayout = function () {
       {loading && <Loading />}
       {!loading && (
         <>
-          <Header />
           <Outlet />
         </>
       )}

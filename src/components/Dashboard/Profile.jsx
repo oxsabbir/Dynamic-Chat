@@ -5,12 +5,11 @@ import { icons } from "../UI/Icons";
 import ConfirmationBox from "../UI/ConfirmationBox";
 import { useState } from "react";
 
-const Profile = function ({ userInfo, roomId, blockStatus }) {
+const Profile = function ({ userInfo, roomId, blockStatus, profilePic }) {
   const { toggleProfile, isProfileShow } = contextData();
   const [isConfirm, setIsConfirm] = useState(false);
   const [job, setJob] = useState("");
   const [message, setMessage] = useState("");
-
   const defaultMessage = {
     unfriend:
       "You cannot undo this action. All the messages will be removed. Check twice before unfriend.",
@@ -41,6 +40,7 @@ const Profile = function ({ userInfo, roomId, blockStatus }) {
             message={message}
             getBack={closeConfirm}
             job={job}
+            userInfo={userInfo}
             roomId={roomId}
             closeModal={closeConfirm}
           />
@@ -48,12 +48,7 @@ const Profile = function ({ userInfo, roomId, blockStatus }) {
 
         <Button onClick={toggleProfile}>{icons.back}</Button>
         <div className={classes.profileCard}>
-          <img
-            src={
-              "https://firebasestorage.googleapis.com/v0/b/auth-practice-c867e.appspot.com/o/image%2F-Nfxw1m1FrZKCNEPooiZ%2FJVocTP9K2lUBbTJhylRbZq2kGPp2%2F-Ng4z7Xgfrc-ZE8dyh_7?alt=media&token=b3d960b0-a752-4f27-b85a-525410836ae7"
-            }
-            alt="Profile Picture"
-          />
+          <img src={profilePic} alt="Profile Picture" />
 
           <div className={classes.info}>
             <h2>{userInfo.userName}</h2>

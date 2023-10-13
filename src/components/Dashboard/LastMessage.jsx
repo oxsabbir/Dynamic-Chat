@@ -9,8 +9,10 @@ import {
   limitToLast,
 } from "firebase/database";
 import { stateContext } from "../auth/Context";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 
 const LastMessage = function ({ item, chatHandler, uid }) {
+  const [profilePic, setProfilePic] = useState(defaultProfile);
   const { activeChat } = useContext(stateContext);
   const [lastMessage, setLastMessage] = useState("");
 
@@ -27,6 +29,16 @@ const LastMessage = function ({ item, chatHandler, uid }) {
       const [rawMessage] = Object.values(lastMessage);
       setLastMessage(rawMessage);
     });
+
+    // getting profile data
+    const profileRef = ref(db, `users/${item.userId}/profilePic`);
+    onValue(profileRef, (snap) => {
+      if (!snap.exists) return;
+      const data = snap.val();
+      if (data) {
+        setProfilePic(data);
+      }
+    });
   }, [item.roomId]);
 
   return (
@@ -38,7 +50,7 @@ const LastMessage = function ({ item, chatHandler, uid }) {
         activeChat === item.userId ? classes.active : ""
       }`}
     >
-      <img src={Glogo} />
+      <img src={profilePic} />
       <div>
         <h3>{item.name}</h3>
         <p

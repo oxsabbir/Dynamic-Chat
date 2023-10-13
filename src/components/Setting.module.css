@@ -1,0 +1,133 @@
+.setting {
+  position: absolute;
+  background-color: var(--Primary);
+  height: 85vh;
+  transition: 0.5s;
+  z-index: 3;
+  padding: 10px;
+  color: white;
+  right: 30px;
+  opacity: 0;
+  visibility: hidden;
+  width: 40%;
+  border-radius: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+.uploadMenu {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.userName button{
+  background-color: rgba(87, 84, 84, 0.71);
+  background-image: none;
+}
+
+.settingBar {
+  display:  flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+.updateName {
+  margin: 15px 0 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  align-items: center;
+}
+
+.updateName button {
+  background-image: none;
+  background-color: rgba(87, 84, 84, 0.71);
+}
+
+.updateName input {
+  font-size: 28px;
+  text-align: center;
+  font-weight: bold;
+  background: none;
+  border: 0;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.596);
+}
+.settingShow {
+  opacity: 1;
+  visibility: visible;
+}
+.settingInfo {
+  margin: 10px 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.settingInfo img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.settingInfo h3 {
+  font-size: 30px;
+  margin: 15px 0 10px 0;
+}
+
+.settingOptions {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  width: 65%;
+  margin-top: 20px;
+}
+.settingInfo p {
+  line-height: 22px;
+}
+.errorMsg {
+  display: block;
+  padding: 5px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: rgb(198, 75, 75);
+}
+.settingInfo {
+  text-align: center;
+  padding: 20px;
+}
+
+@media screen and (max-width: 576px) {
+  .setting {
+    width: 100%;
+    left: -1000px;
+    display: block;
+    position: absolute;
+    background-color: var(--Primary);
+    height: 100%;
+    transition: 0.5s;
+    z-index: 3;
+    padding: 10px;
+    color: white;
+  }
+  .settingShow {
+    display: block;
+    left: 0;
+  }
+  .updateName input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .updateName {
+    width: 100%;
+    display: block;
+  }
+}
