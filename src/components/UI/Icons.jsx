@@ -13,4 +13,6 @@ export const icons = {
   chat: <i className="fa-regular fa-comments"></i>,
   cancel: <i className="fa-solid fa-ban"></i>,
   thumbsUp: <i className="fa-solid fa-thumbs-up"></i>,
+  setting: <i className="fa-solid fa-gear"></i>,
+  edit: <i className="fa-regular fa-pen-to-square"></i>,
 };

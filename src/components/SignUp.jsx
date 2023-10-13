@@ -13,9 +13,10 @@ import { signInWithPopup } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, onValue, ref, set } from "firebase/database";
 import Loading from "./UI/Loading";
-import { json } from "react-router-dom";
+import { contextData } from "./auth/Context";
 
 const SignUp = function () {
+  const { toggleChatBox } = contextData();
   const enteredName = useRef();
   const enteredPassword = useRef();
   const enteredEmail = useRef();
@@ -27,23 +28,26 @@ const SignUp = function () {
 
   const [isSignIn, setIsSignIn] = useState(true);
 
-  const writeUserData = function (name, email, userId, isVerifyed) {
+  const writeUserData = function (name, email, userId, isVerifyed, photoUrl) {
     const db = getDatabase();
 
     const userRef = ref(db, "users/" + userId);
 
-    onValue(userRef, (snap) => {
-      console.log(snap.exists());
+    let userData = {
+      email: email,
+      userName: name,
+      isVerifyed,
+      uid: userId,
+    };
 
+    if (photoUrl) {
+      userData.profilePic = photoUrl;
+    }
+
+    onValue(userRef, (snap) => {
       if (!snap.exists()) {
         // blocking reWriting if old user signin
-        console.log("writing new data");
-        set(userRef, {
-          email: email,
-          userName: name,
-          isVerifyed,
-          uid: userId,
-        });
+        set(userRef, userData);
       }
     });
     // Stop reWriting if already data exist
@@ -54,6 +58,15 @@ const SignUp = function () {
     const email = enteredEmail.current?.value;
     const password = enteredPassword.current?.value;
     const userName = enteredName.current?.value;
+
+    // validation
+    if (!email || !password || !userName) {
+      !password ? enteredPassword.current.focus() : "";
+      !email ? enteredEmail.current.focus() : "";
+      !userName ? enteredName.current.focus() : "";
+      return;
+    }
+
     setIsLoading(true);
 
     const updateName = function (name) {
@@ -75,8 +88,10 @@ const SignUp = function () {
         writeUserData(userName, email, userId, isVerifyed);
         updateName(userName);
         setIsLoading(false);
+        toggleChatBox(false);
       })
       .catch((err) => {
+        setIsLoading(false);
         setHasError({ error: true, message: err.message });
       });
   };
@@ -95,14 +110,15 @@ const SignUp = function () {
           user.displayName,
           user.email,
           user.uid,
-          user.emailVerified
+          user.emailVerified,
+          user.photoURL
         );
+        toggleChatBox(false);
       })
 
       .catch((error) => {
         console.log(error);
       });
-    console.log("with google");
   };
 
   const userLoginHandler = function (e) {
@@ -115,6 +131,7 @@ const SignUp = function () {
       .then((info) => {
         console.log(info);
         setIsLoading(false);
+        toggleChatBox();
       })
       .catch((err) => {
         console.log(err.message);
@@ -140,7 +157,13 @@ const SignUp = function () {
           {isSignIn && (
             <>
               <label htmlFor="name">Full Name</label>
-              <input ref={enteredName} type="text" name="username" />
+              <input
+                ref={enteredName}
+                type="text"
+                required
+                maxLength={20}
+                name="username"
+              />
             </>
           )}
 

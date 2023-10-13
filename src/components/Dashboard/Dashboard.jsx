@@ -3,11 +3,17 @@ import Inbox from "./Inbox";
 import Chat from "./Chat";
 import { getAuth } from "firebase/auth";
 import { redirect } from "react-router-dom";
-import { getDatabase, ref, onValue } from "firebase/database";
 import { useState } from "react";
+import { contextData } from "../auth/Context";
+
+import Header from "../Header";
+
 const Dashboard = function () {
+  const { isChatBoxOpen } = contextData();
+
   const [roomId, setRoomId] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
 
   const getRoomId = function (roomId, userId) {
     setRoomId(roomId);
@@ -16,15 +22,15 @@ const Dashboard = function () {
 
   return (
     <>
-      <div className={classes.dashboard}>
-        <div className={classes.people}>
-          <Inbox getRoom={getRoomId} />
-        </div>
-        <div className={classes.activeChat}>
-          {
-            // chat components need an roomId to show all the incoming and outgoing message
-          }
-          <Chat roomId={roomId} userId={userId} />
+      <div className={classes.contentWrapper}>
+        <Header />
+        <div className={classes.dashboard}>
+          <div className={classes.people}>
+            <Inbox getRoom={getRoomId} />
+          </div>
+          <div className={classes.activeChat}>
+            {isChatBoxOpen && <Chat roomId={roomId} userId={userId} />}
+          </div>
         </div>
       </div>
     </>
@@ -38,18 +44,6 @@ export const loader = async function () {
     return redirect("/");
   }
   const auth = getAuth();
-
-  // getting the accepted friend
-  const currentUid = auth?.currentUser?.uid;
-  console.log(currentUid);
-
-  const db = getDatabase();
-  const dbRef = ref(db, "users/" + currentUid + "/friends");
-  onValue(dbRef, (snap) => {
-    if (!snap.exists()) return;
-    const data = snap.val();
-    const mainData = Object.values(data);
-  });
 
   return auth.currentUser;
 };

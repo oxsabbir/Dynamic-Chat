@@ -4,16 +4,21 @@ import Button from "../UI/Button";
 import classes from "./FindFriend.module.css";
 import AddFriend from "../AddFriend";
 import { getAuth } from "firebase/auth";
+import defaultProfile from "../../assets/defaultProfile.jpg";
 
 const FriendList = function ({ item, isAdded, requested, adds }) {
   const [added, setAdded] = useState(false);
+  let profilePic = item.profilePic;
+  if (!item.profilePic) {
+    profilePic = defaultProfile;
+  }
 
   /// adding friend
   useEffect(() => {
-    console.log("changed");
-    console.log(requested);
     setAdded(false);
   }, [item]);
+
+  console.log(requested);
 
   const addRequestHandler = function (event) {
     const requireId = event.target.id;
@@ -29,7 +34,7 @@ const FriendList = function ({ item, isAdded, requested, adds }) {
   return (
     <div className={classes.friendList}>
       <div className={classes.friendCard}>
-        <img src={Glogo} />
+        <img src={profilePic} />
         <h3>{item.userName}</h3>
         {isAdded && <p>Added</p>}
 

@@ -1,24 +1,33 @@
 import classes from "./ConfirmationBox.module.css";
 import Button from "./Button";
 import DangerButton from "./DangerButton";
-
 import { unFriend, blockFriend } from "../Friend/manageFriend";
+import { contextData } from "../auth/Context";
 
 const ConfirmationBox = function ({
   message,
   getBack,
   job,
+  userInfo,
   roomId,
   closeModal,
 }) {
+  const { toggleChatBox, toggleInbox, toggleProfile } = contextData();
+
   const requireActionHandler = async function () {
     if (job === "block") {
-      const state = await blockFriend(roomId);
-      state ? closeModal() : "";
+      const blockState = await blockFriend(roomId);
+      blockState ? closeModal() : "";
     }
+
     if (job === "unfriend") {
-      console.log("removed");
-      unFriend();
+      const unfriendState = await unFriend(roomId, userInfo.uid);
+      if (unfriendState) {
+        closeModal();
+        toggleChatBox(false);
+        toggleInbox();
+        toggleProfile();
+      }
     }
   };
 
