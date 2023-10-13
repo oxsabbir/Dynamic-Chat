@@ -17,6 +17,7 @@ export const messagesSender = async function (
     from: authUser,
     names: auth?.currentUser?.displayName,
     message: message,
+    id: newKey,
     time: serverTimestamp(),
   };
   if (imageUrl) {

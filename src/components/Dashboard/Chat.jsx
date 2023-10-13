@@ -217,6 +217,7 @@ const Chat = function ({ roomId, userId }) {
                       item={item}
                       authUser={authUser}
                       profilePic={profilePic}
+                      roomId={roomId}
                     />
                   </li>
                 );

@@ -1,12 +1,26 @@
-import classes from "./Chat.module.css";
+import classes from "./Message.module.css";
 import { Link } from "react-router-dom";
+import { icons } from "../UI/Icons";
+import { getDatabase, ref, update } from "firebase/database";
 
-const Messages = function ({ item, authUser, profilePic }) {
+const Messages = function ({ item, authUser, profilePic, roomId }) {
   let message = item.message;
   if (item.isTyping) {
     console.log(item);
     message = item.message;
   }
+
+  const messageDeleteHandler = function (event) {
+    // room id , message id ,
+    const messageId = event.target.id;
+    const db = getDatabase();
+    const updates = {};
+    updates[`chat-room/${roomId}/chats/${messageId}`] = null;
+    console.log(updates);
+    return update(ref(db), updates)
+      .then(() => console.log("success"))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <>
@@ -41,13 +55,25 @@ const Messages = function ({ item, authUser, profilePic }) {
         )}
 
         {!item.image && (
+          <>
+            <div
+              className={`${
+                item.from === authUser ? classes.authTextMsg : classes.textMsg
+              } ${item.isTyping && item.from === authUser && classes.hidden}`}
+            >
+              {!item.isTyping && <p>{message}</p>}
+              {item.isTyping && item.from !== authUser && <p>{message}</p>}
+            </div>
+          </>
+        )}
+
+        {item.from === authUser && (
           <div
-            className={`${
-              item.from === authUser ? classes.authTextMsg : classes.textMsg
-            } ${item.isTyping && item.from === authUser && classes.hidden}`}
+            id={item.id}
+            onClick={messageDeleteHandler}
+            className={classes.moreOption}
           >
-            {!item.isTyping && <p>{message}</p>}
-            {item.isTyping && item.from !== authUser && <p>{message}</p>}
+            <i id={item.id} className="fa-solid fa-trash"></i>
           </div>
         )}
       </div>
