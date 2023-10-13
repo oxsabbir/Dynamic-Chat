@@ -7,6 +7,7 @@ import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
 import FriendList from "./FriendList";
 import FallbackMessage from "../UI/FallbackMessage";
+import ListPrinter from "../UI/ListPrinter";
 
 const FindFriend = function ({ getBack }) {
   const db = getDatabase();
@@ -18,8 +19,6 @@ const FindFriend = function ({ getBack }) {
   const [searchedUser, setSearchedUser] = useState([]);
   const [isRequested, setIsRequested] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-
-  let timer;
 
   useEffect(() => {
     const authUid = auth?.currentUser?.uid;
@@ -39,6 +38,9 @@ const FindFriend = function ({ getBack }) {
       setUserData(values);
     });
   }, [isSearching]);
+
+  // SearchHandler
+  let timer;
 
   const searchHandler = function (e) {
     setIsSearching((prev) => !prev);
@@ -94,8 +96,7 @@ const FindFriend = function ({ getBack }) {
         {searchedUser.length === 0 && (
           <FallbackMessage>No user found</FallbackMessage>
         )}
-
-        <ul style={{ listStyle: "none" }}>
+        <ListPrinter>
           {searchedUser &&
             searchedUser.map((item) => {
               const isAdded = authUserFriend.includes(item.uid);
@@ -116,7 +117,7 @@ const FindFriend = function ({ getBack }) {
                 </li>
               );
             })}
-        </ul>
+        </ListPrinter>
       </div>
     </>
   );

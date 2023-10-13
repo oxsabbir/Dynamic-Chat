@@ -15,4 +15,5 @@ export const icons = {
   thumbsUp: <i className="fa-solid fa-thumbs-up"></i>,
   setting: <i className="fa-solid fa-gear"></i>,
   edit: <i className="fa-regular fa-pen-to-square"></i>,
+  trash: <i className="fa-solid fa-trash"></i>,
 };
