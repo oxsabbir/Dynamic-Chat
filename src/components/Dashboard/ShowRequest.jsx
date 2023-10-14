@@ -1,5 +1,4 @@
 import Button from "../UI/Button";
-import Glogo from "../../assets/GLogo.png";
 import classes from "./ShowRequest.module.css";
 import { useContext, useEffect, useState } from "react";
 import { stateContext } from "../auth/Context";
@@ -106,7 +105,7 @@ const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
               return (
                 <li key={item.userId}>
                   <div className={classes.friendCard}>
-                    <img src={Glogo} />
+                    <img src={item.profilePic} />
                     <h3>{item.name}</h3>
                     <Button onClick={cancelHandler} id={item.roomId}>
                       {icons.remove}

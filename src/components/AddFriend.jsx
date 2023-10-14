@@ -12,7 +12,8 @@ const AddFriend = function (
   requireId,
   currentUser,
   names,
-  roomKey
+  roomKey,
+  userProfile
 ) {
   // This add the data to other user friends object with an unique id
   const db = getDatabase();
@@ -51,6 +52,7 @@ const AddFriend = function (
     roomId: newKey,
     name: names,
     status: status,
+    profilePic: userProfile,
     type: "author",
   };
 
