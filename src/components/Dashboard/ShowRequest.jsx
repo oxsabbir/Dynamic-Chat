@@ -38,21 +38,23 @@ const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
       acceptedFriend.sort((item, items) => {
         return items.lastSent - item.lastSent;
       });
-
-      const authUserRef = ref(db, `users/${uid}`);
-      onValue(authUserRef, (snap) => {
-        if (snap.exists()) {
-          const data = snap.val();
-          getCurrentUser(data);
-        }
-      });
-
       setPendingList(pendingFriend);
       getFriend(acceptedFriend);
     });
+
+    // second onvalue
+
+    const authUserRef = ref(db, `users/${uid}`);
+    onValue(authUserRef, (snap) => {
+      if (snap.exists()) {
+        const data = snap.val();
+        console.log(uid);
+        getCurrentUser(data);
+      }
+    });
   }, [uid]);
 
-  const cancelHandler = function (event) {
+  const cancelHandler = async function (event) {
     const db = getDatabase();
     const roomId = event.target.id;
 
