@@ -9,7 +9,7 @@ import FriendList from "./FriendList";
 import FallbackMessage from "../UI/FallbackMessage";
 import ListPrinter from "../UI/ListPrinter";
 
-const FindFriend = function ({ getBack }) {
+const FindFriend = function ({ getBack, userInfo }) {
   const db = getDatabase();
   const searchRef = useRef();
   const auth = getAuth();
@@ -71,7 +71,11 @@ const FindFriend = function ({ getBack }) {
             searchedUser.map((item) => {
               return (
                 <li key={item.uid}>
-                  <FriendList item={item} authUid={authUid} />
+                  <FriendList
+                    item={item}
+                    authUid={authUid}
+                    userInfo={userInfo}
+                  />
                 </li>
               );
             })}

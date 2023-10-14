@@ -49,7 +49,9 @@ const Inbox = function ({ getRoom }) {
 
   return (
     <>
-      {isSearching && <FindFriend getBack={getBack} />}
+      {isSearching && (
+        <FindFriend userInfo={currentUserData} getBack={getBack} />
+      )}
       {!isSearching && (
         <>
           <Setting userInfo={currentUserData} />

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import Glogo from "../../assets/Glogo.png";
 import Button from "../UI/Button";
 import classes from "./FindFriend.module.css";
 import AddFriend from "../AddFriend";
 import { getAuth } from "firebase/auth";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 
-const FriendList = function ({ item, authUid }) {
+const FriendList = function ({ item, authUid, userInfo }) {
   //
   const [isPending, setIsPending] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
@@ -43,7 +42,7 @@ const FriendList = function ({ item, authUid }) {
     const currentUser = auth?.currentUser?.uid;
     const names = auth.currentUser?.displayName;
 
-    AddFriend("add", requireId, currentUser, names);
+    AddFriend("add", requireId, currentUser, names, "", userInfo.profilePic);
     setIsPending(true);
   };
 
