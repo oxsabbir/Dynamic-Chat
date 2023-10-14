@@ -13,28 +13,17 @@ const FindFriend = function ({ getBack }) {
   const db = getDatabase();
   const searchRef = useRef();
   const auth = getAuth();
+  const authUid = auth?.currentUser?.uid;
+
   const allUsers = ref(db, "/users");
   const [userData, setUserData] = useState(null);
-  const [authUserFriend, setAuthUserFriend] = useState([]);
   const [searchedUser, setSearchedUser] = useState([]);
-  const [isRequested, setIsRequested] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    const authUid = auth?.currentUser?.uid;
     onValue(allUsers, (snaps) => {
       const data = snaps.val();
-
-      if (data[authUid].friends) {
-        if (Object.values(data[authUid].friends)) {
-          const currentUserFriend = Object.values(data[authUid].friends);
-          const newuser = currentUserFriend.map((item) => item.userId);
-          setAuthUserFriend(newuser);
-        }
-      }
-
       const values = Object.values(data);
-
       setUserData(values);
     });
   }, [isSearching]);
@@ -46,36 +35,17 @@ const FindFriend = function ({ getBack }) {
     setIsSearching((prev) => !prev);
 
     const inputValue = e.target.value;
-
     if (inputValue.trim().length === 0) {
       return;
     }
-    clearTimeout(timer);
 
+    clearTimeout(timer);
     timer = setTimeout(() => {
       const mainData = userData?.filter((item) => {
         const names = item.userName.toLowerCase();
         const input = inputValue.toLowerCase();
         return names.startsWith(input);
       });
-      // checking if friend already exist
-      mainData.map((item) => {
-        if (!item.friends) {
-          setIsRequested([]);
-          return;
-        }
-        // heres a bug i will fix it later
-        const theirFrinds = Object.values(item.friends);
-
-        const listOfPending = theirFrinds.map((item) => {
-          if (item.status === "pending") {
-            return item.userId;
-          }
-        });
-
-        setIsRequested(listOfPending);
-      });
-
       setSearchedUser(mainData);
     }, 1300);
   };
@@ -99,21 +69,9 @@ const FindFriend = function ({ getBack }) {
         <ListPrinter>
           {searchedUser &&
             searchedUser.map((item) => {
-              const isAdded = authUserFriend.includes(item.uid);
-
-              const requested = isRequested.includes(auth.currentUser.uid);
-
-              if (auth.currentUser.uid === item.uid) {
-                setSearchedUser([]);
-              }
-
               return (
                 <li key={item.uid}>
-                  <FriendList
-                    isAdded={isAdded}
-                    requested={requested}
-                    item={item}
-                  />
+                  <FriendList item={item} authUid={authUid} />
                 </li>
               );
             })}
