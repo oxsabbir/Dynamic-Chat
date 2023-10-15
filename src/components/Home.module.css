@@ -10,6 +10,19 @@
     display: flex;
 }
 
+.loadingState {
+    color: white;
+    display: flex;
+    flex-flow: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    line-height: 22px;
+}
+
 
 @media screen and (max-width: 576px) { 
     .mainContent{

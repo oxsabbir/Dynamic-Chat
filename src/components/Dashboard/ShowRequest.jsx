@@ -42,12 +42,10 @@ const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
     });
 
     // second onvalue
-
     const authUserRef = ref(db, `users/${uid}`);
     onValue(authUserRef, (snap) => {
       if (snap.exists()) {
         const data = snap.val();
-        console.log(uid);
         getCurrentUser(data);
       }
     });

@@ -5,7 +5,6 @@ import { useState } from "react";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import { useLoaderData } from "react-router-dom";
 import ShowRequest from "./ShowRequest";
-import FallbackMessage from "../UI/FallbackMessage";
 import { icons } from "../UI/Icons";
 import MobileUi from "./MobileUi";
 import Loading from "../UI/Loading";
@@ -78,7 +77,12 @@ const Inbox = function ({ getRoom }) {
             <ul style={{ listStyle: "none", overflow: "auto" }}>
               {!acceptedFriend && <Loading />}
               {acceptedFriend && !acceptedFriend.length > 0 && (
-                <FallbackMessage>Inbox is empty</FallbackMessage>
+                <div className={classes.emptyInbox}>
+                  <h3>You don't have any friends right now.</h3>
+                  <Button onClick={() => setIsSearching(true)}>
+                    FindFriend
+                  </Button>
+                </div>
               )}
 
               {acceptedFriend &&
