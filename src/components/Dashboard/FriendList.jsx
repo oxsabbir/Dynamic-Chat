@@ -6,9 +6,9 @@ import { getAuth } from "firebase/auth";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 
 const FriendList = function ({ item, authUid, userInfo }) {
-  //
   const [isPending, setIsPending] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
+  const [isRequested, setisRequested] = useState(false);
 
   let profilePic = item.profilePic;
   if (!item.profilePic) {
@@ -16,22 +16,28 @@ const FriendList = function ({ item, authUid, userInfo }) {
   }
   /// adding friend
   useEffect(() => {
-    if (!item.friends) {
+    if (item.friends) {
       // checking is there any request yet
-      setIsAdded(false);
-      setIsPending(false);
-      return;
+      const listOfFriend = Object.values(item.friends);
+      // checking if friend already added
+      listOfFriend.find((item) => {
+        if (item.userId === authUid && item.status === "pending") {
+          console.log("pending");
+          setIsPending(true);
+        }
+        if (item.userId === authUid && item.status === "success") {
+          console.log("added");
+          setIsAdded(true);
+        }
+      });
     }
-    const listOfFriend = Object.values(item.friends);
-    // checking if friend already added
-    listOfFriend.find((item) => {
-      if (item.userId === authUid && item.status === "pending") {
-        console.log("pending");
-        setIsPending(true);
-      }
-      if (item.userId === authUid && item.status === "success") {
-        console.log("added");
-        setIsAdded(true);
+
+    // looking if user already requested
+    if (!userInfo.friends) return;
+    const userFriends = Object.values(userInfo.friends);
+    const currenItem = userFriends.find((current) => {
+      if (item.uid === current.userId && current.status === "pending") {
+        setisRequested(true);
       }
     });
   }, [item]);
@@ -56,8 +62,8 @@ const FriendList = function ({ item, authUid, userInfo }) {
         <h3>{item.userName}</h3>
         {isPending && !isAdded && <p>Pending</p>}
         {isAdded && <p>Added</p>}
-
-        {!isPending && !isAdded && (
+        {isRequested && <p>Check request</p>}
+        {!isPending && !isAdded && !isRequested && (
           <Button onClick={addRequestHandler} id={item.uid}>
             Say Hello
           </Button>

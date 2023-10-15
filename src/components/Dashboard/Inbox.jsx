@@ -11,6 +11,7 @@ import Loading from "../UI/Loading";
 import LastMessage from "./LastMessage";
 import Setting from "../Setting";
 import { contextData } from "../auth/Context";
+import People from "./People";
 
 const Inbox = function ({ getRoom }) {
   const currentUser = useLoaderData();
@@ -54,6 +55,7 @@ const Inbox = function ({ getRoom }) {
       {!isSearching && (
         <>
           <Setting userInfo={currentUserData} />
+          <People authUid={currentUser?.uid} userInfo={currentUserData} />
           <ShowRequest
             getFriend={frinedSetter}
             getCurrentUser={getCurrentUser}

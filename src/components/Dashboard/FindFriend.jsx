@@ -15,12 +15,12 @@ const FindFriend = function ({ getBack, userInfo }) {
   const auth = getAuth();
   const authUid = auth?.currentUser?.uid;
 
-  const allUsers = ref(db, "/users");
   const [userData, setUserData] = useState(null);
   const [searchedUser, setSearchedUser] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
+    const allUsers = ref(db, "/users");
     onValue(allUsers, (snaps) => {
       const data = snaps.val();
       const values = Object.values(data);
@@ -64,8 +64,9 @@ const FindFriend = function ({ getBack, userInfo }) {
           />
         </div>
         {searchedUser.length === 0 && (
-          <FallbackMessage>No user found</FallbackMessage>
+          <FallbackMessage>NO USER FOUND</FallbackMessage>
         )}
+
         <ListPrinter>
           {searchedUser &&
             searchedUser.map((item) => {
