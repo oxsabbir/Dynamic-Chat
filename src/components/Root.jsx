@@ -1,3 +1,4 @@
+import classes from "./Home.module.css";
 import { Outlet } from "react-router-dom";
 import { useContext, useState } from "react";
 import { stateContext } from "./auth/Context";
@@ -29,7 +30,16 @@ const RootLayout = function () {
 
   return (
     <>
-      {loading && <Loading />}
+      {loading && (
+        <div className={classes.loadingState}>
+          <Loading />
+          <p>
+            Authentication complete <br />
+            Now redirecting dashboard <br /> please wait a second
+          </p>
+        </div>
+      )}
+
       {!loading && (
         <>
           <Outlet />
