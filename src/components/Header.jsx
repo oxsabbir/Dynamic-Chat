@@ -8,7 +8,7 @@ import { contextData } from "./auth/Context";
 const Header = function () {
   const navigate = useNavigate();
   const auth = getAuth();
-  const { toggleFriend, isLoggedIn, setLogOut, show, toggleSetting } =
+  const { toggleFriend, isLoggedIn, setLogOut, toggleSetting, togglePeople } =
     contextData();
   const LogoutHandler = function () {
     auth.signOut().then(() => setLogOut(false));
@@ -20,20 +20,20 @@ const Header = function () {
       <header>
         <nav className={classes.navbar}>
           <img src={brandLogo} alt="brand-logo" />
-
-          <h2>Let's Begin</h2>
+          <h2>Dynamic Chat</h2>
           {isLoggedIn && (
             <ul>
               <li>
-                <Button onClick={toggleFriend}>
-                  {show ? icons.hideRequest : icons.showRequest}
-                </Button>
+                <Button onClick={togglePeople}>{icons.peopleGroup}</Button>
               </li>
               <li>
-                <Button onClick={LogoutHandler}>{icons.logout}</Button>
+                <Button onClick={toggleFriend}>{icons.showRequest}</Button>
               </li>
               <li>
                 <Button onClick={toggleSetting}>{icons.setting}</Button>
+              </li>
+              <li>
+                <Button onClick={LogoutHandler}>{icons.logout}</Button>
               </li>
             </ul>
           )}

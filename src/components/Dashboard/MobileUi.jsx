@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const MobileUi = function () {
   const navigate = useNavigate();
   const auth = getAuth();
-  const { isInboxOpen, setLogOut, toggleFriend, toggleSetting } =
+  const { isInboxOpen, setLogOut, toggleFriend, toggleSetting, togglePeople } =
     useContext(stateContext);
 
   const logOutHandler = function () {
@@ -24,11 +24,10 @@ const MobileUi = function () {
       >
         <ListPrinter>
           <li>
-            <Button onClick={toggleFriend}>{icons.showRequest}</Button>
+            <Button onClick={togglePeople}>{icons.peopleGroup}</Button>
           </li>
-
           <li>
-            <Button>{icons.chat}</Button>
+            <Button onClick={toggleFriend}>{icons.showRequest}</Button>
           </li>
           <li>
             <Button onClick={logOutHandler}>{icons.logout}</Button>

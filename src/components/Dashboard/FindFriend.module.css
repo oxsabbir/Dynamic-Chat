@@ -46,13 +46,17 @@
 }
 .friendCard button {
     padding: 10px;
-    flex-grow: 1;
 }
 .friendCard h3 {
     color: white;
     font-size: 20px;
     flex-grow: 3;
+    text-align: left;
 }
+.hidden {
+    display: none;
+}
+
 
 @media screen and (max-width: 576px){
 .findSection {

@@ -15,7 +15,10 @@ const AddFriend = function (
   roomKey,
   userProfile
 ) {
+  console.log(requestType);
+
   // This add the data to other user friends object with an unique id
+
   const db = getDatabase();
 
   let newKey = push(child(ref(db), "friends/")).key;
@@ -52,9 +55,12 @@ const AddFriend = function (
     roomId: newKey,
     name: names,
     status: status,
-    profilePic: userProfile,
     type: "author",
   };
+
+  if (requestType === "add") {
+    friendData.profilePic = userProfile;
+  }
 
   const currentUserData = {
     userId: currentUser.uid,

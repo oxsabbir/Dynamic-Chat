@@ -20,6 +20,7 @@ const ContextWrapper = function ({ children }) {
   const [isProfileShow, setIsProfileShow] = useState(false);
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const [isPeopleOpen, setIsPeopleOpen] = useState(false);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -53,6 +54,10 @@ const ContextWrapper = function ({ children }) {
     setIsSettingOpen((prev) => !prev);
   };
 
+  const togglePeople = function () {
+    setIsPeopleOpen((prev) => !prev);
+  };
+
   const mainState = {
     isLoggedIn: isLoggedIn,
     setLogin,
@@ -69,6 +74,8 @@ const ContextWrapper = function ({ children }) {
     toggleChatBox,
     isSettingOpen,
     toggleSetting,
+    togglePeople,
+    isPeopleOpen,
   };
 
   return (
