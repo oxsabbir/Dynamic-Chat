@@ -7,6 +7,7 @@ import AddFriend from "../AddFriend";
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
 import FallbackMessage from "../UI/FallbackMessage";
+import "../../media.css";
 
 const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
   const { show, toggleFriend } = useContext(stateContext);

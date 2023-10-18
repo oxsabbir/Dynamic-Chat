@@ -142,9 +142,7 @@ const Setting = function ({ userInfo }) {
                 <Button onClick={cancelHandler}>Cancel</Button>
               </div>
             )}
-
-            <Button>Change Password</Button>
-            <DangerButton>Delete Account</DangerButton>
+            <DangerButton>Logout</DangerButton>
           </div>
         </div>
       </div>

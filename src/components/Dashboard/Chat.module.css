@@ -1,4 +1,4 @@
-.chatBody {
+.chatBody, .blankBody {
   width: 100%;
   height: 85vh;
   background-color: var(--GLASS-UI);
@@ -8,12 +8,16 @@
   overflow: hidden;
   border-radius: 20px;
 }
+
+
+
 .bottomOption {
-  background-color: rgb(31 12 58);
+  background-color: var(--LIGHT-GLASS-UI);
   padding: 15px 20px;
   display: flex;
   gap: 10px;;
   width: 100%;
+  
 }
 .bottomOption input {
   padding: 15px;

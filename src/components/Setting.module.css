@@ -35,12 +35,12 @@
   text-align: center;
   padding: 10px;
 }
-
 .updateName {
   margin: 15px 0 10px 0;
   display: flex;
   justify-content: space-between;
-  gap: 5px;
+  gap: 17px;
+  flex-flow: column;
   align-items: center;
 }
 
@@ -113,6 +113,7 @@
     background-color: var(--Primary);
     height: 100%;
     transition: 0.5s;
+    border-radius: 0;
     z-index: 3;
     padding: 10px;
     color: white;
