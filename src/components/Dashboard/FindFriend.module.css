@@ -24,7 +24,7 @@
 }
 
 .friendCard {
-    background-color: rgb(57, 32, 85);
+    background-color: var(--LIGHT-GLASS-UI);
     display: flex;
     padding: 10px;
     border-radius: 10px;
@@ -34,7 +34,7 @@
     margin: 10px 0;
 }
 .friendCard p{
-    color: gray;
+    color: #f0f0f0ab;
     padding: 10px ;
 
 }

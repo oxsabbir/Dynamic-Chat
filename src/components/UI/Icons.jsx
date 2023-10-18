@@ -16,4 +16,7 @@ export const icons = {
   setting: <i className="fa-solid fa-gear"></i>,
   edit: <i className="fa-regular fa-pen-to-square"></i>,
   trash: <i className="fa-solid fa-trash"></i>,
+  inbox: <i className="fa-solid fa-envelope-open-text"></i>,
+  switchOn: <i className="fa-solid fa-toggle-on"></i>,
+  switchOff: <i className="fa-solid fa-toggle-off"></i>,
 };

@@ -4,13 +4,19 @@
     border-radius: 20px;
     font-size: 16px;
     color: white;
-    background-image: linear-gradient(90deg, rgb(186, 68, 232), rgb(104, 75, 218));
     font-weight: 500;
+}
+
+.buttonDark{
+    background: var(--DARK-BUTTON);
+}
+.buttonLight{
+    background: var(--LIGHT-BUTTON);
 }
 
 .button:hover {
     cursor: pointer;
-    background-image: linear-gradient(45deg, rgb(101, 79, 229), rgb(26, 113, 218));
+    background-image: var(--BUTTON-GRADIENDT-HOVER);
 }
 
 .buttonDanger {

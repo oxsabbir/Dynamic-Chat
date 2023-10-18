@@ -37,6 +37,7 @@ const AddFriend = function (
     from: requestType === "accept" ? currentUser.uid : currentUser,
     names: requestType === "accept" ? currentUser.names : names,
     message: "Hello",
+    time: serverTimestamp(),
   };
 
   // set(ref(db, "chat-room/" + newKey + `/chats/${anotherKey}`), {

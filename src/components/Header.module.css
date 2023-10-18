@@ -3,6 +3,7 @@ header {
   border-radius: 20px;
 }
 
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -31,8 +32,9 @@ header {
   word-spacing: 15px;
   font-weight: bold;
   font-size: 30px;
+  padding: 5px;
   letter-spacing: 5px;
-  background: -webkit-linear-gradient(45deg, #eee, #333);
+  background: -webkit-linear-gradient(60deg, #eee, #333);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

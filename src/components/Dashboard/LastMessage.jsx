@@ -9,20 +9,19 @@ import {
   limitToLast,
 } from "firebase/database";
 import { stateContext } from "../auth/Context";
-import defaultProfile from "../../assets/defaultProfile.jpg";
 
 const LastMessage = function ({ item, chatHandler, uid }) {
-  const [profilePic, setProfilePic] = useState(defaultProfile);
   const { activeChat } = useContext(stateContext);
   const [lastMessage, setLastMessage] = useState("");
+  const [userInfo, setUserInfo] = useState("");
 
   useEffect(() => {
     const db = getDatabase();
+
     const lastMessageRef = query(
       ref(db, "chat-room/" + `${item.roomId}/chats`),
       limitToLast(1)
     );
-
     onValue(lastMessageRef, (snap) => {
       if (!snap.exists()) return;
       const lastMessage = snap.val();
@@ -31,12 +30,13 @@ const LastMessage = function ({ item, chatHandler, uid }) {
     });
 
     // getting profile data
-    const profileRef = ref(db, `users/${item.userId}/profilePic`);
-    onValue(profileRef, (snap) => {
+    const userInfoRef = ref(db, `users/${item.userId}`);
+    onValue(userInfoRef, (snap) => {
       if (!snap.exists) return;
       const data = snap.val();
       if (data) {
-        setProfilePic(data);
+        console.log(data);
+        setUserInfo(data);
       }
     });
   }, [item.roomId]);
@@ -50,9 +50,9 @@ const LastMessage = function ({ item, chatHandler, uid }) {
         activeChat === item.userId ? classes.active : ""
       }`}
     >
-      <img src={profilePic} />
+      <img src={userInfo.profilePic} />
       <div>
-        <h3>{item.name}</h3>
+        <h3>{userInfo.userName}</h3>
         <p
           className={`${classes.message} ${
             lastMessage.from !== uid ? classes.bolder : ""

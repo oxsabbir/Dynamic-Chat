@@ -21,6 +21,7 @@ const ContextWrapper = function ({ children }) {
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [isPeopleOpen, setIsPeopleOpen] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -58,6 +59,10 @@ const ContextWrapper = function ({ children }) {
     setIsPeopleOpen((prev) => !prev);
   };
 
+  const toggleTheme = function (theme) {
+    setIsDarkTheme(theme);
+  };
+
   const mainState = {
     isLoggedIn: isLoggedIn,
     setLogin,
@@ -76,6 +81,8 @@ const ContextWrapper = function ({ children }) {
     toggleSetting,
     togglePeople,
     isPeopleOpen,
+    isDarkTheme,
+    toggleTheme,
   };
 
   return (

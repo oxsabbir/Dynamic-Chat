@@ -1,0 +1,16 @@
+@media screen and (max-width: 576px) {
+    .show,
+    .content {
+      width: 100%;
+      right: 0;
+      height: 100%;
+    }
+    .content {
+      transform: translateX(-800px);
+    }
+    .show {
+      transform: translateX(0);
+    }
+
+   
+  }

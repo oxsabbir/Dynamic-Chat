@@ -1,41 +1,49 @@
-.dashboard{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 25px;
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
 }
+.containerLight {
+  background-image: var(--LIGHT-GRADIENT);
+}
+.containerDark {
+  background-image: var(--DARK-GRADIENT);
+}
+
 .contentWrapper {
-    height: 100vh;
-    padding: 30px;
-    width: 90%;
-    position: relative;
-    margin: auto;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    gap: 10px;
+  height: 100vh;
+  padding: 30px;
+  width: 85%;
+  max-width: 1536px;
+  position: relative;
+  margin: auto;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  gap: 10px;
 }
 
 .people {
-    flex: 2;    
+  flex: 2;
 }
 .activeChat {
-    flex: 3;
+  flex: 3;
 }
 
 
-@media screen and (max-width: 576px) { 
-    .dashboard{
-        display: block;
-        justify-content: space-between;
-        align-items: center;
-        gap: 5%;
-        width: 100%;
-        margin: auto;
-    }
-    .contentWrapper {
-        width: 100%;
-        padding: 0;
-    }
-    
+@media screen and (max-width: 576px) {
+  .dashboard {
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5%;
+    width: 100%;
+    margin: auto;
+  }
+  .contentWrapper {
+    width: 100%;
+    padding: 0;
+  }
 }
+

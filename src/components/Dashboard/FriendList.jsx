@@ -14,6 +14,8 @@ const FriendList = function ({ item, authUid, userInfo }) {
   if (!item.profilePic) {
     profilePic = defaultProfile;
   }
+
+  console.log(userInfo);
   /// adding friend
   useEffect(() => {
     if (item.friends) {
@@ -46,9 +48,14 @@ const FriendList = function ({ item, authUid, userInfo }) {
     const requireId = event.target.id;
     const auth = getAuth();
     const currentUser = auth?.currentUser?.uid;
-    const names = auth.currentUser?.displayName;
-
-    AddFriend("add", requireId, currentUser, names, "", userInfo.profilePic);
+    AddFriend(
+      "add",
+      requireId,
+      currentUser,
+      userInfo.userName,
+      "",
+      userInfo.profilePic
+    );
     setIsPending(true);
   };
 
