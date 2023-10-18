@@ -29,8 +29,14 @@ const Header = function () {
   return (
     <>
       <header>
-        <nav className={classes.navbar}>
-          <h2>Dynamic Chat</h2>
+        <nav className={`${classes.navbar}`}>
+          <h2
+            className={`${
+              isDarkTheme ? classes.darkHeading : classes.lightHeading
+            }`}
+          >
+            Dynamic Chat
+          </h2>
           {isLoggedIn && (
             <ul>
               <li>
