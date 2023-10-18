@@ -33,7 +33,7 @@
 }
 
 .friendCard {
-  background-color: rgb(57, 32, 85);
+  background-color: var(--LIGHT-GLASS-UI);
   display: flex;
   padding: 10px;
   border-radius: 10px;

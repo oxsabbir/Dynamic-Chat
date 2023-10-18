@@ -7,7 +7,7 @@ header {
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 10px 35px;
+  padding: 0 35px 0 0;
   align-items: center;
 }
 .navbar img {
@@ -34,9 +34,17 @@ header {
   font-size: 30px;
   padding: 5px;
   letter-spacing: 5px;
-  background: -webkit-linear-gradient(60deg, #eee, #333);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  opacity: .9;
+  border-top-left-radius: 15px ;
+  border-bottom-left-radius: 15px;
+  padding: 15px 40px;
+
+}
+.darkHeading {
+  background: var(--DARK-BUTTON);
+}
+.lightHeading {
+  background: var(--LIGHT-BUTTON);
 }
 
 
