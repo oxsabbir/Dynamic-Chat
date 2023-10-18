@@ -10,10 +10,15 @@
 #root{
   --Primary :rgb(31, 30, 30);
   --UI-BACKGROUND : rgb(255 255 255 / 15%);
-  --GLASS-UI : rgb(0 0 0 / 20%);
-  --LIGHT-GLASS-UI:  rgb(13 13 13 / 25%);
-  --GLASS-UI-DARK : rgb(0 0 0 / 75%);
   --PURPLE-GRADIENDT : linear-gradient(14deg,rgba(87, 15, 181, 0.694),rgb(88 15 181));
+
+
+  --GLASS-UI : hsla(0, 0%, 0%, 0.264);
+  /* --GLASS-UI :hsla(0, 0%, 0%, 0.408); */
+  --LIGHT-GLASS-UI:  rgb(13 13 13 / 25%);
+
+  --GLASS-UI-DARK : rgb(0 0 0 / 75%);
+  
   --DARK-GRADIENT :linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
   --LIGHT-GRADIENT :linear-gradient(109.6deg, rgb(220, 196, 252) 11.2%, rgb(150, 199, 253) 100.2%);
   

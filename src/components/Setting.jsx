@@ -6,13 +6,17 @@ import DangerButton from "./UI/DangerButton";
 import { useRef, useState } from "react";
 import { updateName, updatePhoto } from "./UpdateSetting";
 import { update, ref, getDatabase } from "firebase/database";
+import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Setting = function ({ userInfo }) {
-  const { toggleSetting, isSettingOpen } = contextData();
+  const { toggleSetting, isSettingOpen, setLogOut } = contextData();
   const [isSelected, setIsSelected] = useState(false);
   const [nameChanging, setNameChanging] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const auth = getAuth();
+  const navigate = useNavigate();
 
   const enteredName = useRef();
   const enteredFile = useRef();
@@ -74,6 +78,11 @@ const Setting = function ({ userInfo }) {
     updatePhoto(file, userInfo.uid, savingToProfile);
   };
 
+  const logOutHandler = function () {
+    auth.signOut().then(() => setLogOut());
+    navigate("/");
+  };
+
   return (
     <>
       <div
@@ -118,9 +127,7 @@ const Setting = function ({ userInfo }) {
 
           <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-            corrupti atque deserunt, eligendi qui sequi, blanditiis magnam
-            sapiente dolorem itaque unde maxime placeat. Delectus, dolor eveniet
-            recusandae illum libero perspiciatis?
+            corrupti atque deserunt
           </p>
 
           <input
@@ -142,7 +149,7 @@ const Setting = function ({ userInfo }) {
                 <Button onClick={cancelHandler}>Cancel</Button>
               </div>
             )}
-            <DangerButton>Logout</DangerButton>
+            <DangerButton onClick={logOutHandler}>Logout</DangerButton>
           </div>
         </div>
       </div>

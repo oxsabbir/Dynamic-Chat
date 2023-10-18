@@ -58,7 +58,7 @@
 }
 
 
-@media screen and (max-width: 576px){
+@media screen and (max-width: 768px){
 .findSection {
     height: 100vh;
     border-radius: 0;
