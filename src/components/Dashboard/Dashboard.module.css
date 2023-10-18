@@ -32,7 +32,7 @@
 }
 
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
   .dashboard {
     display: block;
     justify-content: space-between;
@@ -40,9 +40,17 @@
     gap: 5%;
     width: 100%;
     margin: auto;
+    
   }
   .contentWrapper {
     width: 100%;
     padding: 0;
   }
 }
+
+@media screen and (min-width: 769px) and (max-width: 1050px) {
+  .contentWrapper{
+    width: 100%;
+    padding: 20px;
+  }
+} 

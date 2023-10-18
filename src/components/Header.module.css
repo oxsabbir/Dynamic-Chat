@@ -48,8 +48,21 @@ header {
 }
 
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
   header {
     display: none;
   }
 }
+
+
+
+@media screen and (min-width: 769px) and (max-width: 1050px) {
+  .contentWrapper{
+    width: 100%;
+    padding: 20px;
+  }
+  
+.navbar h2 {
+  font-size: 25px;
+}
+} 

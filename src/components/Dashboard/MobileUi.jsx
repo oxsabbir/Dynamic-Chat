@@ -9,12 +9,18 @@ import { useNavigate } from "react-router-dom";
 const MobileUi = function () {
   const navigate = useNavigate();
   const auth = getAuth();
-  const { isInboxOpen, setLogOut, toggleFriend, toggleSetting, togglePeople } =
-    useContext(stateContext);
+  const {
+    isInboxOpen,
+    setLogOut,
+    toggleFriend,
+    toggleSetting,
+    togglePeople,
+    isDarkTheme,
+    toggleTheme,
+  } = useContext(stateContext);
 
-  const logOutHandler = function () {
-    auth.signOut().then(() => setLogOut());
-    navigate("/");
+  const themeHandler = function () {
+    toggleTheme(!isDarkTheme);
   };
 
   return (
@@ -30,7 +36,9 @@ const MobileUi = function () {
             <Button onClick={toggleFriend}>{icons.showRequest}</Button>
           </li>
           <li>
-            <Button onClick={logOutHandler}>{icons.logout}</Button>
+            <Button onClick={themeHandler}>
+              {isDarkTheme ? icons.switchOn : icons.switchOff}
+            </Button>
           </li>
           <li>
             <Button onClick={toggleSetting}>{icons.setting}</Button>
