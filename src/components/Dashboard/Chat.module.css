@@ -158,10 +158,10 @@
 }
 
 ::-webkit-scrollbar {
-  background-color: rgba(85, 5, 160, 0.453);
+  width: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(139, 125, 125, 0.453);
+  background-color: var(--GLASS-UI);
   width: 15px;
   border-radius: 10px;
 }

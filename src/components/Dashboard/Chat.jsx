@@ -85,7 +85,6 @@ const Chat = function ({ roomId, userId }) {
         ref(db, "chat-room/" + `${prevValue}/chats`),
         limitToLast(loadCount)
       );
-      console.log("turning off");
       off(chatRef, undefined);
     }
 
