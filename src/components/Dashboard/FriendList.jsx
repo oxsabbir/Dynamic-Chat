@@ -15,7 +15,6 @@ const FriendList = function ({ item, authUid, userInfo }) {
     profilePic = defaultProfile;
   }
 
-  console.log(userInfo);
   /// adding friend
   useEffect(() => {
     if (item.friends) {
@@ -24,11 +23,9 @@ const FriendList = function ({ item, authUid, userInfo }) {
       // checking if friend already added
       listOfFriend.find((item) => {
         if (item.userId === authUid && item.status === "pending") {
-          console.log("pending");
           setIsPending(true);
         }
         if (item.userId === authUid && item.status === "success") {
-          console.log("added");
           setIsAdded(true);
         }
       });
