@@ -35,7 +35,6 @@ const LastMessage = function ({ item, chatHandler, uid }) {
       if (!snap.exists) return;
       const data = snap.val();
       if (data) {
-        console.log(data);
         setUserInfo(data);
       }
     });

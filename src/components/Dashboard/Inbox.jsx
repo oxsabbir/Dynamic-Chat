@@ -40,7 +40,6 @@ const Inbox = function ({ getRoom }) {
   const openChatHandler = function (event) {
     const roomId = event.target.id;
     const userId = event.target.dataset.test;
-    const targetUser = acceptedFriend.find((item) => item.roomId === roomId);
     getRoom(roomId, userId);
     toggleInbox();
     toggleActiveChat(userId);
