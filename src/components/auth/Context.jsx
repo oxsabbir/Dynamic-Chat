@@ -9,7 +9,6 @@ const initialState = {
   toggleInbox: () => {},
   toggleActiveChat: () => {},
 };
-
 export const stateContext = createContext();
 
 const ContextWrapper = function ({ children }) {
@@ -22,6 +21,7 @@ const ContextWrapper = function ({ children }) {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [isPeopleOpen, setIsPeopleOpen] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [prevValue, setPrevValue] = useState(null);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -62,6 +62,9 @@ const ContextWrapper = function ({ children }) {
   const toggleTheme = function (theme) {
     setIsDarkTheme(theme);
   };
+  const togglePrevValue = function (value) {
+    setPrevValue(value);
+  };
 
   const mainState = {
     isLoggedIn: isLoggedIn,
@@ -83,6 +86,8 @@ const ContextWrapper = function ({ children }) {
     isPeopleOpen,
     isDarkTheme,
     toggleTheme,
+    togglePrevValue,
+    prevValue,
   };
 
   return (

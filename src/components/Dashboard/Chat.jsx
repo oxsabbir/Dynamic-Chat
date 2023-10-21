@@ -5,7 +5,7 @@ import { getDatabase, ref, onValue } from "firebase/database";
 import { getStorage, ref as imageRef } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
-import { push, child, query, limitToLast, get } from "firebase/database";
+import { push, child, query, limitToLast, get, off } from "firebase/database";
 import { icons } from "../UI/Icons";
 import { contextData } from "../auth/Context";
 import Messages from "./Messages";
@@ -20,7 +20,13 @@ import { update } from "firebase/database";
 const Chat = function ({ roomId, userId }) {
   const auth = getAuth();
   const authUser = auth?.currentUser?.uid;
-  const { toggleInbox, isInboxOpen, toggleProfile } = contextData();
+  const {
+    toggleInbox,
+    isInboxOpen,
+    toggleProfile,
+    prevValue,
+    togglePrevValue,
+  } = contextData();
   const [message, SetMessage] = useState([]);
   const [userInfo, setUserInfo] = useState("NoName");
   const [loadCount, setLoadCount] = useState(20);
@@ -53,6 +59,7 @@ const Chat = function ({ roomId, userId }) {
   }, [userId]);
 
   // room Id can came from other side
+
   useEffect(() => {
     const db = getDatabase();
     const chatRef = query(
@@ -65,12 +72,24 @@ const Chat = function ({ roomId, userId }) {
       const data = snap.val();
       const mainData = Object.values(data);
       SetMessage(mainData);
+      console.log(prevValue);
       if (mainData[mainData.length - 1].blocked) {
         setBlocked(mainData[mainData.length - 1]);
       } else {
         setBlocked({});
       }
     });
+
+    if (prevValue && prevValue !== roomId) {
+      const chatRef = query(
+        ref(db, "chat-room/" + `${prevValue}/chats`),
+        limitToLast(loadCount)
+      );
+      console.log("turning off");
+      off(chatRef, undefined);
+    }
+
+    togglePrevValue(roomId);
     scrollIntoViews();
   }, [roomId, loadCount]);
 
