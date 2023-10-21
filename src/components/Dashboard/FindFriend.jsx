@@ -38,7 +38,6 @@ const FindFriend = function ({ getBack, userInfo }) {
     if (inputValue.trim().length === 0) {
       return;
     }
-
     clearTimeout(timer);
     timer = setTimeout(() => {
       const mainData = userData?.filter((item) => {
