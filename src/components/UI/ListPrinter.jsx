@@ -1,9 +1,12 @@
-const ListPrinter = function ({ children }) {
+import { forwardRef } from "react";
+const ListPrinter = forwardRef(function ({ children }, ref) {
   return (
     <>
-      <ul style={{ listStyle: "none" }}>{children}</ul>
+      <ul ref={ref} style={{ listStyle: "none" }}>
+        {children}
+      </ul>
     </>
   );
-};
+});
 
 export default ListPrinter;

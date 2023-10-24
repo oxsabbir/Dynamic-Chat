@@ -30,21 +30,11 @@ const Inbox = function ({ getRoom }) {
   };
 
   const getBack = () => setIsSearching(false);
-
   // Profile pic validation
   let profilePhoto = currentUserData.profilePic;
   if (!currentUserData.profilePic) {
     profilePhoto = defaultProfile;
   }
-
-  const openChatHandler = function (event) {
-    const roomId = event.target.id;
-    const userId = event.target.dataset.test;
-    getRoom(roomId, userId);
-    toggleInbox();
-    toggleActiveChat(userId);
-    toggleChatBox(true);
-  };
 
   return (
     <>
@@ -89,11 +79,7 @@ const Inbox = function ({ getRoom }) {
               {acceptedFriend &&
                 acceptedFriend.map((item) => (
                   <li key={item.userId}>
-                    <LastMessage
-                      item={item}
-                      chatHandler={openChatHandler}
-                      uid={currentUser.uid}
-                    />
+                    <LastMessage item={item} uid={currentUser.uid} />
                   </li>
                 ))}
             </ul>

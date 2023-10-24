@@ -11,13 +11,13 @@ import { contextData } from "../auth/Context";
 import Messages from "./Messages";
 import Profile from "./Profile";
 import defaultProfile from "../../assets/defaultProfile.jpg";
-
 import { blockFriend } from "../Friend/manageFriend";
 import uploadMedia from "../UploadMedia";
 import { messagesSender as sendMsg } from "../MessageSender";
 import { update } from "firebase/database";
+import Loading from "../UI/Loading";
 
-const Chat = function ({ roomId, userId }) {
+const Chat = function () {
   const auth = getAuth();
   const authUser = auth?.currentUser?.uid;
   const {
@@ -26,9 +26,15 @@ const Chat = function ({ roomId, userId }) {
     toggleProfile,
     prevValue,
     togglePrevValue,
+    activeUser,
+    activeChat,
   } = contextData();
+
+  const userInfo = activeUser;
+  let roomId = activeChat;
+  const userId = userInfo.uid;
+
   const [message, SetMessage] = useState([]);
-  const [userInfo, setUserInfo] = useState("NoName");
   const [loadCount, setLoadCount] = useState(20);
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,28 +43,11 @@ const Chat = function ({ roomId, userId }) {
   const enteredMessage = useRef();
   const enteredFile = useRef();
   const scrollElement = useRef();
+  const unorderListRef = useRef();
 
   const scrollIntoViews = () => {
-    scrollElement.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
+    unorderListRef.current.scrollTop = unorderListRef.current.scrollHeight;
   };
-
-  // doesn't need anymore
-  useEffect(() => {
-    const userRef = ref(getDatabase());
-    get(child(userRef, `users/${userId}`))
-      .then((snaps) => {
-        if (snaps.exists()) {
-          const data = snaps.val();
-          setUserInfo(data);
-        }
-      })
-      .catch((error) => console.log(error));
-  }, [userId]);
-
-  // room Id can came from other side
 
   useEffect(() => {
     const db = getDatabase();
@@ -66,13 +55,11 @@ const Chat = function ({ roomId, userId }) {
       ref(db, "chat-room/" + `${roomId}/chats`),
       limitToLast(loadCount)
     );
-
     onValue(chatRef, (snap) => {
       if (!snap.exists()) return;
       const data = snap.val();
       const mainData = Object.values(data);
       SetMessage(mainData);
-      console.log(prevValue);
       if (mainData[mainData.length - 1].blocked) {
         setBlocked(mainData[mainData.length - 1]);
       } else {
@@ -216,13 +203,13 @@ const Chat = function ({ roomId, userId }) {
             <Button onClick={toggleProfile}> Profile</Button>
           </div>
         </div>
-        <div className={classes.message}>
+
+        <div ref={unorderListRef} className={classes.message}>
           {message.length >= 20 && (
             <Button onClick={() => setLoadCount((prev) => prev + 20)}>
               Load More
             </Button>
           )}
-
           <ListPrinter>
             {message &&
               message.map((item, i) => {

@@ -8,16 +8,12 @@ const Messages = function ({ item, authUser, profilePic, roomId }) {
     message = item.message;
   }
 
-  let date = new Date(item.time);
-  const printedDate = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
-
   const messageDeleteHandler = async function (event) {
     // room id , message id ,
     const messageId = event.target.id;
     const db = getDatabase();
     const updates = {};
     updates[`chat-room/${roomId}/chats/${messageId}`] = null;
-    console.log(updates);
     return update(ref(db), updates)
       .then(() => console.log("success"))
       .catch((error) => console.log(error));
