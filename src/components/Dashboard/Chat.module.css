@@ -35,6 +35,7 @@
   width: 100%;
   flex-flow: column;
   flex-grow: 2;
+  scroll-behavior: smooth;
 }
 .message button {
   width: 150px;

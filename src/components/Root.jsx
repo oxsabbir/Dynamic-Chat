@@ -10,7 +10,7 @@ import { contextData } from "./auth/Context";
 const RootLayout = function () {
   const auth = getAuth();
   const navigate = useNavigate();
-  const { toggleTheme, setLogin } = contextData();
+  const { toggleTheme, setLogin, isDarkTheme } = contextData();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -46,7 +46,11 @@ const RootLayout = function () {
   return (
     <>
       {loading && (
-        <div className={classes.loadingState}>
+        <div
+          className={`${classes.loadingState} ${
+            isDarkTheme ? classes.loadingStateDark : classes.loadingStateLight
+          }`}
+        >
           <Loading />
           <p>
             Authentication complete <br />

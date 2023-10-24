@@ -5,7 +5,6 @@
     align-items: center;
 }
 .wrapper{
-    background-image: linear-gradient(14deg,rgba(87, 15, 181, 0.694),rgb(88 15 181));
     height: 100vh;
     display: flex;
 }
@@ -21,6 +20,13 @@
     width: 100%;
     text-align: center;
     line-height: 22px;
+}
+
+.loadingStateDark{
+    background: var(--DARK-GRADIENT);
+}
+.loadingStateLight{
+    background: var(--LIGHT-GRADIENT);
 }
 
 

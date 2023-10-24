@@ -10,12 +10,6 @@ import BlankBody from "./BlankBody";
 
 const Dashboard = function () {
   const { isChatBoxOpen, isDarkTheme } = contextData();
-  const [roomId, setRoomId] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const getRoomId = function (roomId, userId) {
-    setRoomId(roomId);
-    setUserId(userId);
-  };
   return (
     <>
       <div
@@ -27,10 +21,10 @@ const Dashboard = function () {
           <Header />
           <div className={classes.dashboard}>
             <div className={classes.people}>
-              <Inbox getRoom={getRoomId} />
+              <Inbox />
             </div>
             <div className={classes.activeChat}>
-              {isChatBoxOpen && <Chat roomId={roomId} userId={userId} />}
+              {isChatBoxOpen && <Chat />}
               {!isChatBoxOpen && <BlankBody />}
             </div>
           </div>
