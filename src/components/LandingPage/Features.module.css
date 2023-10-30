@@ -1,0 +1,233 @@
+.feature {
+  background: var(--LIGHT-GRADIENT);
+  min-height: 100vh;
+  scroll-snap-align: start;
+  border-bottom-right-radius : 50px;
+  padding: 20px 0;
+}
+.feature h2 {
+  color: var(--LIGHT-TEXT);
+  font-size: 50px;
+  padding: 35px;
+  font-weight: 300;
+  text-align: center;
+  word-spacing: 10px;
+}
+
+.featureContent {
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.featureDemo {
+  width: 50%;
+}
+.featureList {
+  width: 50%;
+}
+.featureGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 15px;
+  gap: 20px 20px;
+}
+.featureItem{
+    padding: 20px;
+    display: flex;
+    border-radius: 15px;
+    flex-flow: column;
+    gap: 8px;
+    position: relative;
+    transition: .4s;
+    box-shadow: 3px 5px 15px 5px rgba(27, 27, 27, 0.243);
+}
+
+.featureItem:hover{
+    cursor: pointer;
+    transform: translateY(-5px);
+    box-shadow: none;
+}
+
+.featureItem i{
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(10, 10, 10, 0.084);
+    font-size: 35px;
+}
+.featureItem h4{
+    font-size: 22px;
+    word-spacing: 6px;
+    text-transform: uppercase;
+    color: rgb(0, 0, 0);
+    width: 60%;
+    letter-spacing: 2px;
+}
+.featureItem p{
+    color: var(--LIGHT-TEXT);
+}
+
+.upComing::after {
+    content: "Coming soon";
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.344);
+    padding: 10px;
+    top: 0;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    right: 0;
+    opacity: .5;
+}
+
+.footerBg{
+  background: var(--DARK-GRADIENT);
+}
+
+.animateImage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* @keyframes dance {
+    from{
+        right: 20%;
+        transform: rotate(0deg);
+    }
+    to{
+        right: 10%;
+        transform: rotate(10deg);
+    }
+}
+
+@keyframes danceLeft {
+    from{
+        left: 20%;
+        transform: rotate(-0deg);
+    }
+    to{
+        left: 10%;
+        transform: rotate(-10deg);
+    }
+} */
+
+.animateImage img:nth-child(2) {
+  width: 280px;
+  height: auto;
+  z-index: 5;
+}
+.animateImage img:nth-child(3) {
+  width: 250px;
+  height: auto;
+  position: absolute;
+  left: 30%;
+  bottom: 0;
+  transition: 2.5s;
+  /* animation: danceLeft 2s ease-in-out alternate infinite ; */
+}
+
+.showDemo {
+  left: 15% !important;
+  rotate: -10deg !important;
+}
+.showDemoRight {
+  right: 15% !important;
+  rotate: 10deg !important;
+}
+
+.animateImage img:nth-child(1) {
+  width: 250px;
+  height: auto;
+  position: absolute;
+  right: 30%;
+  bottom: 0;
+  transition: 2.5s;
+  /* animation: dance 2s ease-in-out alternate infinite ; */
+}
+
+@media screen and (max-width:576px) {
+    .featureContent{
+        flex-flow: column;
+        padding: 10px;
+        gap: 35px;
+    }
+    .featureDemo {
+        width: 100%;
+      }
+      .featureList {
+        width: 100%;
+      }
+      .featureGrid{
+        grid-template-columns: 1fr;
+        gap: 20px 0px;
+      }
+      .animateImage img:nth-child(2) {
+        width: 220px;
+      }
+      .animateImage img:nth-child(1) {
+        width: 170px;
+      }
+      .animateImage img:nth-child(3) {
+        width: 170px;
+      }
+      .showDemo {
+        left: 3% !important;
+        rotate: -10deg !important;
+      }
+      .showDemoRight {
+        right: 3% !important;
+        rotate: 10deg !important;
+      }
+      .featureItem i{
+        font-size: 25px;
+        padding: 15px;
+      }
+      
+      .featureItem h4{
+        font-size: 18px;
+      }
+      .featureItem p{
+        font-size: 15px;
+      }
+      .featureGrid{
+        padding: 20px 15px;
+      }
+}
+@media screen and (min-width:576px) and (max-width : 1024px) {
+  .featureContent{
+    flex-flow: column;
+    padding: 10px;
+    gap: 35px;
+}
+.featureDemo {
+    width: 100%;
+  }
+  .featureList {
+    width: 100%;
+
+  }
+  .featureGrid{
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 20px;
+  }
+  .animateImage img:nth-child(2) {
+    width: 250px;
+  }
+  .animateImage img:nth-child(1) {
+    width: 195px;
+  }
+  .animateImage img:nth-child(3) {
+    width: 195px;
+  }
+  .showDemo {
+    left: 15% !important;
+    rotate: -10deg !important;
+  }
+  .showDemoRight {
+    right: 15% !important;
+    rotate: 10deg !important;
+  }
+}

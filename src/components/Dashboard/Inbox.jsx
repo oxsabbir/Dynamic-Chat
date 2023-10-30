@@ -15,8 +15,7 @@ import People from "./People";
 
 const Inbox = function ({ getRoom }) {
   const currentUser = useLoaderData();
-  const { toggleInbox, isInboxOpen, toggleActiveChat, toggleChatBox } =
-    contextData();
+  const { isInboxOpen } = contextData();
   const [isSearching, setIsSearching] = useState(false);
   const [acceptedFriend, setAcceptedFriend] = useState(null);
   const [currentUserData, setCurrentUserData] = useState({});
@@ -44,7 +43,11 @@ const Inbox = function ({ getRoom }) {
       {!isSearching && (
         <>
           <Setting userInfo={currentUserData} />
-          <People authUid={currentUser?.uid} userInfo={currentUserData} />
+          <People
+            authUid={currentUser?.uid}
+            userInfo={currentUserData}
+            acceptedFriend={acceptedFriend}
+          />
           <ShowRequest
             getFriend={frinedSetter}
             getCurrentUser={getCurrentUser}

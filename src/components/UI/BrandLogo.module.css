@@ -1,0 +1,48 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.brandLogo {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 35px 0 0;
+}
+
+.brandLogo h2 {
+  color: rgb(230, 223, 223);
+  text-transform: uppercase;
+  word-spacing: 15px;
+  font-weight: bold;
+  font-size: 30px;
+  padding: 5px;
+  letter-spacing: 5px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 15px 40px;
+}
+.darkHeading {
+  background: var(--DARK-BUTTON);
+}
+.lightHeading {
+  background: var(--LIGHT-BUTTON);
+}
+
+@media screen and (max-width: 767px) {
+  .brandLogo h2 {
+    font-size: 20px;
+    padding: 15px 10px;
+    border-radius: 0;
+    background: none;
+  }
+  .brandLogo {
+    padding-right: 0;
+  }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1150px) {
+  .brandLogo h2 {
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+  }  
+}

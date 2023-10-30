@@ -1,59 +1,10 @@
-.recommendedFriend {
-    position: absolute;
-    background-color: var(--Primary);
-    height: 85vh;
-    transition: 0.5s;
-    z-index: 3;
-    padding: 10px;
-    color: white;
-    right: 30px;
-    width: 40%;
-    border-radius: 20px;
-  }
-
-  
-.recommendedFriend h4 {
-    margin: 10px 0;
-    color:  white;
+.peoples ul {
+  overflow-y: scroll;
 }
-.hide {
-    visibility: hidden;
-    opacity: 0;
+.peoples {
+  flex-grow: 1;
 }
-.show {
-    visibility: visible;
-    opacity: 1;
+.groupButton {
+  margin: auto;
+  padding: 15px;
 }
-
-.recommendBar {
-    display:  flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-    text-align: center;
-    padding: 10px;
-  }
-
-
-@media screen and (max-width: 768px) {
-    .recommendedFriend {
-      width: 100%;
-      display: block;
-      position: absolute;
-      background-color: var(--Primary);
-      height: 100%;
-      transition: 0.5s;
-      z-index: 3;
-      right: 0;
-      padding: 10px;
-      color: white;
-      border-radius: 0;
-    }
-    .hide {
-      left: -1000px;
-    }
-    .show {
-        left: 0;
-    }
-  }
-  

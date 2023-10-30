@@ -62,7 +62,6 @@
   }
   .imageFile {
     width: 45%;
-    padding: 10px;
     border-radius: 10px;
     margin-bottom: 10px;
     display: flex;
@@ -107,6 +106,12 @@
   
   .authUser:hover .moreOption{
     opacity: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    .imageFile {
+      width: 55%;
+    }
   }
 
 

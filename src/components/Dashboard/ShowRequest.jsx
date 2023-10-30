@@ -38,7 +38,9 @@ const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
       acceptedFriend.sort((item, items) => {
         return items.lastSent - item.lastSent;
       });
+
       setPendingList(pendingFriend);
+      console.log(acceptedFriend);
       getFriend(acceptedFriend);
     });
 

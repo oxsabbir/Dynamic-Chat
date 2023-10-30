@@ -1,0 +1,97 @@
+.group {
+    width: 40%;
+}
+
+.friendCard {
+    background-color: var(--LIGHT-GLASS-UI);
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+.friendCard p{
+    color: #f0f0f0ab;
+    padding: 10px ;
+
+}
+.friendCard img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.friendCard button {
+    padding: 10px;
+}
+.friendCard h3 {
+    color: white;
+    font-size: 20px;
+    flex-grow: 3;
+    text-align: left;
+}
+.buttonGroup{
+    margin: auto;
+    padding: 10px;
+}
+.peopleList{
+    flex-grow: 1;
+    overflow-y: scroll;
+
+}
+.searchBar{
+     padding-bottom: 5px;
+}
+
+.searchBar input {
+    padding: 13px;
+    border-radius: 10px;
+    border: 0;
+    width: 100%;
+    font-size: 15px;
+    background: var(--GLASS-UI);
+    outline: 0;
+    height: 50px;
+    color: white;
+}
+.groupDetails{
+    padding: 5px;
+    display: flex;
+    background: var(--GLASS-UI);
+    margin-bottom: 10px;
+    gap: 15px;
+    border-radius: 10px;
+}
+.groupDetails input[type="file"] {
+    display: none;
+}
+.groupDetails img {
+    width: 50px;
+    border-radius: 10px;
+    height: 50px;
+    object-fit:cover; 
+}
+.groupDetails span {
+    display: block;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    width: 50px;
+    border-radius: 10px;
+    height: 50px;
+}
+.groupDetails span i {
+    font-size: 30px;
+}
+.groupDetails input[type="text"] {
+    border: 0;
+    background: transparent;
+    padding: 10px;
+    outline: 0;
+    color: white;
+    font-size: 18px;
+    flex-grow: 1;
+    border-radius: 10px;
+}

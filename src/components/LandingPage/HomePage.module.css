@@ -1,0 +1,188 @@
+.homePage {
+    background: var(--LIGHT-GRADIENT);
+    min-height: 100vh;
+    scroll-margin: 60px;
+}
+.container {  
+    margin: auto;
+    max-width: 1440px;
+    width: 90%;
+}
+.content{
+    margin: auto;
+    scroll-snap-type: y mandatory;
+}
+.homePage nav {
+    display: flex;
+    justify-content: space-between;
+
+}
+.homePage nav i{
+    display: none;
+}
+.menuList {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;;
+}
+.homePage nav ul li:hover {
+    transition: .5s;
+    transform: translateY(-5px);
+}
+.homePage nav ul li {
+    padding: 15px;
+    transition: .5s;
+    cursor: pointer;
+}
+.homePage nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 18px;
+}
+.hero {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px;
+    color: var(--LIGHT-TEXT);
+    align-items: center;
+}
+.heroLeft {
+    width: 45%;
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+}
+.heroRight{
+    width: 55%;
+    padding: 55px 25px;
+}
+.heroRight h2{
+    font-size: 4rem;
+    padding-bottom: 40px;
+    word-spacing: 10px;
+}
+.heroRight p {
+    line-height: 25px;
+    width: 85%;
+    padding-bottom: 40px;
+    font-size: 18px;
+}
+.heroLeft img {
+    width: 380px;
+    height: auto;
+}
+.stickyNav{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    background: var(--GLASS-UI);
+}
+.color{
+    color: white;
+}
+
+@media screen and (max-width:767px) {
+    .homePage nav {
+        display: flex;
+        background: var(--LIGHT-BUTTON);
+        align-items: center;
+    }
+
+
+    .homePage nav i {
+        font-size: 30px;
+        width: 60px;
+        padding: 0;
+        color: #eaeaea;
+        display: flex;
+        justify-content: center;
+    }   
+    .homePage nav ul li a {
+        color: white;
+    }
+    .menuList {
+        background: var(--GLASS-UI-DARK);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        min-height: 100vh;
+        top: 0;
+        width: 100%;
+        color: white;
+        left: -1200px;
+        transition: .6s;
+    }
+    .showNav {
+        left: 0;
+    }
+    .heroRight h2 {
+        font-size: 26px;
+        padding-bottom: 20px;
+        text-align: center;
+        font-weight: 700;
+    }
+    .hero{
+        flex-flow: column;
+        gap: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+        min-height: 100vh;
+        height: 100%;
+    }
+    .heroLeft{
+        width: 100%;
+        justify-content: center;
+    }
+    .heroLeft img {
+        width: 240px;
+        height: auto;
+    }
+    .heroRight{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-flow: column;
+    }
+    .heroRight p{
+        padding-bottom: 20px;
+        font-size: 16px;
+        text-align: center;
+    }
+    .heroRight button {
+        margin-bottom: 25px;
+    }
+}
+
+
+@media screen and (min-width:767px) and (max-width : 1150px) {
+    .hero {
+        gap: 20px;
+    }
+    .heroRight {
+        padding: 10px;
+    }
+    .heroRight h2{
+        font-size: 40px;
+        padding-bottom: 20px;
+    }
+    .heroRight p{
+        padding-bottom: 20px;
+    }
+    .heroLeft img {
+        width: 300px;
+    }
+    
+    .homePage nav ul li {
+        padding: 15px;
+    }
+}
