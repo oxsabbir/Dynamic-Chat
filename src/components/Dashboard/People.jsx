@@ -5,43 +5,73 @@ import ListPrinter from "../UI/ListPrinter";
 import FriendList from "./FriendList";
 import { contextData } from "../auth/Context";
 import Button from "../UI/Button";
-import { icons } from "../UI/Icons";
-
 import Loading from "../UI/Loading";
+import SideLayout from "../Layout/SideLayout";
+import CreateGroup from "./CreateGroup";
 
-const People = function ({ authUid, userInfo }) {
+const People = function ({ authUid, userInfo, acceptedFriend }) {
   const { isPeopleOpen, togglePeople } = contextData();
+  const [isGroupCreating, setIsGroupCreating] = useState(false);
   const db = getDatabase();
   const allUsers = ref(db, "/users");
   const [userData, setUserData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     if (!isPeopleOpen) return;
     onValue(allUsers, (snaps) => {
       const data = snaps.val();
       const values = Object.values(data);
+      setIsLoading(false);
       setUserData(values);
     });
   }, [isPeopleOpen]);
+  const createGroupHandler = function () {
+    setIsGroupCreating(true);
+  };
+  const backHandler = function () {
+    setIsGroupCreating(false);
+  };
+
   return (
-    <div
-      className={`${classes.recommendedFriend} ${
-        isPeopleOpen ? classes.show : classes.hide
-      }`}
-    >
-      <div className={classes.recommendBar}>
-        <h3>Explore People</h3>
-        <Button onClick={() => togglePeople()}>{icons.back}</Button>
-      </div>
-      {userData.length === 0 && <Loading />}
-      <ListPrinter>
-        {userData.length > 0 &&
-          userData?.map((item) => (
-            <li key={item.uid}>
-              <FriendList item={item} authUid={authUid} userInfo={userInfo} />
-            </li>
-          ))}
-      </ListPrinter>
-    </div>
+    <>
+      {!isGroupCreating && (
+        <SideLayout
+          title={"Explore People"}
+          isShown={isPeopleOpen}
+          backHandler={togglePeople}
+        >
+          <div className={classes.peoples}>
+            {isLoading && <Loading />}
+            <ListPrinter>
+              {userData.length > 0 &&
+                userData?.map((item) => (
+                  <li key={item.uid}>
+                    <FriendList
+                      item={item}
+                      authUid={authUid}
+                      userInfo={userInfo}
+                    />
+                  </li>
+                ))}
+            </ListPrinter>
+          </div>
+
+          <div className={classes.groupButton}>
+            <Button onClick={createGroupHandler}>Create Group</Button>
+          </div>
+        </SideLayout>
+      )}
+      {isGroupCreating && (
+        <CreateGroup
+          isShown={isGroupCreating}
+          getBack={backHandler}
+          acceptedFriend={acceptedFriend}
+          allUser={userData}
+        />
+      )}
+    </>
   );
 };
 

@@ -26,28 +26,6 @@ header {
   margin: 0 5px;
 }
 
-.navbar h2 {
-  color: rgb(230, 223, 223);
-  text-transform: uppercase;
-  word-spacing: 15px;
-  font-weight: bold;
-  font-size: 30px;
-  padding: 5px;
-  letter-spacing: 5px;
-  opacity: .9;
-  border-top-left-radius: 15px ;
-  border-bottom-left-radius: 15px;
-  padding: 15px 40px;
-
-}
-.darkHeading {
-  background: var(--DARK-BUTTON);
-}
-.lightHeading {
-  background: var(--LIGHT-BUTTON);
-}
-
-
 @media screen and (max-width: 768px) {
   header {
     display: none;

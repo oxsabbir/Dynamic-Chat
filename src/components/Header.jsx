@@ -4,6 +4,7 @@ import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { icons } from "./UI/Icons";
 import { contextData } from "./auth/Context";
+import BrandLogo from "./UI/BrandLogo";
 const Header = function () {
   const navigate = useNavigate();
   const auth = getAuth();
@@ -30,13 +31,8 @@ const Header = function () {
     <>
       <header>
         <nav className={`${classes.navbar}`}>
-          <h2
-            className={`${
-              isDarkTheme ? classes.darkHeading : classes.lightHeading
-            }`}
-          >
-            Dynamic Chat
-          </h2>
+          <BrandLogo />
+
           {isLoggedIn && (
             <ul>
               <li>

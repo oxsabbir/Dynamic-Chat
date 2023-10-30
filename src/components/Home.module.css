@@ -1,39 +1,77 @@
 .mainContent {
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  width: 70%;
+  height: 80vh;
+  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--DARK-GRADIENT);
+  box-shadow: 5px 5px 17px 1px #151519;
+  border-radius: 20px;
 }
-.wrapper{
-    height: 100vh;
-    display: flex;
+.loginPage {
+  width: 50%;
+  height: 100%;
+  background-image: url("./LandingPage//screenshot//girlWithPhone.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.loginPage img {
+  width: 300px;
+}
+.wrapper {
+  height: 100vh;
+  display: flex;
+  background: var(--LIGHT-GRADIENT);
 }
 
 .loadingState {
-    color: white;
-    display: flex;
-    flex-flow: column;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
+  color: white;
+  display: flex;
+  flex-flow: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+  line-height: 22px;
+}
+
+.loadingStateDark {
+  background: var(--DARK-GRADIENT);
+}
+.loadingStateLight {
+  background: var(--LIGHT-GRADIENT);
+}
+.signup {
+  width: 40%;
+  padding-right: 40px;
+}
+
+@media screen and (max-width: 576px) {
+  .mainContent {
+    width: 100%;    
+    border-radius: 0;
     height: 100vh;
+  }
+  .signup {
     width: 100%;
-    text-align: center;
-    line-height: 22px;
-}
-
-.loadingStateDark{
-    background: var(--DARK-GRADIENT);
-}
-.loadingStateLight{
-    background: var(--LIGHT-GRADIENT);
+    padding-right: 0;
+  }
+  .loginPage {
+    display: none;
+  }
 }
 
 
-@media screen and (max-width: 768px) { 
-    .mainContent{
-        flex-flow: column;
-        width: 95%;
+@media screen and (min-width: 577px) and (max-width : 1024px) {
+    .signup {
+        width: 55%;
+        padding-right: 15px;
     }
+  .mainContent {
+    width: 90%;
+  }
 }
-

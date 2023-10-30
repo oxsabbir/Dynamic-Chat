@@ -10,7 +10,7 @@ import {
 } from "firebase/database";
 import { contextData } from "../auth/Context";
 
-const LastMessage = function ({ item, chatHandler, uid }) {
+const LastMessage = function ({ item, uid }) {
   const {
     activeChat,
     toggleActiveUser,

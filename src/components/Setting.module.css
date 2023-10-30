@@ -1,17 +1,4 @@
-.setting {
-  position: absolute;
-  background-color: var(--Primary);
-  height: 85vh;
-  transition: 0.5s;
-  z-index: 3;
-  padding: 10px;
-  color: white;
-  right: 30px;
-  opacity: 0;
-  visibility: hidden;
-  width: 40%;
-  border-radius: 20px;
-}
+
 .hidden {
   display: none;
 }
@@ -25,15 +12,6 @@
 .userName button{
   background-color: rgba(87, 84, 84, 0.71);
   background-image: none;
-}
-
-.settingBar {
-  display:  flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  text-align: center;
-  padding: 10px;
 }
 .updateName {
   margin: 15px 0 10px 0;
@@ -58,10 +36,7 @@
   color: white;
   border-bottom: 1px solid rgba(255, 255, 255, 0.596);
 }
-.settingShow {
-  opacity: 1;
-  visibility: visible;
-}
+
 .settingInfo {
   margin: 10px 0;
   display: flex;
@@ -105,23 +80,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .setting {
-    width: 100%;
-    left: -1000px;
-    display: block;
-    position: absolute;
-    background-color: var(--Primary);
-    height: 100%;
-    transition: 0.5s;
-    border-radius: 0;
-    z-index: 3;
-    padding: 10px;
-    color: white;
-  }
-  .settingShow {
-    display: block;
-    left: 0;
-  }
+
   .updateName input {
     width: 100%;
     margin-bottom: 10px;

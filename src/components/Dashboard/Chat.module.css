@@ -15,6 +15,7 @@
   background-color: var(--LIGHT-GLASS-UI);
   padding: 15px 20px;
   display: flex;
+  backdrop-filter: blur(15px);
   gap: 10px;;
   width: 100%;
   
@@ -155,7 +156,7 @@
 }
 
 .scroller {
-  padding-top: 175px;
+  padding-top: 120px; 
 }
 
 ::-webkit-scrollbar {

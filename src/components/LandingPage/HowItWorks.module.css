@@ -1,0 +1,147 @@
+.works{
+    background: var(--DARK-GRADIENT);
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+    scroll-snap-align: start;
+}
+
+.works h2 {
+    font-size: 55px;
+    padding:  35px;
+    font-weight: 300;
+    text-align: center;
+    word-spacing: 10px;
+}
+
+
+.workSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+}
+.workLeft{
+    display: flex;
+    justify-content: end;
+    padding: 0 40px;
+    transition: 1s;
+    opacity: .1;
+}
+.workLeft img {
+    width: 600px;
+    height: auto;
+}
+
+.workRight {
+    width: 50%;
+    transition: 1s;   
+    opacity: .1;
+    padding: 20px;
+}
+.workRight button {
+    margin-top: 25px;
+}
+.workRight h2{
+    text-align: left;
+    padding-top: 0;
+    padding-left: 0;
+}
+.workCard {
+    box-shadow: 2px 3px 15px 2px rgba(11, 11, 11, 0.435);
+    width: 75%;
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    align-items: center;
+    padding: 15px;
+}
+.workCardTransit {
+    opacity: 1;
+}
+
+.workCard:hover{
+    background: black;
+    cursor: pointer;
+}
+
+.workCard span {
+    font-size: 25px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: var(--DARK-TEXT);
+    margin-right: 10px;
+
+}   
+
+.workCard h3{
+    font-size: 22px;
+    letter-spacing :3px;
+    color: var(--DARK-TEXT);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+.workCard p{
+    color: #bdd3e2;
+}
+
+
+
+@media screen and (max-width:767px) {
+    .workSection{
+        flex-flow: column;
+        gap: 0;
+        padding: 5px;
+    }
+    .workLeft{
+        width: 100%;
+        align-items: center;
+        padding: 10px 0px;
+        justify-content: center;
+    }
+    .workLeft img {
+        width: 300px;
+        height: auto;
+    }
+    .workRight{
+        width: 100%;
+        align-items: center;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+    }
+    .workCard {
+        width: 95%;
+    }
+    .workCard h3 {
+        font-size: 19px;
+        margin-bottom: 5px;
+    }
+    .workCard span{
+        font-size: 20px;
+    }
+    .works h2 {
+        font-size: 28px;
+        padding: 20px;
+        padding-bottom: 0;
+    }
+}
+
+@media screen and (min-width:767px) and (max-width : 1150px) {
+  .workSection   {
+    flex-flow: column;
+    padding: 0;
+  }
+  .workRight{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-flow: column ;
+    align-items: center;
+    padding: 10px 30px;
+  }
+  .workCard {
+    width:80%;
+  }
+  
+}

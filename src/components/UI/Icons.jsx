@@ -19,4 +19,9 @@ export const icons = {
   inbox: <i className="fa-solid fa-envelope-open-text"></i>,
   switchOn: <i className="fa-solid fa-toggle-on"></i>,
   switchOff: <i className="fa-solid fa-toggle-off"></i>,
+  menu: <i className="fa-solid fa-bars"></i>,
+  facebook: <i className="fa-brands fa-facebook"></i>,
+  github: <i className="fa-brands fa-github"></i>,
+  linkdin: <i className="fa-brands fa-linkedin"></i>,
+  upload: <i className="fa-solid fa-file-import"></i>,
 };

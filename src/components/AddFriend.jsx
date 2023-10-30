@@ -15,8 +15,6 @@ const AddFriend = function (
   roomKey,
   userProfile
 ) {
-  console.log(requestType);
-
   // This add the data to other user friends object with an unique id
 
   const db = getDatabase();
@@ -39,17 +37,6 @@ const AddFriend = function (
     message: "Hello",
     time: serverTimestamp(),
   };
-
-  // set(ref(db, "chat-room/" + newKey + `/chats/${anotherKey}`), {
-  //   from: requestType === "accept" ? currentUser.uid : currentUser,
-  //   names: requestType === "accept" ? currentUser.names : names,
-  //   message: "Hello",
-  //   createdAt: serverTimestamp(),
-  // })
-  //   .then(() => console.log("room created"))
-  //   .catch((err) => console.log(err));
-
-  // we need to use the update method for pushing all the messages
 
   const friendData = {
     userId: requestType === "add" ? currentUser : requireId,

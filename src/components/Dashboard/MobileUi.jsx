@@ -21,6 +21,7 @@ const MobileUi = function () {
 
   const themeHandler = function () {
     toggleTheme(!isDarkTheme);
+    localStorage.setItem("darkMode", !isDarkTheme);
   };
 
   return (

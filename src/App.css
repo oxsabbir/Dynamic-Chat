@@ -16,15 +16,17 @@
   --LIGHT-GLASS-UI:  rgb(13 13 13 / 25%);
 
   --GLASS-UI-DARK : rgb(0 0 0 / 75%);
-  
   --DARK-GRADIENT :linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
   --LIGHT-GRADIENT :linear-gradient(109.6deg, rgb(220, 196, 252) 11.2%, rgb(150, 199, 253) 100.2%);
-  
+  --DARK-MODERN :linear-gradient(112.1deg, rgb(153 174 222 / 73%) 11.4%, rgb(193 210 255 / 80%) 78.2%);
   --BUTTON-GRADIENT : linear-gradient(90deg, rgb(186, 68, 232), rgb(104, 75, 218));
   --BUTTON-GRADIENDT-HOVER : linear-gradient(45deg, rgb(101, 79, 229), rgb(26, 113, 218));
 
   --DARK-BUTTON: linear-gradient(-20deg, #2b5876 0%, #3f3270 100%);
   --LIGHT-BUTTON: linear-gradient(110.6deg, rgb(93, 60, 145) 2.2%, rgb(104, 119, 244) 100.2%);
+
+  --LIGHT-TEXT : #0F2020;
+  --DARK-TEXT : #6ca1c7;
 }
 .hidden {
   display: none;
@@ -32,4 +34,6 @@
 body {
   font-family: 'Lato', sans-serif;
   height: 100vh;
+  scroll-behavior: smooth;
+
 }

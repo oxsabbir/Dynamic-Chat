@@ -8,6 +8,7 @@ import { updateName, updatePhoto } from "./UpdateSetting";
 import { update, ref, getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import SideLayout from "./Layout/SideLayout";
 
 const Setting = function ({ userInfo }) {
   const { toggleSetting, isSettingOpen, setLogOut } = contextData();
@@ -85,15 +86,11 @@ const Setting = function ({ userInfo }) {
 
   return (
     <>
-      <div
-        className={`${classes.setting} ${
-          isSettingOpen ? classes.settingShow : ""
-        }`}
+      <SideLayout
+        title={"Setting"}
+        backHandler={toggleSetting}
+        isShown={isSettingOpen}
       >
-        <div className={classes.settingBar}>
-          <h2>Settings</h2>
-          <Button onClick={toggleSetting}>{icons.back}</Button>
-        </div>
         <div className={classes.settingInfo}>
           <img src={userInfo.profilePic} alt="profilePic" />
           <div className={classes.updateName}>
@@ -152,7 +149,7 @@ const Setting = function ({ userInfo }) {
             <DangerButton onClick={logOutHandler}>Logout</DangerButton>
           </div>
         </div>
-      </div>
+      </SideLayout>
     </>
   );
 };
