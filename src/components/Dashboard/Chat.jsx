@@ -16,6 +16,7 @@ import uploadMedia from "../UploadMedia";
 import { messagesSender as sendMsg } from "../MessageSender";
 import { update } from "firebase/database";
 import Loading from "../UI/Loading";
+import GroupChat from "./GroupChat";
 
 const Chat = function () {
   const auth = getAuth();
@@ -39,6 +40,8 @@ const Chat = function () {
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [blocked, setBlocked] = useState({});
+  const [roomMember, setRoomMember] = useState([]);
+  const [groupOpen, setGroupOpen] = useState(false);
 
   const enteredMessage = useRef();
   const enteredFile = useRef();
@@ -55,9 +58,24 @@ const Chat = function () {
       ref(db, "chat-room/" + `${roomId}/chats`),
       limitToLast(loadCount)
     );
+
+    const memberRef = ref(db, "chat-room/" + `${roomId}/roomMember`);
+
+    const unSub = onValue(memberRef, (snap) => {
+      if (!snap.exists()) {
+        setGroupOpen(false);
+        return;
+      }
+      const data = snap.val();
+      setRoomMember(data);
+      setGroupOpen(true);
+      console.log(data);
+    });
+
     onValue(chatRef, (snap) => {
       if (!snap.exists()) return;
       const data = snap.val();
+      console.log(data);
       const mainData = Object.values(data);
       SetMessage(mainData);
       if (mainData[mainData.length - 1].blocked) {
@@ -85,6 +103,7 @@ const Chat = function () {
     userId,
     message,
     newKey,
+    isGroup,
     imageUrl
   ) {
     await sendMsg(...arguments).then(() => {
@@ -125,11 +144,19 @@ const Chat = function () {
         userId,
         message,
         newKey,
+        groupOpen,
       ]);
     }
     // Sending only text message without image
     if (!isImageSelected) {
-      messageSender(roomId, auth.currentUser.uid, userId, message, newKey);
+      messageSender(
+        roomId,
+        auth.currentUser.uid,
+        userId,
+        message,
+        newKey,
+        groupOpen
+      );
     }
   };
 
@@ -216,16 +243,32 @@ const Chat = function () {
                 if (message.length - 1 === i) {
                   scrollIntoViews();
                 }
-                return (
-                  <li key={i}>
+                if (!groupOpen) {
+                  return (
                     <Messages
+                      key={i}
                       item={item}
                       authUser={authUser}
                       profilePic={profilePic}
                       roomId={roomId}
                     />
-                  </li>
-                );
+                  );
+                }
+                if (groupOpen) {
+                  const profile = roomMember.find(
+                    (data) => data.uid === item.from
+                  );
+                  const pic = profile?.profilePic;
+                  return (
+                    <GroupChat
+                      key={i}
+                      item={item}
+                      authUser={authUser}
+                      profilePic={pic}
+                      roomId={roomId}
+                    />
+                  );
+                }
               })}
           </ListPrinter>
 

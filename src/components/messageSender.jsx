@@ -7,6 +7,7 @@ export const messagesSender = async function (
   userId,
   message,
   newKey,
+  isGroup,
   imageUrl
 ) {
   const auth = getAuth();
@@ -26,9 +27,11 @@ export const messagesSender = async function (
   const updates = {};
   // updating timestamps on the both side for the sorting
   // these two update are for sorting inbox card
-  updates[`users/${currentUserId}/friends/${roomId}/lastSent`] =
-    serverTimestamp();
-  updates[`users/${userId}/friends/${roomId}/lastSent`] = serverTimestamp();
+  if (!isGroup) {
+    updates[`users/${currentUserId}/friends/${roomId}/lastSent`] =
+      serverTimestamp();
+    updates[`users/${userId}/friends/${roomId}/lastSent`] = serverTimestamp();
+  }
 
   updates["chat-room/" + roomId + `/chats/${"typing"}`] = null;
   updates["chat-room/" + roomId + `/chats/${newKey}`] = messages;

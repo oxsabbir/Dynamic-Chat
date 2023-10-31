@@ -14,10 +14,16 @@ import {
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
+import { getStorage, ref as imageRef } from "firebase/storage";
+import uploadMedia from "../UploadMedia";
+
 const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
   const auth = getAuth();
   const fileRef = useRef();
-  const [selectedUser, setSelectedUser] = useState([]);
+  const currentUserInfo = allUser.find(
+    (item) => item.uid === auth.currentUser.uid
+  );
+  const [selectedUser, setSelectedUser] = useState([currentUserInfo]);
   const [userList, setUserList] = useState(acceptedFriend);
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [groupName, setGroupName] = useState("");
@@ -26,13 +32,15 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
   const checkboxHandler = function (event) {
     const value = event.target.checked;
     const roomId = event.target.id;
+    const member = allUser.find((item) => item.uid === roomId);
     if (value) {
-      setSelectedUser((prev) => [...prev, roomId]);
+      setSelectedUser((prev) => [...prev, member]);
     }
     if (!value) {
-      setSelectedUser((prev) => prev.filter((item) => item !== roomId));
+      setSelectedUser((prev) => prev.filter((item) => item.uid !== roomId));
     }
   };
+
   const inputChangeHandler = function (event) {
     const value = event.target.value;
     if (value.trim().length !== 0) {
@@ -50,12 +58,12 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
     setGroupImage(imageUrl);
   };
 
-  const createGroupHandler = async function () {
+  const createGroupHandler = async function (imageUrl) {
     const db = getDatabase();
     let newKey = push(child(ref(db), "friends/")).key;
     let groupDetails = {
-      name: groupName,
-      profile: "demo pic",
+      userName: groupName,
+      profilePic: imageUrl,
       createdAt: serverTimestamp(),
       roomId: newKey,
       status: "success",
@@ -72,11 +80,28 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
       groupDetails;
     updateDir[`chat-room/${newKey}/chats/${newKey}`] = firstMessage;
     updateDir[`chat-room/${newKey}/createdAt`] = serverTimestamp();
+    updateDir[`chat-room/${newKey}/roomMember`] = selectedUser;
     selectedUser.forEach(
-      (item) => (updateDir[`users/${item}/friends/${newKey}`] = groupDetails)
+      (item) =>
+        (updateDir[`users/${item.uid}/friends/${newKey}`] = groupDetails)
     );
     return update(ref(db), updateDir);
   };
+
+  const createGroup = async function () {
+    const storage = getStorage();
+    const db = getDatabase();
+    const newKey = push(child(ref(db), "friends/")).key;
+    const groupImageRef = imageRef(storage, `image/groupProifle/${newKey}`);
+
+    uploadMedia(
+      fileRef.current.files[0],
+      groupImageRef,
+      createGroupHandler
+    ).then(() => console.log("success"));
+  };
+
+  console.log(selectedUser);
 
   return (
     <>
@@ -107,10 +132,17 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
         <div className={classes.peopleList}>
           <ListPrinter>
             {userList.map((item) => {
+              if (!item.userId) return;
               const mainItem = allUser.find(
-                (mainItem) => mainItem.uid === item.userId
+                (mainItem) => mainItem?.uid === item.userId
               );
-              const isChecked = selectedUser.includes(mainItem.uid);
+              const isChecked = selectedUser.find((userItem) => {
+                if (userItem.uid === mainItem.uid) {
+                  return true;
+                } else {
+                  return false;
+                }
+              });
               return (
                 <div key={mainItem.uid} className={classes.friendCard}>
                   <img src={mainItem.profilePic} />
@@ -127,7 +159,7 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
           </ListPrinter>
         </div>
         <div className={classes.buttonGroup}>
-          <Button onClick={createGroupHandler}>Create Group</Button>
+          <Button onClick={createGroup}>Create Group</Button>
         </div>
       </SideLayout>
     </>

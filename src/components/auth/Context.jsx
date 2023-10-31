@@ -23,6 +23,8 @@ const ContextWrapper = function ({ children }) {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [prevValue, setPrevValue] = useState(null);
   const [activeUser, setActiveUser] = useState({});
+  const [isGroupOpen, setIsGroupOpen] = useState(false);
+  const [groupMember, setGroupMember] = useState([]);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -70,6 +72,12 @@ const ContextWrapper = function ({ children }) {
   const toggleActiveUser = function (value) {
     setActiveUser(value);
   };
+  const toggleGroup = function (value) {
+    setIsGroupOpen(value);
+  };
+  const setGroupUser = function (member) {
+    setGroupMember(member);
+  };
 
   const mainState = {
     isLoggedIn: isLoggedIn,
@@ -95,6 +103,10 @@ const ContextWrapper = function ({ children }) {
     prevValue,
     activeUser,
     toggleActiveUser,
+    groupMember,
+    setGroupMember,
+    toggleGroup,
+    isGroupOpen,
   };
 
   return (

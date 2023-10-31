@@ -81,7 +81,7 @@ const Inbox = function ({ getRoom }) {
 
               {acceptedFriend &&
                 acceptedFriend.map((item) => (
-                  <li key={item.userId}>
+                  <li key={item.roomId}>
                     <LastMessage item={item} uid={currentUser.uid} />
                   </li>
                 ))}
