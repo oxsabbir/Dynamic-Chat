@@ -17,6 +17,8 @@ const LastMessage = function ({ item, uid }) {
     toggleInbox,
     toggleActiveChat,
     toggleChatBox,
+    toggleGroup,
+    setGroupUser,
   } = contextData();
   const [lastMessage, setLastMessage] = useState("");
   const [userInfo, setUserInfo] = useState("");
@@ -36,6 +38,18 @@ const LastMessage = function ({ item, uid }) {
     });
 
     // getting profile data
+    if (item.type === "group") {
+      const userInfoRef = ref(db, `users/${uid}/friends/${item.roomId}`);
+      console.log(uid);
+      const unsub = onValue(userInfoRef, (snap) => {
+        if (!snap.exists) return;
+        const data = snap.val();
+        if (data) {
+          setUserInfo(data);
+        }
+      });
+      return unsub();
+    }
     const userInfoRef = ref(db, `users/${item.userId}`);
     onValue(userInfoRef, (snap) => {
       if (!snap.exists) return;
@@ -52,6 +66,7 @@ const LastMessage = function ({ item, uid }) {
     toggleActiveChat(userId);
     toggleChatBox(true);
     toggleActiveUser(userInfo);
+    toggleGroup(true);
   };
 
   return (
