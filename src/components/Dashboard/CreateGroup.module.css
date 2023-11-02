@@ -35,6 +35,9 @@
     margin: auto;
     padding: 10px;
 }
+.buttonGroup button:disabled {
+    opacity: .6;
+}
 .peopleList{
     flex-grow: 1;
     overflow-y: scroll;
@@ -55,6 +58,18 @@
     height: 50px;
     color: white;
 }
+
+.notice{
+    display: block;
+    padding: 0 0 15px 0px ;
+    text-align: center;
+    color: white;
+}
+.message {
+    text-align: center;
+    color: white;
+    padding: 10px;
+}
 .groupDetails{
     padding: 5px;
     display: flex;
@@ -67,11 +82,15 @@
     display: none;
 }
 .groupDetails img {
-    width: 50px;
+    width: 55px;
     border-radius: 10px;
-    height: 50px;
+    height: 55px;
+    position: relative;
     object-fit:cover; 
+    cursor: not-allowed;
 }
+
+
 .groupDetails span {
     display: block;
     display: flex;

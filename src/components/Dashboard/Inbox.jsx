@@ -13,28 +13,21 @@ import Setting from "../Setting";
 import { contextData } from "../auth/Context";
 import People from "./People";
 
-const Inbox = function ({ getRoom }) {
+const Inbox = function () {
   const currentUser = useLoaderData();
-  const { isInboxOpen } = contextData();
+  const { isInboxOpen, acceptedFriend } = contextData();
   const [isSearching, setIsSearching] = useState(false);
-  const [acceptedFriend, setAcceptedFriend] = useState(null);
   const [currentUserData, setCurrentUserData] = useState({});
-
-  const frinedSetter = function (children) {
-    setAcceptedFriend(children);
-  };
 
   const getCurrentUser = function (children) {
     setCurrentUserData(children);
   };
-
   const getBack = () => setIsSearching(false);
   // Profile pic validation
   let profilePhoto = currentUserData.profilePic;
   if (!currentUserData.profilePic) {
     profilePhoto = defaultProfile;
   }
-
   return (
     <>
       {isSearching && (
@@ -48,11 +41,7 @@ const Inbox = function ({ getRoom }) {
             userInfo={currentUserData}
             acceptedFriend={acceptedFriend}
           />
-          <ShowRequest
-            getFriend={frinedSetter}
-            getCurrentUser={getCurrentUser}
-            uid={currentUser?.uid}
-          />
+          <ShowRequest getCurrentUser={getCurrentUser} uid={currentUser?.uid} />
 
           <div
             className={`${classes.inbox} ${

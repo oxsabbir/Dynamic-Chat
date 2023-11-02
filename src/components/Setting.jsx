@@ -87,7 +87,7 @@ const Setting = function ({ userInfo }) {
   return (
     <>
       <SideLayout
-        title={"Setting"}
+        title={"Settings"}
         backHandler={toggleSetting}
         isShown={isSettingOpen}
       >

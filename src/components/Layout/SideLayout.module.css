@@ -1,6 +1,6 @@
 .layout {
     position: absolute;
-    background-color: var(--Primary);
+    background: var(--DARK-GRADIENT);
     height: 85vh;
     transition: 0.5s;
     z-index: 3;
@@ -36,7 +36,7 @@
     .layout {
       width: 100%;
       position: absolute;
-      background-color: var(--Primary);
+      background: var(--DARK-GRADIENT);
       height: 100%;
       transition: 0.5s;
       z-index: 3;

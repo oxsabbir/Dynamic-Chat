@@ -24,4 +24,6 @@ export const icons = {
   github: <i className="fa-brands fa-github"></i>,
   linkdin: <i className="fa-brands fa-linkedin"></i>,
   upload: <i className="fa-solid fa-file-import"></i>,
+  dropDown: <i className="fa-solid fa-caret-down"></i>,
+  dropUp: <i className="fa-solid fa-caret-up"></i>,
 };

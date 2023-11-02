@@ -28,13 +28,13 @@ export const messagesSender = async function (
   // updating timestamps on the both side for the sorting
   // these two update are for sorting inbox card
   if (!isGroup) {
-    updates[`users/${currentUserId}/friends/${roomId}/lastSent`] =
-      serverTimestamp();
     updates[`users/${userId}/friends/${roomId}/lastSent`] = serverTimestamp();
   }
-
+  updates[`users/${currentUserId}/friends/${roomId}/lastSent`] =
+    serverTimestamp();
   updates["chat-room/" + roomId + `/chats/${"typing"}`] = null;
   updates["chat-room/" + roomId + `/chats/${newKey}`] = messages;
   // updates["chat-room/" + roomId + "/createdAt"] = serverTimestamp();
+
   return update(ref(db), updates);
 };

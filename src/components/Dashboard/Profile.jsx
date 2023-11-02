@@ -4,8 +4,16 @@ import Button from "../UI/Button";
 import { icons } from "../UI/Icons";
 import ConfirmationBox from "../UI/ConfirmationBox";
 import { useState } from "react";
+import GroupMenu from "./GroupMenu";
 
-const Profile = function ({ userInfo, roomId, blockStatus, profilePic }) {
+const Profile = function ({
+  userInfo,
+  roomId,
+  blockStatus,
+  profilePic,
+  isGroupOpen,
+  roomMember,
+}) {
   const { toggleProfile, isProfileShow } = contextData();
   const [isConfirm, setIsConfirm] = useState(false);
   const [job, setJob] = useState("");
@@ -52,24 +60,28 @@ const Profile = function ({ userInfo, roomId, blockStatus, profilePic }) {
 
           <div className={classes.info}>
             <h2>{userInfo.userName}</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              sapiente placeat tenetur eum. Inventore, esse quis consequuntur
-              est enim, iste mollitia incidunt cumque repellendus dicta beatae
-              ipsam ducimus ad in.
-            </p>
-          </div>
-          <div className={classes.options}>
-            {!blockStatus && (
-              <Button id="block" onClick={openIsConfirm}>
-                Block
-              </Button>
+            {!isGroupOpen && (
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
+                sapiente placeat tenetur eum. Inventore, esse quis consequuntur
+              </p>
             )}
-
-            <Button id="unfriend" onClick={openIsConfirm}>
-              Unfriend
-            </Button>
           </div>
+          {isGroupOpen && (
+            <GroupMenu memberList={roomMember} groupInfo={userInfo} />
+          )}
+          {!isGroupOpen && (
+            <div className={classes.options}>
+              {!blockStatus && (
+                <Button id="block" onClick={openIsConfirm}>
+                  Block
+                </Button>
+              )}
+              <Button id="unfriend" onClick={openIsConfirm}>
+                Unfriend
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </>

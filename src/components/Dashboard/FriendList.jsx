@@ -56,7 +56,7 @@ const FriendList = function ({ item, authUid, userInfo }) {
     setIsPending(true);
   };
 
-  // returning when out account comes
+  // returning when our account comes
   if (item.uid === authUid) return;
 
   return (

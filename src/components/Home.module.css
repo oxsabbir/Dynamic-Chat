@@ -10,11 +10,12 @@
   border-radius: 20px;
 }
 .loginPage {
-  width: 50%;
   height: 100%;
   background-image: url("./LandingPage//screenshot//girlWithPhone.png");
-  background-position: right;
+  background-position: center;
   background-repeat: no-repeat;
+  z-index: 5;
+  object-fit: contain;
   background-size: cover;
 }
 .loginPage img {

@@ -1,6 +1,6 @@
 .profile{
     position: absolute;
-    background-color:var(--Primary);
+    background:var(--DARK-GRADIENT);
     width: 60%;
     height: 100%;
     transition: .5s;
@@ -23,7 +23,6 @@
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
 }
 
 .profileCard img {
@@ -46,7 +45,7 @@
 }
 .info {
     text-align: center;
-    padding: 25px 0;
+    padding: 10px 0;
 }
 
 @media screen and (max-width: 768px) {

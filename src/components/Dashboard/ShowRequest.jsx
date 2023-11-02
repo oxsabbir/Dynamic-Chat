@@ -1,16 +1,16 @@
 import Button from "../UI/Button";
 import classes from "./ShowRequest.module.css";
-import { useContext, useEffect, useState } from "react";
-import { stateContext } from "../auth/Context";
+import { useEffect, useState } from "react";
 import { getDatabase, onValue, ref, update } from "firebase/database";
 import AddFriend from "../AddFriend";
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
 import FallbackMessage from "../UI/FallbackMessage";
 import "../../media.css";
+import { contextData } from "../auth/Context";
 
-const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
-  const { show, toggleFriend } = useContext(stateContext);
+const ShowRequest = function ({ uid, getCurrentUser }) {
+  const { show, toggleFriend, toggleAcceptedFriend } = contextData();
   const [pendingList, setPendingList] = useState([]);
   const auth = getAuth();
 
@@ -21,7 +21,7 @@ const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
 
     onValue(dbRef, (snap) => {
       if (!snap.exists()) {
-        getFriend([]);
+        toggleAcceptedFriend([]);
         setPendingList([]);
         return;
       }
@@ -38,10 +38,8 @@ const ShowRequest = function ({ uid, getFriend, getCurrentUser }) {
       acceptedFriend.sort((item, items) => {
         return items.lastSent - item.lastSent;
       });
-
       setPendingList(pendingFriend);
-      console.log(acceptedFriend);
-      getFriend(acceptedFriend);
+      toggleAcceptedFriend(acceptedFriend);
     });
 
     // second onvalue

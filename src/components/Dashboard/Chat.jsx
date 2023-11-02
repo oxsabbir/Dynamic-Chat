@@ -67,15 +67,14 @@ const Chat = function () {
         return;
       }
       const data = snap.val();
-      setRoomMember(data);
+      const mainData = Object.values(data);
+      setRoomMember(mainData);
       setGroupOpen(true);
-      console.log(data);
     });
 
     onValue(chatRef, (snap) => {
       if (!snap.exists()) return;
       const data = snap.val();
-      console.log(data);
       const mainData = Object.values(data);
       SetMessage(mainData);
       if (mainData[mainData.length - 1].blocked) {
@@ -218,6 +217,8 @@ const Chat = function () {
           roomId={roomId}
           blockStatus={blocked.blocked}
           profilePic={profilePic}
+          isGroupOpen={groupOpen}
+          roomMember={roomMember}
         />
 
         <div className="top">
