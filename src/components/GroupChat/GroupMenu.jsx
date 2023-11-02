@@ -11,7 +11,7 @@ import { getDatabase, update, ref, push, child } from "firebase/database";
 const GroupMenu = function ({ memberList, groupInfo }) {
   const { toggleChatBox } = contextData();
 
-  const { acceptedFriend } = contextData();
+  const { acceptedFriend, currentUserData } = contextData();
   const [isVisible, setIsVisible] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
@@ -28,15 +28,14 @@ const GroupMenu = function ({ memberList, groupInfo }) {
     const requireUser = event.target.id;
     const removeStatus = {
       type: "status",
-      from: "Admin",
-      to: getUser?.userName,
-      action: "removed",
+      title: `${currentUserData.userName} removed ${getUser?.userName} from the group`,
     };
+
     const removeUser = {};
 
     removeUser[`users/${requireUser}/friends/${roomId}`] = null;
     removeUser[`chat-room/${roomId}/roomMember/${refId}`] = null;
-    // removeUser[`chat-room/${roomId}/chats/${newKey}`] = removeStatus;
+    removeUser[`chat-room/${roomId}/chats/${newKey}`] = removeStatus;
 
     return update(ref(db), removeUser).then(() => {
       console.log("success");
@@ -48,10 +47,18 @@ const GroupMenu = function ({ memberList, groupInfo }) {
     const roomId = groupInfo.roomId;
     const userId = auth.currentUser.uid;
     const refId = memberList.find((item) => item.uid === userId);
-    const leaveUpdate = {};
 
+    let newKey = push(child(ref(db), "friends/")).key;
+    const leaveStatus = {
+      type: "status",
+      title: `${currentUserData.userName} left the group`,
+    };
+
+    const leaveUpdate = {};
     leaveUpdate[`users/${userId}/friends/${roomId}`] = null;
     leaveUpdate[`chat-room/${roomId}/roomMember/${refId.id}`] = null;
+
+    leaveUpdate[`chat-room/${roomId}/chats/${newKey}`] = leaveStatus;
 
     return update(ref(db), leaveUpdate).then(() => {
       toggleChatBox(false);

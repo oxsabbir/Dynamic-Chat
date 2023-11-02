@@ -9,15 +9,22 @@ import {
   update,
 } from "firebase/database";
 import Button from "../UI/Button/Button";
+import { contextData } from "../auth/Context";
 
 const GetProfile = function ({ userId, roomId, groupInfo }) {
   const [item, setItem] = useState({});
+  const { currentUserData } = contextData();
 
   const addMemberHandler = async function (event) {
     const db = getDatabase();
     const id = event.target.id;
 
     let newKey = push(child(ref(db), "friends/")).key;
+
+    const addingStatus = {
+      type: "status",
+      title: `${currentUserData.userName} added ${item.userName} to the group`,
+    };
 
     const addUserObject = {
       userName: item.userName,
@@ -29,6 +36,8 @@ const GetProfile = function ({ userId, roomId, groupInfo }) {
     const addUpdate = {};
     addUpdate[`users/${id}/friends/${roomId}`] = groupInfo;
     addUpdate[`chat-room/${roomId}/roomMember/${newKey}`] = addUserObject;
+    addUpdate[`chat-room/${roomId}/chats/${newKey}`] = addingStatus;
+    console.log(addingStatus);
     return update(ref(db), addUpdate).then(() => console.log("user add"));
     // roomID for adding as member
   };

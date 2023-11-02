@@ -10,7 +10,8 @@ import "../../media.css";
 import { contextData } from "../auth/Context";
 
 const ShowRequest = function ({ uid, getCurrentUser }) {
-  const { show, toggleFriend, toggleAcceptedFriend } = contextData();
+  const { show, toggleFriend, toggleAcceptedFriend, toggleCurrentUser } =
+    contextData();
   const [pendingList, setPendingList] = useState([]);
   const auth = getAuth();
 
@@ -49,6 +50,7 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
       if (snap.exists()) {
         const data = snap.val();
         console.log(uid);
+        toggleCurrentUser(data);
         getCurrentUser(data);
       }
     });
