@@ -26,6 +26,7 @@ const ContextWrapper = function ({ children }) {
   const [activeUser, setActiveUser] = useState({});
   const [isGroupOpen, setIsGroupOpen] = useState(false);
   const [groupMember, setGroupMember] = useState([]);
+  const [currentUserData, setCurrentUser] = useState(null);
 
   const setLogin = function () {
     setIsLoggedIn(true);
@@ -39,6 +40,10 @@ const ContextWrapper = function ({ children }) {
     setIsLoggedIn(false);
     localStorage.removeItem("isLoggedIn");
     setAcceptedFriend(null);
+    setCurrentUser(null);
+  };
+  const toggleCurrentUser = function (value) {
+    setCurrentUser(value);
   };
 
   const toggleFriend = function () {
@@ -114,6 +119,8 @@ const ContextWrapper = function ({ children }) {
     setGroupMember,
     toggleGroup,
     isGroupOpen,
+    currentUserData,
+    toggleCurrentUser,
   };
 
   return (

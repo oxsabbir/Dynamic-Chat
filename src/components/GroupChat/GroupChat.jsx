@@ -19,61 +19,73 @@ const GroupChat = function ({ item, authUser, profilePic, roomId }) {
       .catch((error) => console.log(error));
   };
 
+  let status = item.type === "status";
+  let isMessage = item.message !== undefined;
+
   return (
     <>
-      <div
-        className={
-          item.from === authUser ? classes.authUser : classes.otherUser
-        }
-      >
-        {item.from !== authUser && <img src={profilePic} />}
+      {isMessage && (
+        <div
+          className={
+            item.from === authUser ? classes.authUser : classes.otherUser
+          }
+        >
+          {item.from !== authUser && <img src={profilePic} />}
 
-        {item.image && (
-          <div
-            className={`${
-              item.from === authUser
-                ? classes.imageFileAuth
-                : classes.imageFileOther
-            } ${classes.imageFile}`}
-          >
-            <Link to={item.image} target="blank">
-              <img src={item.image} loading="lazy" />
-            </Link>
-            {item.message && (
-              <p
-                className={`${
-                  item.from === authUser ? classes.authTextMsg : classes.textMsg
-                } ${classes.textFull}`}
-              >
-                {item.message}
-              </p>
-            )}
-          </div>
-        )}
-
-        {!item.image && (
-          <>
+          {item.image && (
             <div
               className={`${
-                item.from === authUser ? classes.authTextMsg : classes.textMsg
-              } ${item.isTyping && item.from === authUser && classes.hidden}`}
+                item.from === authUser
+                  ? classes.imageFileAuth
+                  : classes.imageFileOther
+              } ${classes.imageFile}`}
             >
-              {!item.isTyping && <p>{message}</p>}
-              {item.isTyping && item.from !== authUser && <p>{message}</p>}
+              <Link to={item.image} target="blank">
+                <img src={item.image} loading="lazy" />
+              </Link>
+              {item.message && (
+                <p
+                  className={`${
+                    item.from === authUser
+                      ? classes.authTextMsg
+                      : classes.textMsg
+                  } ${classes.textFull}`}
+                >
+                  {item.message}
+                </p>
+              )}
             </div>
-          </>
-        )}
+          )}
 
-        {item.from === authUser && (
-          <div
-            id={item.id}
-            onClick={messageDeleteHandler}
-            className={classes.moreOption}
-          >
-            <i id={item.id} className="fa-solid fa-trash"></i>
-          </div>
-        )}
-      </div>
+          {!item.image && (
+            <>
+              <div
+                className={`${
+                  item.from === authUser ? classes.authTextMsg : classes.textMsg
+                } ${item.isTyping && item.from === authUser && classes.hidden}`}
+              >
+                {!item.isTyping && <p>{message}</p>}
+                {item.isTyping && item.from !== authUser && <p>{message}</p>}
+              </div>
+            </>
+          )}
+
+          {item.from === authUser && (
+            <div
+              id={item.id}
+              onClick={messageDeleteHandler}
+              className={classes.moreOption}
+            >
+              <i id={item.id} className="fa-solid fa-trash"></i>
+            </div>
+          )}
+        </div>
+      )}
+      {status && (
+        <div className={classes.status}>
+          <p>{item.title}</p>
+        </div>
+      )}
     </>
   );
 };
