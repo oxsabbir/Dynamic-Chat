@@ -2,18 +2,15 @@ import "./App.css";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./utils/firebase-config";
 import { getAuth } from "firebase/auth";
-import Home from "./components/Home";
-import Error from "./components/Error";
+import Home from "./components/Home/Home";
+import Error from "./components/UI/Error";
 import HomePage from "./components/LandingPage/HomePage";
 import RootLayout from "./components/Root";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { loader as inboxLoader } from "./components/Dashboard/Dashboard";
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-console.log(auth.currentUser);
 
 const router = createBrowserRouter([
   {

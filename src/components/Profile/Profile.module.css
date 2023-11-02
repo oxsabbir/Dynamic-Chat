@@ -7,8 +7,9 @@
     z-index: 3;
     padding: 10px;
     color: white;
-    
 }
+
+
 .profileShow {
     right: 0;
 }
@@ -17,12 +18,18 @@
     right: -800px;
 }
 
+
 .profileCard {
     margin: 10px 0;
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
+}
+.notGroup{
+    padding: 25px;
+    padding-top: 20%;
+    gap: 20px;
 }
 
 .profileCard img {
@@ -35,13 +42,11 @@
   font-size: 35px;
   margin-bottom: 10px;
 }
-
-
 .options {
     display: flex;
     flex-flow: column;
     gap: 10px;
-    width: 70%;
+    width: 60%;
 }
 .info {
     text-align: center;

@@ -1,9 +1,9 @@
 import SideLayout from "../Layout/SideLayout";
 import classes from "./CreateGroup.module.css";
 import ListPrinter from "../UI/ListPrinter";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import { useRef, useState } from "react";
-import useSearching from "./useSearching";
+import useSearching from "../Friend/useSearching";
 import {
   getDatabase,
   ref,
@@ -15,7 +15,7 @@ import {
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
 import { getStorage, ref as imageRef } from "firebase/storage";
-import uploadMedia from "../UploadMedia";
+import uploadMedia from "../Feature/uploadMedia";
 
 const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
   const auth = getAuth();

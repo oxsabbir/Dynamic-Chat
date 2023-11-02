@@ -1,0 +1,18 @@
+.error {
+    background: var(--DARK-GRADIENT);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    color: var(--DARK-TEXT);
+    gap: 10px;
+    height: 100vh;
+}
+
+.error h2 {
+    font-size: 35px;
+}
+.error p {
+    font-size: 22px;
+
+}

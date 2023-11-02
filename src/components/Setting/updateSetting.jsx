@@ -1,13 +1,6 @@
 import { getDatabase, ref, update, push, child } from "firebase/database";
 import { getStorage, ref as imageRef } from "firebase/storage";
-import uploadMedia from "./UploadMedia";
-
-const updateSetting = function ({ currentUserId, requireName, photoLink }) {
-  // Update name by currnet user id and the name
-  // update photo by current user id and uploaded link
-  // update password later subject
-  // image/profile/userID/newKey
-};
+import uploadMedia from "../Feature/uploadMedia";
 
 export const updatePhoto = async function (file, userId, requireFunction) {
   const storage = getStorage();

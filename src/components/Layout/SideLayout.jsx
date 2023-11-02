@@ -1,5 +1,5 @@
 import classes from "./SideLayout.module.css";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import { icons } from "../UI/Icons";
 const SideLayout = function ({ backHandler, title, children, isShown }) {
   return (

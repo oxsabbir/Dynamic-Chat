@@ -1,21 +1,21 @@
 import classes from "./Inbox.module.css";
-import Button from "../UI/Button";
-import FindFriend from "./FindFriend";
+import Button from "../UI/Button/Button";
+import FindFriend from "../Friend/FindFriend";
 import { useState } from "react";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import { useLoaderData } from "react-router-dom";
-import ShowRequest from "./ShowRequest";
+import ShowRequest from "../Friend/ShowRequest";
 import { icons } from "../UI/Icons";
-import MobileUi from "./MobileUi";
-import Loading from "../UI/Loading";
+import MobileUi from "../UI/MobileMenu/MobileUi";
+import Loading from "../UI/Loading/Loading";
 import LastMessage from "./LastMessage";
-import Setting from "../Setting";
+import Setting from "../Setting/Setting";
 import { contextData } from "../auth/Context";
-import People from "./People";
+import People from "../Users/People";
 
 const Inbox = function () {
   const currentUser = useLoaderData();
-  const { isInboxOpen, acceptedFriend } = contextData();
+  const { isInboxOpen, acceptedFriend, togglePeople } = contextData();
   const [isSearching, setIsSearching] = useState(false);
   const [currentUserData, setCurrentUserData] = useState({});
 
@@ -62,8 +62,8 @@ const Inbox = function () {
               {acceptedFriend && !acceptedFriend.length > 0 && (
                 <div className={classes.emptyInbox}>
                   <h3>You don't have any friends right now.</h3>
-                  <Button onClick={() => setIsSearching(true)}>
-                    FindFriend
+                  <Button onClick={() => togglePeople()}>
+                    Let's make some
                   </Button>
                 </div>
               )}

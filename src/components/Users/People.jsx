@@ -2,12 +2,12 @@ import classes from "./People.module.css";
 import { useEffect, useState } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
 import ListPrinter from "../UI/ListPrinter";
-import FriendList from "./FriendList";
+import FriendList from "../Friend/FriendList";
 import { contextData } from "../auth/Context";
-import Button from "../UI/Button";
-import Loading from "../UI/Loading";
+import Button from "../UI/Button/Button";
+import Loading from "../UI/Loading/Loading";
 import SideLayout from "../Layout/SideLayout";
-import CreateGroup from "./CreateGroup";
+import CreateGroup from "../GroupChat/CreateGroup";
 
 const People = function ({ authUid, userInfo, acceptedFriend }) {
   const { isPeopleOpen, togglePeople } = contextData();

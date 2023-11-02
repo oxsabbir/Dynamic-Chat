@@ -1,5 +1,5 @@
 import classes from "./Button.module.css";
-import { contextData } from "../auth/Context";
+import { contextData } from "../../auth/Context";
 const Button = function (props) {
   const { isDarkTheme } = contextData();
 

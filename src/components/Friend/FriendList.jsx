@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import classes from "./FindFriend.module.css";
-import AddFriend from "../AddFriend";
+import AddFriend from "./AddFriend";
 import { getAuth } from "firebase/auth";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 

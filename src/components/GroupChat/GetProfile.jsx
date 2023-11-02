@@ -8,7 +8,7 @@ import {
   child,
   update,
 } from "firebase/database";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 
 const GetProfile = function ({ userId, roomId, groupInfo }) {
   const [item, setItem] = useState({});

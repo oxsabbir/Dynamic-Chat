@@ -1,6 +1,6 @@
 import classes from "./SignUp.module.css";
-import Button from "./UI/Button";
-import GLogo from "../assets/Glogo.png";
+import Button from "../UI/Button/Button";
+import GLogo from "../../assets/GLogo.png";
 import { useState } from "react";
 import { useRef } from "react";
 import {
@@ -12,11 +12,13 @@ import { GoogleAuthProvider } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, onValue, ref, set } from "firebase/database";
-import Loading from "./UI/Loading";
-import { contextData } from "./auth/Context";
+import Loading from "../UI/Loading/Loading";
+import { contextData } from "../auth/Context";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = function () {
   const { toggleChatBox } = contextData();
+  const navigate = useNavigate();
   const enteredName = useRef();
   const enteredPassword = useRef();
   const enteredEmail = useRef();
@@ -90,6 +92,7 @@ const SignUp = function () {
         setIsLoading(false);
         toggleChatBox(false);
       })
+      .then(() => navigate("/dashboard"))
       .catch((err) => {
         setIsLoading(false);
         setHasError({ error: true, message: err.message });
@@ -115,7 +118,7 @@ const SignUp = function () {
         );
         toggleChatBox(false);
       })
-
+      .then(() => navigate("/dashboard"))
       .catch((error) => {
         console.log(error);
       });
@@ -132,6 +135,7 @@ const SignUp = function () {
         console.log(info);
         setIsLoading(false);
         toggleChatBox();
+        navigate("/dashboard");
       })
       .catch((err) => {
         console.log(err.message);
@@ -140,8 +144,6 @@ const SignUp = function () {
         setIsLoading(false);
       });
   };
-
-  console.log(hasError);
 
   return (
     <>

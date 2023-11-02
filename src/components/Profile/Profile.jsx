@@ -1,10 +1,10 @@
 import classes from "./Profile.module.css";
 import { contextData } from "../auth/Context";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import { icons } from "../UI/Icons";
-import ConfirmationBox from "../UI/ConfirmationBox";
+import ConfirmationBox from "../UI/Modal/ConfirmationBox";
 import { useState } from "react";
-import GroupMenu from "./GroupMenu";
+import GroupMenu from "../GroupChat/GroupMenu";
 
 const Profile = function ({
   userInfo,
@@ -43,6 +43,8 @@ const Profile = function ({
           isProfileShow ? classes.profileShow : classes.profileHide
         }`}
       >
+        <Button onClick={toggleProfile}>{icons.back}</Button>
+
         {isConfirm && (
           <ConfirmationBox
             message={message}
@@ -54,8 +56,11 @@ const Profile = function ({
           />
         )}
 
-        <Button onClick={toggleProfile}>{icons.back}</Button>
-        <div className={classes.profileCard}>
+        <div
+          className={`${classes.profileCard} ${
+            !isGroupOpen ? classes.notGroup : ""
+          }`}
+        >
           <img src={profilePic} alt="Profile Picture" />
 
           <div className={classes.info}>
