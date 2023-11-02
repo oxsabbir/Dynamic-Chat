@@ -2,7 +2,7 @@
 .content {
   width: 40%;
   height: 85vh;
-  background-color: var(--Primary);
+  background: var(--DARK-GRADIENT);
   padding: 15px;
   position: absolute;
   z-index: 3;

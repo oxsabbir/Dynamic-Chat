@@ -1,0 +1,82 @@
+.groupMenu {
+    color: rgb(204, 204, 204);
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.toogleMember, .searchUser{
+    background: var(--LIGHT-GLASS-UI);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+.userListAdding{
+    background:var(--LIGHT-GLASS-UI);
+    border-radius: 10px;
+}
+
+.searchUser {
+    padding: 0;
+}
+.searchUser input {
+    background: var(--LIGHT-GLASS-UI);
+    color: white;
+    outline: 0;
+    border: 0;
+    padding: 15px;
+    width: 100%;
+}
+.memberList {
+    padding: 5px ;
+    height: 230px;
+    transition: .5s;
+    opacity: 0;
+    overflow-y: auto;
+}
+.showMember{
+    opacity: 1;
+}
+.option{    
+    padding-top: 10px;
+    display: flex;
+    flex-flow: column;
+    gap: 7px;
+    width: 60%;
+    margin: auto;
+}
+.friendCard {
+    background-color: var(--LIGHT-GLASS-UI);
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0;
+}
+.friendCard img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.friendCard button {
+    padding: 10px;
+}
+.friendCard h3 {
+    color: rgb(204, 204, 204);
+    font-size: 20px;
+    flex-grow: 3;
+    text-align: left;
+}
+
+.confirmModal{
+    gap: 10px;
+    display: flex;
+}
+.confirmModal button {
+    width: 100%;
+}

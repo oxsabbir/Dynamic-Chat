@@ -20,14 +20,19 @@ import uploadMedia from "../UploadMedia";
 const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
   const auth = getAuth();
   const fileRef = useRef();
+  const enteredGroupName = useRef();
+
   const currentUserInfo = allUser.find(
     (item) => item.uid === auth.currentUser.uid
   );
+
   const [selectedUser, setSelectedUser] = useState([currentUserInfo]);
   const [userList, setUserList] = useState(acceptedFriend);
   const [isImageSelected, setIsImageSelected] = useState(false);
-  const [groupName, setGroupName] = useState("");
+  const [isNotice, setNotice] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [groupImage, setGroupImage] = useState("");
+  const [noticeMessage, setNoticeMessage] = useState("");
 
   const checkboxHandler = function (event) {
     const value = event.target.checked;
@@ -50,6 +55,10 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
       setUserList(acceptedFriend);
     }
   };
+  const selectImage = function () {
+    console.log(fileRef);
+    fileRef.current.click();
+  };
   const imageSelectorHandler = function () {
     const imageUrl = URL.createObjectURL(fileRef.current.files[0], {
       matchMedia: "image",
@@ -57,12 +66,16 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
     setIsImageSelected(true);
     setGroupImage(imageUrl);
   };
+  const imageCancel = function () {
+    setIsImageSelected(false);
+  };
 
   const createGroupHandler = async function (imageUrl) {
     const db = getDatabase();
     let newKey = push(child(ref(db), "friends/")).key;
+
     let groupDetails = {
-      userName: groupName,
+      userName: enteredGroupName.current?.value,
       profilePic: imageUrl,
       createdAt: serverTimestamp(),
       roomId: newKey,
@@ -75,17 +88,34 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
       message: "Welcome to the group everyone",
     };
 
+    const allUser = {};
+    selectedUser.forEach((item) => {
+      let newKey = push(child(ref(db), "friends/")).key;
+      allUser[newKey] = {
+        userName: item.userName,
+        profilePic: item.profilePic,
+        uid: item.uid,
+        id: newKey,
+      };
+    });
+
     const updateDir = {};
     updateDir[`users/${auth.currentUser?.uid}/friends/${newKey}`] =
       groupDetails;
     updateDir[`chat-room/${newKey}/chats/${newKey}`] = firstMessage;
     updateDir[`chat-room/${newKey}/createdAt`] = serverTimestamp();
-    updateDir[`chat-room/${newKey}/roomMember`] = selectedUser;
+    console.log(selectedUser);
+    updateDir[`chat-room/${newKey}/roomMember`] = allUser;
+
     selectedUser.forEach(
       (item) =>
         (updateDir[`users/${item.uid}/friends/${newKey}`] = groupDetails)
     );
-    return update(ref(db), updateDir);
+
+    return update(ref(db), updateDir).then(() => {
+      setLoading(false);
+      getBack();
+    });
   };
 
   const createGroup = async function () {
@@ -93,6 +123,28 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
     const db = getDatabase();
     const newKey = push(child(ref(db), "friends/")).key;
     const groupImageRef = imageRef(storage, `image/groupProifle/${newKey}`);
+    console.log(selectedUser);
+
+    // validation
+
+    if (enteredGroupName.current?.value.trim().length === 0) {
+      enteredGroupName.current.focus();
+      setNotice(true);
+      setNoticeMessage("Enter a group name first");
+      return;
+    }
+    if (!isImageSelected) {
+      setNotice(true);
+      setNoticeMessage("Select a group profile picture first");
+      return;
+    }
+    if (selectedUser.length <= 3) {
+      setNotice(true);
+      setNoticeMessage("You must more than 1 person to continue");
+      return;
+    }
+
+    setLoading(true);
 
     uploadMedia(
       fileRef.current.files[0],
@@ -100,8 +152,6 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
       createGroupHandler
     ).then(() => console.log("success"));
   };
-
-  console.log(selectedUser);
 
   return (
     <>
@@ -112,16 +162,28 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
       >
         <div className={classes.groupDetails}>
           {!isImageSelected && (
-            <span onClick={() => fileRef.current.click()}>{icons.upload}</span>
+            <span onClick={selectImage}>{icons.upload}</span>
           )}
-          {isImageSelected && <img src={groupImage} alt="group-image" />}
-          <input type="file" ref={fileRef} onChange={imageSelectorHandler} />
+          {isImageSelected && (
+            <img onClick={imageCancel} src={groupImage} alt="group-image" />
+          )}
+          <input
+            type="file"
+            required
+            ref={fileRef}
+            onChange={imageSelectorHandler}
+          />
           <input
             type="text"
-            placeholder="Group Name"
-            onChange={(e) => setGroupName(e.target.value)}
+            required
+            maxLength={30}
+            placeholder="Enter Group Name"
+            ref={enteredGroupName}
           />
         </div>
+
+        {isNotice && <p className={classes.notice}>{noticeMessage}</p>}
+
         <div className={classes.searchBar}>
           <input
             type="search"
@@ -129,6 +191,7 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
             onChange={inputChangeHandler}
           />
         </div>
+
         <div className={classes.peopleList}>
           <ListPrinter>
             {userList.map((item) => {
@@ -159,7 +222,9 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
           </ListPrinter>
         </div>
         <div className={classes.buttonGroup}>
-          <Button onClick={createGroup}>Create Group</Button>
+          <Button disabled={loading} onClick={createGroup}>
+            Create Group
+          </Button>
         </div>
       </SideLayout>
     </>

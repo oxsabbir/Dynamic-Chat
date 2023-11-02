@@ -14,6 +14,7 @@ export const stateContext = createContext();
 const ContextWrapper = function ({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(initialState.isLoggedIn);
   const [show, setShow] = useState(false);
+  const [acceptedFriend, setAcceptedFriend] = useState(null);
   const [isInboxOpen, setIsInboxOpen] = useState(false);
   const [activeChat, setActiveChat] = useState("");
   const [isProfileShow, setIsProfileShow] = useState(false);
@@ -30,6 +31,9 @@ const ContextWrapper = function ({ children }) {
     setIsLoggedIn(true);
     console.log("invoked");
     localStorage.setItem("isLoggedIn", "true");
+  };
+  const toggleAcceptedFriend = function (value) {
+    setAcceptedFriend(value);
   };
   const setLogOut = function () {
     setIsLoggedIn(false);
@@ -82,6 +86,8 @@ const ContextWrapper = function ({ children }) {
   const mainState = {
     isLoggedIn: isLoggedIn,
     setLogin,
+    acceptedFriend,
+    toggleAcceptedFriend,
     setLogOut,
     toggleFriend,
     toggleInbox,

@@ -74,6 +74,11 @@ const Messages = function ({ item, authUser, profilePic, roomId }) {
           </div>
         )}
       </div>
+      {item.action === "removed" && (
+        <div className={classes.smallMessage}>
+          <p>Admin removed Sabbir from the group</p>
+        </div>
+      )}
     </>
   );
 };

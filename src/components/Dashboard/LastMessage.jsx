@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import classes from "./Inbox.module.css";
-import Glogo from "../../assets/Glogo.png";
 import {
   getDatabase,
   query,
@@ -18,7 +17,6 @@ const LastMessage = function ({ item, uid }) {
     toggleActiveChat,
     toggleChatBox,
     toggleGroup,
-    setGroupUser,
   } = contextData();
   const [lastMessage, setLastMessage] = useState("");
   const [userInfo, setUserInfo] = useState("");
@@ -40,7 +38,6 @@ const LastMessage = function ({ item, uid }) {
     // getting profile data
     if (item.type === "group") {
       const userInfoRef = ref(db, `users/${uid}/friends/${item.roomId}`);
-      console.log(uid);
       const unsub = onValue(userInfoRef, (snap) => {
         if (!snap.exists) return;
         const data = snap.val();
@@ -48,7 +45,6 @@ const LastMessage = function ({ item, uid }) {
           setUserInfo(data);
         }
       });
-      return unsub();
     }
     const userInfoRef = ref(db, `users/${item.userId}`);
     onValue(userInfoRef, (snap) => {
@@ -58,7 +54,7 @@ const LastMessage = function ({ item, uid }) {
         setUserInfo(data);
       }
     });
-  }, [item.roomId]);
+  }, [item.roomId, item.type]);
 
   const openChatHandler = function (event) {
     const userId = event.target.id;

@@ -1,119 +1,116 @@
-  .otherUser {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5px;
-  }
-  .authUser {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-flow: row-reverse;
-    gap: 5px;
-  }
-  
-  .authUser,
-  .otherUser {
-    padding: 5px 0;
-  }
-  
-  .otherUser img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50px;
-    align-self: baseline;
-  }
-  
-  .textMsg,
-  .authTextMsg {
-    color: white;
-    background-color: rgb(22, 20, 20);
-    padding: 10px 15px;
-    word-break: keep-all;
-    max-width: 70%;
-    line-height: 24px;
-    display: flex;
-    border-radius: 20px;
-  }
-  
-  .textFull{
-      max-width: 100%;
-  }
-  .textMsg img,
-  .authTextMsg img {
-    /* width: 50%; */
-    height: auto;
-    object-fit: contain;
-    border-radius: 20px;
-  }
-  .authTextMsg {
-    background-color: rgb(111, 71, 197);
-  }
-  .imageFileOther {
-    background-color: rgb(22, 20, 20);
-    align-items: flex-start;
-  
-  }
-  .imageFileAuth {
-    background-color: rgb(111, 71, 197);
-    align-items: flex-end;
-  
-  }
+.authUser,
+.otherUser {
+  align-items: center;
+  justify-content: flex-start;
+  display: flex;
+  padding: 5px 0;
+  gap: 5px;
+}
+
+.authUser {
+  flex-flow: row-reverse;
+}
+
+.otherUser img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50px;
+  align-self: baseline;
+}
+
+.textMsg,
+.authTextMsg {
+  color: white;
+  background-color: rgb(22, 20, 20);
+  padding: 10px 15px;
+  word-break: keep-all;
+  max-width: 70%;
+  line-height: 24px;
+  display: flex;
+  border-radius: 20px;
+}
+
+.textFull {
+  max-width: 100%;
+}
+.textMsg img,
+.authTextMsg img {
+  /* width: 50%; */
+  height: auto;
+  object-fit: contain;
+  border-radius: 20px;
+}
+.authTextMsg {
+  background-color: rgb(111, 71, 197);
+}
+.imageFileOther {
+  background-color: rgb(22, 20, 20);
+  align-items: flex-start;
+}
+.imageFileAuth {
+  background-color: rgb(111, 71, 197);
+  align-items: flex-end;
+}
+.imageFile {
+  width: 45%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.imageFile a {
+  width: 100%;
+}
+
+.imageFile a img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.moreOption {
+  margin-right: 10px;
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.moreOption i {
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+}
+
+.dateAndDelete {
+  display: flex;
+  flex-flow: row-reverse;
+  gap: 20px;
+  color: rgb(255, 255, 255);
+  align-items: center;
+  padding: 10px;
+}
+
+.authUser:hover .moreOption {
+  opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
   .imageFile {
-    width: 45%;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
+    width: 55%;
   }
-  
-  .imageFile a {
-      width: 100%;
-  }
-  
-  .imageFile a img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-  }
-  
-  .hidden {
-    display: none;
-  }
+}
 
-  .moreOption{
-    margin-right: 10px;
-    transition: .5s;
-    opacity: 0;
-  }
-
-  .moreOption i{
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-  }
-
-  .dateAndDelete{
-    display: flex;
-    flex-flow: row-reverse;
-    gap: 20px;
-    color: rgb(255, 255, 255);
-    align-items: center;
-    padding: 10px;
-  }
-  
-  .authUser:hover .moreOption{
-    opacity: 1;
-  }
-
-  @media screen and (max-width: 768px) {
-    .imageFile {
-      width: 55%;
-    }
-  }
-
-
-
-  
+.smallMessage{
+  padding: 5px;
+}
+.smallMessage p{
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  text-transform: lowercase;
+}
