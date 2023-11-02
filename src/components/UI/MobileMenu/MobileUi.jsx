@@ -1,9 +1,9 @@
 import classes from "./MobileUI.module.css";
-import ListPrinter from "../UI/ListPrinter";
-import Button from "../UI/Button";
-import { icons } from "../UI/Icons";
+import ListPrinter from "../ListPrinter";
+import Button from "../Button/Button";
+import { icons } from "../Icons";
 import { useContext } from "react";
-import { stateContext } from "../auth/Context";
+import { stateContext } from "../../auth/Context";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 const MobileUi = function () {

@@ -29,3 +29,18 @@ export const featureContent = [
     upcoming: true,
   },
 ];
+
+export const navData = [
+  {
+    id: "home",
+    name: "HOME",
+  },
+  {
+    id: "feature",
+    name: "FEATURE",
+  },
+  {
+    id: "works",
+    name: "HOW IT WORK",
+  },
+];

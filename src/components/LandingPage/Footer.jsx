@@ -1,4 +1,4 @@
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import classes from "./Footer.module.css";
 import { icons } from "../UI/Icons";
 import { Link } from "react-router-dom";

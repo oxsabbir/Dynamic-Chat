@@ -1,14 +1,14 @@
 import classes from "./Setting.module.css";
-import Button from "./UI/Button";
-import { contextData } from "./auth/Context";
-import { icons } from "./UI/Icons";
-import DangerButton from "./UI/DangerButton";
+import Button from "../UI/Button/Button";
+import { contextData } from "../auth/Context";
+import { icons } from "../UI/Icons";
+import DangerButton from "../UI/Button/DangerButton";
 import { useRef, useState } from "react";
-import { updateName, updatePhoto } from "./UpdateSetting";
+import { updateName, updatePhoto } from "./updateSetting";
 import { update, ref, getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import SideLayout from "./Layout/SideLayout";
+import SideLayout from "../Layout/SideLayout";
 
 const Setting = function ({ userInfo }) {
   const { toggleSetting, isSettingOpen, setLogOut } = contextData();

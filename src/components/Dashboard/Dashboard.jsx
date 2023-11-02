@@ -1,12 +1,12 @@
 import classes from "./Dashboard.module.css";
-import Inbox from "./Inbox";
-import Chat from "./Chat";
+
+import Chat from "../Chat/Chat.jsx";
 import { getAuth } from "firebase/auth";
 import { redirect } from "react-router-dom";
-import { useState } from "react";
 import { contextData } from "../auth/Context";
-import Header from "../Header";
-import BlankBody from "./BlankBody";
+import Header from "./Header.jsx";
+import BlankBody from "../Layout/BlankBody.jsx";
+import Inbox from "../Inbox/Inbox.jsx";
 
 const Dashboard = function () {
   const { isChatBoxOpen, isDarkTheme } = contextData();

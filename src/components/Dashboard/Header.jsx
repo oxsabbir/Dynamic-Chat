@@ -1,10 +1,10 @@
 import classes from "./Header.module.css";
-import Button from "./UI/Button";
+import Button from "../UI/Button/Button";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { icons } from "./UI/Icons";
-import { contextData } from "./auth/Context";
-import BrandLogo from "./UI/BrandLogo";
+import { icons } from "../UI/Icons";
+import { contextData } from "../auth/Context";
+import BrandLogo from "../UI/BrandLogo";
 const Header = function () {
   const navigate = useNavigate();
   const auth = getAuth();

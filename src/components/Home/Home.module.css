@@ -11,7 +11,7 @@
 }
 .loginPage {
   height: 100%;
-  background-image: url("./LandingPage//screenshot//girlWithPhone.png");
+  background-image: url("./asset/girlWithPhone.png");
   background-position: center;
   background-repeat: no-repeat;
   z-index: 5;

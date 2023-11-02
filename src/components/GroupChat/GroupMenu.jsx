@@ -1,6 +1,6 @@
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import classes from "./GroupMenu.module.css";
-import DangerButton from "../UI/DangerButton";
+import DangerButton from "../UI//Button/DangerButton";
 import { useState } from "react";
 import { icons } from "../UI/Icons";
 import { getAuth } from "firebase/auth";
@@ -20,7 +20,6 @@ const GroupMenu = function ({ memberList, groupInfo }) {
 
   const removeMemberHandler = async function (event) {
     const db = getDatabase();
-    // need room id
     const roomId = groupInfo.roomId;
     const refId = event.target.dataset.refid;
     const getUser = memberList.find((user) => user.id === refId);

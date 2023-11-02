@@ -1,8 +1,8 @@
 import classes from "./ConfirmationBox.module.css";
-import Button from "./Button";
-import DangerButton from "./DangerButton";
-import { unFriend, blockFriend } from "../Friend/manageFriend";
-import { contextData } from "../auth/Context";
+import Button from "../Button/Button";
+import DangerButton from "../Button/DangerButton";
+import { unFriend, blockFriend } from "../../Friend/manageFriend";
+import { contextData } from "../../auth/Context";
 
 const ConfirmationBox = function ({
   message,

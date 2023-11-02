@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import classes from "./FindFriend.module.css";
 import { getDatabase } from "firebase/database";
 import { ref, onValue } from "firebase/database";

@@ -1,22 +1,21 @@
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import classes from "./Chat.module.css";
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { getStorage, ref as imageRef } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
-import { push, child, query, limitToLast, get, off } from "firebase/database";
+import { push, child, query, limitToLast, off } from "firebase/database";
 import { icons } from "../UI/Icons";
 import { contextData } from "../auth/Context";
-import Messages from "./Messages";
-import Profile from "./Profile";
+import Messages from "../Message/Messages";
+import Profile from "../Profile/Profile";
 import defaultProfile from "../../assets/defaultProfile.jpg";
 import { blockFriend } from "../Friend/manageFriend";
-import uploadMedia from "../UploadMedia";
-import { messagesSender as sendMsg } from "../MessageSender";
+import uploadMedia from "../Feature/uploadMedia";
+import { messagesSender as sendMsg } from "../Message/messageSender";
 import { update } from "firebase/database";
-import Loading from "../UI/Loading";
-import GroupChat from "./GroupChat";
+import GroupChat from "../GroupChat/GroupChat";
 
 const Chat = function () {
   const auth = getAuth();

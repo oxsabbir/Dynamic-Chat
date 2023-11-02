@@ -1,4 +1,4 @@
-import classes from "./Message.module.css";
+import classes from "../Message/Message.module.css";
 import { Link } from "react-router-dom";
 import { getDatabase, ref, update } from "firebase/database";
 

@@ -38,6 +38,7 @@ const ContextWrapper = function ({ children }) {
   const setLogOut = function () {
     setIsLoggedIn(false);
     localStorage.removeItem("isLoggedIn");
+    setAcceptedFriend(null);
   };
 
   const toggleFriend = function () {

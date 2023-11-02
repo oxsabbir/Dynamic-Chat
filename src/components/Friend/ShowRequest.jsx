@@ -1,8 +1,8 @@
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import classes from "./ShowRequest.module.css";
 import { useEffect, useState } from "react";
 import { getDatabase, onValue, ref, update } from "firebase/database";
-import AddFriend from "../AddFriend";
+import AddFriend from "./AddFriend";
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
 import FallbackMessage from "../UI/FallbackMessage";

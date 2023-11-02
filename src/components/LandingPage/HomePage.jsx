@@ -1,10 +1,8 @@
 import classes from "./HomePage.module.css";
 import BrandLogo from "../UI/BrandLogo";
 import HowItWorks from "./HowItWorks";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import { Link } from "react-router-dom";
-import Desktop from "./screenshot/Dekstop.png";
-import laptop from "./screenshot/laptopLight.png";
 import inbox from "./screenshot/inbox.png";
 import { icons } from "../UI/Icons";
 import { useRef, useState } from "react";
@@ -12,9 +10,12 @@ import useObserver from "./useObserver";
 import Features from "./Features";
 import { useEffect } from "react";
 import Footer from "./Footer";
+import { navData } from "./constant";
+import { contextData } from "../auth/Context";
 
 const HomePage = function () {
   const [menuShow, setMenuShow] = useState(false);
+  const { isLoggedIn } = contextData();
   const [isSticky, setIsSticky] = useState(false);
   const homeRef = useRef();
   const navRef = useRef();
@@ -83,27 +84,30 @@ const HomePage = function () {
                 isSticky && classes.color
               }`}
             >
-              <li>
-                <span id="home" onClick={scrollToView}>
-                  HOME
-                </span>
-              </li>
-              <li>
-                <span id="feature" onClick={scrollToView}>
-                  FEATURE
-                </span>
-              </li>
-              <li>
-                <span id="works" onClick={scrollToView}>
-                  HOW IT WORK'S
-                </span>
-              </li>
-              <li>
-                <Link to={"sign-up"}>
-                  <Button>OPEN ACCOUNT</Button>
-                </Link>
-              </li>
-              <span onClick={toggleMenu}>{icons.back}</span>
+              {isLoggedIn && (
+                <li>
+                  <Link to={"dashboard"}>
+                    <Button>Dashboard</Button>
+                  </Link>
+                </li>
+              )}
+              {!isLoggedIn && (
+                <>
+                  {navData.map((item) => (
+                    <li key={item.id}>
+                      <span id={item.id} onClick={scrollToView}>
+                        {item.name}
+                      </span>
+                    </li>
+                  ))}
+                  <li>
+                    <Link to={"sign-up"}>
+                      <Button>OPEN ACCOUNT</Button>
+                    </Link>
+                  </li>
+                  <span onClick={toggleMenu}>{icons.back}</span>
+                </>
+              )}
             </ul>
           </nav>
 

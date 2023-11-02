@@ -1,7 +1,7 @@
 import classes from "./HowItWorks.module.css";
 import desktop from "./screenshot/Dekstop.png";
 import { useEffect, useRef, useState } from "react";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import { forwardRef } from "react";
 import useObserver from "./useObserver";
 

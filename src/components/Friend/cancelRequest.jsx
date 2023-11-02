@@ -8,6 +8,5 @@ export const cancelRequest = function (userId, roomId) {
 
   console.log(updatesRef);
 
-  //   return;
   return update(ref(db), updatesRef);
 };
