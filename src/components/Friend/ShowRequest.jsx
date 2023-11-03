@@ -49,7 +49,6 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
     onValue(authUserRef, (snap) => {
       if (snap.exists()) {
         const data = snap.val();
-        console.log(uid);
         toggleCurrentUser(data);
         getCurrentUser(data);
       }

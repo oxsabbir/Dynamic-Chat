@@ -2,22 +2,17 @@ import classes from "../Message/Message.module.css";
 import { Link } from "react-router-dom";
 import { getDatabase, ref, update } from "firebase/database";
 
-const GroupChat = function ({ item, authUser, profilePic, roomId }) {
+const GroupChat = function ({
+  item,
+  authUser,
+  profilePic,
+  roomId,
+  deleteHandler,
+}) {
   let message = item.message;
   if (item.isTyping) {
     message = item.message;
   }
-
-  const messageDeleteHandler = async function (event) {
-    // room id , message id ,
-    const messageId = event.target.id;
-    const db = getDatabase();
-    const updates = {};
-    updates[`chat-room/${roomId}/chats/${messageId}`] = null;
-    return update(ref(db), updates)
-      .then(() => console.log("success"))
-      .catch((error) => console.log(error));
-  };
 
   let status = item.type === "status";
   let isMessage = item.message !== undefined;
@@ -73,7 +68,7 @@ const GroupChat = function ({ item, authUser, profilePic, roomId }) {
           {item.from === authUser && (
             <div
               id={item.id}
-              onClick={messageDeleteHandler}
+              onClick={deleteHandler}
               className={classes.moreOption}
             >
               <i id={item.id} className="fa-solid fa-trash"></i>
