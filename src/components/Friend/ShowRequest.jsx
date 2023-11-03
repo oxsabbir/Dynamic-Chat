@@ -8,6 +8,7 @@ import { icons } from "../UI/Icons";
 import FallbackMessage from "../UI/FallbackMessage";
 import "../../media.css";
 import { contextData } from "../auth/Context";
+import SideLayout from "../Layout/SideLayout";
 
 const ShowRequest = function ({ uid, getCurrentUser }) {
   const { show, toggleFriend, toggleAcceptedFriend, toggleCurrentUser } =
@@ -89,18 +90,16 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
   };
   return (
     <>
-      <div className={show ? classes.show : classes.content}>
-        <div className={classes.requestBar}>
-          <h2>Friend Request</h2>
-          <Button onClick={toggleFriend}>{icons.back}</Button>
-        </div>
-
+      <SideLayout
+        isShown={show}
+        backHandler={toggleFriend}
+        title={"Friend Request"}
+      >
         {pendingList && pendingList.length === 0 && (
           <>
             <FallbackMessage>There is no request</FallbackMessage>
           </>
         )}
-
         <ul style={{ listStyle: "none" }}>
           {pendingList &&
             pendingList.map((item) => {
@@ -120,7 +119,7 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
               );
             })}
         </ul>
-      </div>
+      </SideLayout>
     </>
   );
 };

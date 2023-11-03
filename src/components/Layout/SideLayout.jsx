@@ -7,7 +7,7 @@ const SideLayout = function ({ backHandler, title, children, isShown }) {
       className={`${classes.layout} ${isShown ? classes.show : classes.hide}`}
     >
       <div className={classes.layoutBar}>
-        <h3>{title}</h3>
+        <h2>{title}</h2>
         <Button onClick={backHandler}>{icons.back}</Button>
       </div>
       {children}

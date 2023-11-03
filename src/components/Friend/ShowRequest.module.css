@@ -1,43 +1,8 @@
-.show,
-.content {
-  width: 40%;
-  height: 85vh;
-  background: var(--DARK-GRADIENT);
-  padding: 15px;
-  position: absolute;
-  z-index: 3;
-  right: 30px;
-  transition:all 0.5s;
-  border-radius: 10px;
-}
-
-
-.requestBar{
-  display:  flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  text-align: center;
-  padding: 10px;
-}
-
-
-.content {
-  visibility: hidden;
-  opacity:  0;
-}
-
-.show {
-  visibility: visible;
-  opacity: 1;
-}
-
 .friendCard {
   background-color: var(--LIGHT-GLASS-UI);
   display: flex;
   padding: 10px;
   border-radius: 10px;
-  /* justify-content: space-between; */
   align-items: center;
   gap: 10px;
   margin: 10px 0;
@@ -55,21 +20,4 @@
   color: white;
   font-size: 20px;
   flex-grow: 3;
-}
-
-@media screen and (max-width: 768px) {
-  .show,
-  .content {
-    width: 100%;
-    right: 0;
-    height: 100%;
-    border-radius: 0;
-  }
-  .content {
-    transform: translateX(-800px);
-  }
-  .show {
-    transform: translateX(0);
-  }
- 
 }
