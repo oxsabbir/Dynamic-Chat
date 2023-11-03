@@ -11,7 +11,9 @@ const Footer = function () {
           <h3>let's gather together </h3>
           <h2>join the community</h2>
 
-          <Button>Open Account now</Button>
+          <Link to={"sign-up"}>
+            <Button>Open Account now</Button>
+          </Link>
         </div>
         <div className={classes.socialLinks}>
           <div className={classes.links}>
