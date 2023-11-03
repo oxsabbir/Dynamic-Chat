@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../UI/Button/Button";
 import { forwardRef } from "react";
 import useObserver from "./useObserver";
+import { howItWorkContent } from "./constant";
 
 const HowItWorks = forwardRef(function HowItWork(_, ref) {
   const sectionRef = useRef();
@@ -11,9 +12,6 @@ const HowItWorks = forwardRef(function HowItWork(_, ref) {
   useEffect(() => {
     const observerFuntion = function (entries, observer) {
       entries.forEach((entry) => {
-        // if (entry.intersectionRatio < 0.2 && entry.isIntersecting === false) {
-        // setIsSticky(false);
-        // }
         if (entry.intersectionRatio >= 0.6 && entry.isIntersecting === true) {
           setIsTransit(true);
         }
@@ -44,37 +42,18 @@ const HowItWorks = forwardRef(function HowItWork(_, ref) {
               isTransit && classes.workCardTransit
             }`}
           >
-            <div className={classes.workCard}>
-              <span>1</span>
-              <div className={classes.cardContent}>
-                <h3>Get An Account</h3>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Ratione, culpa laboriosam velit fuga{" "}
-                </p>
+            {howItWorkContent.map((item, i) => (
+              <div
+                key={item.id}
+                className={`${classes.workCard} ${isTransit && classes.show}`}
+              >
+                <span>{i + 1}</span>
+                <div className={classes.cardContent}>
+                  <h3>{item.title}</h3>
+                  <p>{item.details}</p>
+                </div>
               </div>
-            </div>
-
-            <div className={classes.workCard}>
-              <span>2</span>
-              <div className={classes.cardContent}>
-                <h3>Make Friends</h3>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Ratione, culpa laboriosam velit fuga{" "}
-                </p>
-              </div>
-            </div>
-            <div className={classes.workCard}>
-              <span>3</span>
-              <div className={classes.cardContent}>
-                <h3>Start Sharing</h3>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Ratione, culpa laboriosam velit fuga{" "}
-                </p>
-              </div>
-            </div>
+            ))}
             <Button>Learn more</Button>
           </div>
         </div>

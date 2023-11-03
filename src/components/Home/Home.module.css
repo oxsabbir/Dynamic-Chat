@@ -11,16 +11,14 @@
 }
 .loginPage {
   height: 100%;
+  width: 40%;
   background-image: url("./asset/girlWithPhone.png");
-  background-position: center;
   background-repeat: no-repeat;
-  z-index: 5;
-  object-fit: contain;
   background-size: cover;
+  background-position: center;
+
 }
-.loginPage img {
-  width: 300px;
-}
+
 .wrapper {
   height: 100vh;
   display: flex;

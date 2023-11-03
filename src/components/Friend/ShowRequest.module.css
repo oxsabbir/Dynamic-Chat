@@ -49,8 +49,7 @@
   object-fit: cover;
 }
 .friendCard button {
-  padding: 10px;
-  flex-grow: 1;
+  padding: 10px 20px;
 }
 .friendCard h3 {
   color: white;
