@@ -55,13 +55,19 @@
     border-radius: 20px;
     align-items: center;
     padding: 15px;
+    transition: 1s;
+    transform: translateY(800px);
 }
+.show {
+    transform: translateY(0);
+}
+
 .workCardTransit {
     opacity: 1;
 }
 
 .workCard:hover{
-    background: black;
+    box-shadow: none;
     cursor: pointer;
 }
 

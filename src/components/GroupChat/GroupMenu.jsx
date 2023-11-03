@@ -9,7 +9,7 @@ import GetProfile from "./GetProfile";
 import { getDatabase, update, ref, push, child } from "firebase/database";
 
 const GroupMenu = function ({ memberList, groupInfo }) {
-  const { toggleChatBox } = contextData();
+  const { toggleChatBox, toggleInbox } = contextData();
 
   const { acceptedFriend, currentUserData } = contextData();
   const [isVisible, setIsVisible] = useState(false);
@@ -62,6 +62,7 @@ const GroupMenu = function ({ memberList, groupInfo }) {
 
     return update(ref(db), leaveUpdate).then(() => {
       toggleChatBox(false);
+      toggleInbox();
     });
   };
 
