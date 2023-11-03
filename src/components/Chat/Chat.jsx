@@ -1,11 +1,20 @@
 import Button from "../UI/Button/Button";
 import classes from "./Chat.module.css";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  update,
+  push,
+  child,
+  query,
+  limitToLast,
+  off,
+} from "firebase/database";
 import { getStorage, ref as imageRef } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import ListPrinter from "../UI/ListPrinter";
-import { push, child, query, limitToLast, off } from "firebase/database";
 import { icons } from "../UI/Icons";
 import { contextData } from "../auth/Context";
 import Messages from "../Message/Messages";
@@ -14,8 +23,9 @@ import defaultProfile from "../../assets/defaultProfile.jpg";
 import { blockFriend } from "../Friend/manageFriend";
 import uploadMedia from "../Feature/uploadMedia";
 import { messagesSender as sendMsg } from "../Message/messageSender";
-import { update } from "firebase/database";
 import GroupChat from "../GroupChat/GroupChat";
+
+import { typingHandler, blurHandler } from "../Feature/chatFeature";
 
 const Chat = function () {
   const auth = getAuth();
@@ -28,6 +38,7 @@ const Chat = function () {
     togglePrevValue,
     activeUser,
     activeChat,
+    currentUserData,
   } = contextData();
 
   const userInfo = activeUser;
@@ -130,7 +141,7 @@ const Chat = function () {
     const storage = getStorage();
     const picRef = imageRef(
       storage,
-      `image/${roomId}/${auth.currentUser.uid}/${newKey}`
+      `image/chats/${roomId}/${auth.currentUser.uid}/${newKey}`
     );
 
     if (isImageSelected) {
@@ -169,39 +180,33 @@ const Chat = function () {
 
   const fileSelection = function () {
     setIsImageSelected(true);
-    const fileLocation = enteredFile;
   };
 
   const unBlockHandler = function () {
     const blockId = blocked.blockId;
     blockFriend(roomId, "unblock", blockId);
   };
+
   const isBlockedFromMe = blocked.from === authUser;
   let profilePic = userInfo.profilePic;
   if (!userInfo.profilePic) {
     profilePic = defaultProfile;
   }
 
-  const typingHandler = function () {
+  const messageDeleteHandler = async function (event) {
+    const messageId = event.target.id;
     const db = getDatabase();
-    const messages = {
-      isTyping: true,
-      from: authUser,
-      message: "typing...",
+    const updates = {};
+
+    const deleteStatus = {
+      type: "status",
+      title: `${currentUserData.userName} deleted a message`,
     };
-    const updates = {};
+    updates[`chat-room/${roomId}/chats/${messageId}`] = deleteStatus;
 
-    updates["chat-room/" + roomId + `/chats/${"typing"}`] = messages;
-    // updates["chat-room/" + roomId + "/createdAt"] = serverTimestamp();
-    return update(ref(db), updates);
-  };
-
-  const blurHandler = function () {
-    const db = getDatabase();
-    const updates = {};
-    updates["chat-room/" + roomId + `/chats/${"typing"}`] = null;
-    // updates["chat-room/" + roomId + "/createdAt"] = serverTimestamp();
-    return update(ref(db), updates);
+    return update(ref(db), updates)
+      .then(() => console.log("success"))
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -251,6 +256,7 @@ const Chat = function () {
                       authUser={authUser}
                       profilePic={profilePic}
                       roomId={roomId}
+                      deleteHandler={messageDeleteHandler}
                     />
                   );
                 }
@@ -266,6 +272,7 @@ const Chat = function () {
                       authUser={authUser}
                       profilePic={pic}
                       roomId={roomId}
+                      deleteHandler={messageDeleteHandler}
                     />
                   );
                 }
@@ -314,9 +321,9 @@ const Chat = function () {
               <input
                 ref={enteredMessage}
                 type="text"
-                onChange={typingHandler}
+                onChange={() => typingHandler(roomId, authUser)}
                 placeholder="Write here"
-                onBlur={blurHandler}
+                onBlur={() => blurHandler(roomId)}
               />
               <Button disabled={isLoading} type={"submit"}>
                 {isLoading ? "..." : icons.send}

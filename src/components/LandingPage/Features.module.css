@@ -68,14 +68,14 @@
 }
 
 .upComing::after {
-    content: "Coming soon";
+    content: "Recent";
     position: absolute;
     background-color: rgba(0, 0, 0, 0.344);
     padding: 10px;
     top: 0;
     border-radius: 15px;
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: 400;
+    font-size: 16px;
     text-transform: uppercase;
     right: 0;
     opacity: .5;
