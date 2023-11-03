@@ -1,6 +1,6 @@
 .layout {
     position: absolute;
-    background: var(--DARK-GRADIENT);
+    background: var(--DARK-ONLY);
     height: 85vh;
     transition: 0.5s;
     z-index: 3;
@@ -19,7 +19,6 @@
     color: white;
     text-align: center;
     padding: 15px;
-    font-size: 18px;
 }
 
 
@@ -36,7 +35,6 @@
     .layout {
       width: 100%;
       position: absolute;
-      background: var(--DARK-GRADIENT);
       height: 100%;
       transition: 0.5s;
       z-index: 3;
