@@ -25,11 +25,7 @@ import uploadMedia from "../Feature/uploadMedia";
 import { messagesSender as sendMsg } from "../Message/messageSender";
 import GroupChat from "../GroupChat/GroupChat";
 import timeGenarator from "../Feature/timeGenarator";
-
 import { typingHandler, blurHandler } from "../Feature/chatFeature";
-
-import { typingHandler, blurHandler } from "../Feature/chatFeature";
-
 const Chat = function () {
   const auth = getAuth();
   const authUser = auth?.currentUser?.uid;
