@@ -1,6 +1,6 @@
 .profile{
     position: absolute;
-    background:#222b49;
+    background:var(--DARK-ONLY);
     width: 60%;
     height: 100%;
     transition: .5s;
