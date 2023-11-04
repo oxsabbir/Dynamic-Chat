@@ -24,6 +24,7 @@ import { blockFriend } from "../Friend/manageFriend";
 import uploadMedia from "../Feature/uploadMedia";
 import { messagesSender as sendMsg } from "../Message/messageSender";
 import GroupChat from "../GroupChat/GroupChat";
+import timeGenarator from "../Feature/timeGenarator";
 
 import { typingHandler, blurHandler } from "../Feature/chatFeature";
 
@@ -52,6 +53,7 @@ const Chat = function () {
   const [blocked, setBlocked] = useState({});
   const [roomMember, setRoomMember] = useState([]);
   const [groupOpen, setGroupOpen] = useState(false);
+  const [activeTime, setActiveTime] = useState("");
 
   const enteredMessage = useRef();
   const enteredFile = useRef();
@@ -104,6 +106,17 @@ const Chat = function () {
 
     togglePrevValue(roomId);
     scrollIntoViews();
+
+    if (userInfo?.isActive?.isActive === false) {
+      const active = timeGenarator(userInfo?.isActive?.time);
+      setActiveTime(`Active ${active} ago`);
+    } else if (userInfo?.isActive?.isActive) {
+      setActiveTime("Active now");
+    } else {
+      setActiveTime("");
+    }
+
+    // checking the date
   }, [roomId, loadCount]);
 
   const messageSender = async function (
@@ -225,13 +238,18 @@ const Chat = function () {
           roomMember={roomMember}
         />
 
-        <div className="top">
+        <div className={classes.top}>
           <div className={classes.friendCard}>
             <Button onClick={toggleInbox} className={classes.backBtn}>
               {icons.back}
             </Button>
             <img src={profilePic} />
-            <h3>{userInfo.userName}</h3>
+            <div className={classes.profileName}>
+              <h3>{userInfo.userName}</h3>
+              {/* <p>Active now</p> */}
+
+              <p>{activeTime}</p>
+            </div>
             <Button onClick={toggleProfile}> Profile</Button>
           </div>
         </div>
