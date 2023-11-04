@@ -85,7 +85,9 @@ const LastMessage = function ({ item, uid }) {
           {lastMessage.message}
         </p>
       </div>
-      <div className={`${lastMessage.from !== uid ? classes.dot : ""}`}></div>
+      <div
+        className={`${userInfo?.isActive?.isActive ? classes.dot : ""}`}
+      ></div>
     </div>
   );
 };

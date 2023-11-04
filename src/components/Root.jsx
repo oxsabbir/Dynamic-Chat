@@ -7,6 +7,13 @@ import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Loading from "./UI/Loading/Loading";
 import { contextData } from "./auth/Context";
+import {
+  update,
+  ref,
+  getDatabase,
+  onDisconnect,
+  serverTimestamp,
+} from "firebase/database";
 
 const RootLayout = function () {
   const auth = getAuth();
@@ -37,6 +44,24 @@ const RootLayout = function () {
         setLogin(true);
         navigate("/dashboard");
         setLoading(false);
+        const db = getDatabase();
+
+        const disconnectRef = ref(
+          db,
+          `users/${auth.currentUser.uid}/isActive/isActive`
+        );
+        // setting status to active
+        const isActiveState = {
+          isActive: true,
+          time: serverTimestamp(),
+        };
+        const userStatus = {};
+        userStatus[`users/${auth.currentUser.uid}/isActive`] = isActiveState;
+
+        // setting active to deactive when app if offline
+        onDisconnect(disconnectRef).set(false);
+
+        return update(ref(db), userStatus);
       }
       if (!snapshot) {
         setLoading(false);

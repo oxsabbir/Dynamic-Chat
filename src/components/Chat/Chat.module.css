@@ -10,7 +10,6 @@
 }
 
 
-
 .bottomOption {
   background-color: var(--LIGHT-GLASS-UI);
   padding: 15px 20px;
@@ -147,10 +146,17 @@
 .friendCard button:first-child {
   display: none;
 }
-.friendCard h3 {
-  color: white;
-  font-size: 20px;
+
+.profileName {
   flex-grow: 3;
+  font-size: 18px;
+  color: white;
+}
+
+.profileName p{
+  font-size: 13.5px;
+  opacity: .9;
+  padding-top: 3px;
 }
 .hidden {
   display: none;
