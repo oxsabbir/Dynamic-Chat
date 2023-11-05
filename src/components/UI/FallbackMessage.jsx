@@ -6,7 +6,6 @@ const FallbackMessage = function ({ children }) {
       <div className={classes.fallback}>
         <h2>{children}</h2>
       </div>
-      ;
     </>
   );
 };
