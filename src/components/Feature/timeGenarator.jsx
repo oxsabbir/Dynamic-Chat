@@ -8,15 +8,16 @@ const timeGenarator = function (timeStamp) {
   const minute = Math.round(diff / 1000 / 60);
   let thetime;
 
-  if (minute < 60) {
+  if (minute < 1) {
+    thetime = `${second} seconds`;
+  }
+  if (minute < 60 && minute >= 1) {
     thetime = `${minute} minutes`;
-    console.log(minute);
   } else if (minute > 60 && minute < 1440) {
     const hour = minute / 60;
-    thetime = `${hour.toFixed(1)} hours`;
+    thetime = `${hour.toFixed(0)} hours`;
   } else if (minute > 1440) {
     const days = minute / 1440;
-    console.log(days);
     thetime = `${days.toFixed(0)} days`;
   }
   return thetime;
