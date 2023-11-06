@@ -121,12 +121,21 @@ const HomePage = function () {
               </h2>
 
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellendus id possimus praesentium, perspiciatis provident et
-                officia dolorem alias expedita incidunt fuga aliquam quo sequi
-                dignissimos beatae quam mollitia. Reiciendis, nesciunt?
+                We make communication more stable and reliable by new FCA4
+                stabilizer And we make application for used like their own just
+                use it and get benifited from it. make the world a better place
+                giving something like this by yourself <br />
+                So what are you waiting for?
               </p>
-              <Button>See More</Button>
+              <Button
+                onClick={() => {
+                  window.open(
+                    "https://drive.google.com/file/d/141czM1NlGbspSAq0Wz_pG4pzhM88A91W/view?usp=drive_link"
+                  );
+                }}
+              >
+                Download now
+              </Button>
             </div>
           </div>
         </section>

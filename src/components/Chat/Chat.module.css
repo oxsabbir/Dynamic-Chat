@@ -7,6 +7,14 @@
   position: relative;
   overflow: hidden;
   border-radius: 20px;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--GLASS-UI);
+    width: 15px;
+    border-radius: 10px;
+  }
 }
 
 
@@ -166,14 +174,7 @@
   padding-top: 120px; 
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--GLASS-UI);
-  width: 15px;
-  border-radius: 10px;
-}
+
 
 .blockedUi{
   padding: 20px;

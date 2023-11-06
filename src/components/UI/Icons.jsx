@@ -26,4 +26,5 @@ export const icons = {
   upload: <i className="fa-solid fa-file-import"></i>,
   dropDown: <i className="fa-solid fa-caret-down"></i>,
   dropUp: <i className="fa-solid fa-caret-up"></i>,
+  download: <i className="fa-solid fa-download"></i>,
 };
