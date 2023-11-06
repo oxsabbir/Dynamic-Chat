@@ -25,8 +25,7 @@
     display: flex;
     justify-content: end;
     padding: 0 40px;
-    transition: 1s;
-    opacity: .1;
+    transition: 1.2s;   
 }
 .workLeft img {
     width: 600px;
@@ -35,8 +34,11 @@
 
 .workRight {
     width: 50%;
-    transition: 1s;   
+    transition: 1.2s;   
+    z-index: -3;
+    transform: translateY(300px);
     opacity: .1;
+
     padding: 20px;
 }
 .workRight button {
@@ -55,15 +57,12 @@
     border-radius: 20px;
     align-items: center;
     padding: 15px;
-    transition: 1s;
-    transform: translateY(800px);
 }
 .show {
     transform: translateY(0);
-}
-
-.workCardTransit {
+    z-index: 4;
     opacity: 1;
+
 }
 
 .workCard:hover{

@@ -29,24 +29,13 @@ const HowItWorks = forwardRef(function HowItWork(_, ref) {
       <section ref={ref} id="works" className={classes.works}>
         <h2>HOW IT WORK'S</h2>
         <div ref={sectionRef} className={classes.workSection}>
-          <div
-            className={`${classes.workLeft} ${
-              isTransit && classes.workCardTransit
-            }`}
-          >
+          <div className={`${classes.workLeft} ${isTransit && classes.show}`}>
             <img loading="lazy" src={desktop} alt="inbox-image" />
           </div>
 
-          <div
-            className={`${classes.workRight} ${
-              isTransit && classes.workCardTransit
-            }`}
-          >
+          <div className={`${classes.workRight} ${isTransit && classes.show}`}>
             {howItWorkContent.map((item, i) => (
-              <div
-                key={item.id}
-                className={`${classes.workCard} ${isTransit && classes.show}`}
-              >
+              <div key={item.id} className={`${classes.workCard}`}>
                 <span>{i + 1}</span>
                 <div className={classes.cardContent}>
                   <h3>{item.title}</h3>
