@@ -3,11 +3,9 @@
     min-height: 100vh;
     scroll-margin: 60px;
 }
-.container {  
-    margin: auto;
-    max-width: 1440px;
-    width: 90%;
-}
+
+
+
 .content{
     margin: auto;
     scroll-snap-type: y mandatory;
@@ -64,10 +62,11 @@
     word-spacing: 10px;
 }
 .heroRight p {
-    line-height: 25px;
+    line-height: 28px;
     width: 85%;
-    padding-bottom: 40px;
-    font-size: 18px;
+    padding-bottom: 30px;
+    font-size: 20px;
+    padding: 10;
 }
 .heroLeft img {
     width: 380px;
