@@ -46,7 +46,7 @@ const AddFriend = function (
     type: "author",
   };
 
-  if (requestType === "add") {
+  if (requestType === "add" && userProfile) {
     friendData.profilePic = userProfile;
   }
 

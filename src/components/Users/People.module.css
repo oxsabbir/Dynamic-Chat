@@ -3,6 +3,7 @@
 }
 .peoples {
   flex-grow: 1;
+  overflow-y: scroll;
 }
 .groupButton {
   margin: auto;

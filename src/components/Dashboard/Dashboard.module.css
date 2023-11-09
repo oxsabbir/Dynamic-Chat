@@ -3,6 +3,14 @@
   justify-content: space-between;
   align-items: center;
   gap: 25px;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--GLASS-UI);
+    width: 15px;
+    border-radius: 10px;
+  }
 }
 .containerLight {
   background-image: var(--LIGHT-GRADIENT);
