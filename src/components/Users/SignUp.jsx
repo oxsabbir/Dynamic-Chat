@@ -11,7 +11,13 @@ import {
 import { GoogleAuthProvider } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import {
+  getDatabase,
+  onValue,
+  ref,
+  update,
+  serverTimestamp,
+} from "firebase/database";
 import Loading from "../UI/Loading/Loading";
 import { contextData } from "../auth/Context";
 import { useNavigate } from "react-router-dom";
@@ -40,18 +46,28 @@ const SignUp = function () {
       userName: name,
       isVerifyed,
       uid: userId,
+      isActive: {
+        isActive: true,
+        time: serverTimestamp(),
+      },
     };
 
     if (photoUrl) {
       userData.profilePic = photoUrl;
     }
 
+    let updates = {};
+    updates[`users/${userId}`] = userData;
+
     onValue(userRef, (snap) => {
-      if (!snap.exists()) {
-        // blocking reWriting if old user signin
-        set(userRef, userData);
+      // blocking reWriting if old user signin
+      const data = snap.val();
+      if (!data?.uid) {
+        console.log("can write");
+        return update(ref(db), updates).then(() => console.log("user Created"));
       }
     });
+
     // Stop reWriting if already data exist
   };
 
@@ -105,10 +121,11 @@ const SignUp = function () {
 
     signInWithPopup(auth, provider)
       .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const accessToken = credential.accessToken;
         const user = result.user;
 
+        console.log("going");
         writeUserData(
           user.displayName,
           user.email,
