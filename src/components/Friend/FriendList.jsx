@@ -51,7 +51,7 @@ const FriendList = function ({ item, authUid, userInfo }) {
       currentUser,
       userInfo.userName,
       "",
-      userInfo.profilePic
+      userInfo?.profilePic
     );
     setIsPending(true);
   };
