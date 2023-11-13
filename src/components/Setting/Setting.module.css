@@ -44,6 +44,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  transition: .5s;
 }
 
 .settingInfo img {
@@ -52,6 +53,11 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.profileFade img {
+  opacity: .4;
+}
+
 .settingInfo h3 {
   font-size: 30px;
   margin: 15px 0 10px 0;
