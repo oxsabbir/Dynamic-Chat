@@ -7,13 +7,9 @@
     height: 85vh;
     border-radius: 20px;  
     ::-webkit-scrollbar {
-        width: 10px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background-color: var(--GLASS-UI);
-        width: 15px;
-        border-radius: 10px;
-      }
+        display: none;
+    }
+   
 }
 .findSection input {
     border: none;
@@ -36,6 +32,7 @@
     transition: .4s;
     gap: 10px;
     margin: 10px 0;
+    position: relative;
 }
 
 .message {

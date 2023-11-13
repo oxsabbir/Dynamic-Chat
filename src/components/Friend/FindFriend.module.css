@@ -20,6 +20,7 @@
     padding: 15px;
     flex-grow: 1;
     font-size: 18px;
+    text-align: center;
     border-radius: 10px;
 }
 
@@ -62,5 +63,13 @@
 .findSection {
     height: 100vh;
     border-radius: 0;
+    padding: 15px;
+}.findSection input {
+    border: none;
+    padding: 5px;
+    flex-grow: 1;
+    font-size: 18px;
+    border-radius: 10px;
 }
+
 }
