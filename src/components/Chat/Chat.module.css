@@ -18,8 +18,8 @@
   backdrop-filter: blur(15px);
   gap: 10px;;
   width: 100%;
-  
 }
+
 .bottomOption input {
   padding: 15px;
   font-size: 16px;
@@ -27,6 +27,33 @@
   flex-grow: 1;
   border: none;
   width: 100%;
+}
+
+
+.selectedImage {
+  height: auto;
+  width: 60px;
+  position: relative;
+}
+.selectedImage img {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  border-radius:5px;
+  object-fit: cover;
+}
+.selectedImage span i {
+  background: black;
+  color:  white;
+  padding: 5px;
+  font-size: 12px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  top:  -5px;
+  right: -5px;
+  border-radius: 50%;
 }
 
 .message {

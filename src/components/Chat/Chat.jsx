@@ -189,8 +189,10 @@ const Chat = function () {
     enteredFile.current.value = "";
   };
 
-  const fileSelection = function () {
-    setIsImageSelected(true);
+  const fileSelection = function (event) {
+    const files = event.target.files[0];
+    const imageUrlSelect = URL.createObjectURL(files);
+    setIsImageSelected(imageUrlSelect);
   };
 
   const unBlockHandler = function () {
@@ -325,20 +327,21 @@ const Chat = function () {
                 onChange={fileSelection}
                 accept=".png,.jpg,.jpeg,.gif"
               />
-
-              <Button
-                onMouseUp={(e) => {
-                  isImageSelected ? closeInput() : openInput();
-                }}
-              >
-                {isImageSelected ? icons.cancel : icons.image}
-              </Button>
+              {isImageSelected && (
+                <div className={classes.selectedImage}>
+                  <img src={isImageSelected} alt="image-selected" />
+                  <span onClick={closeInput}>{icons.remove}</span>
+                </div>
+              )}
+              {!isImageSelected && (
+                <Button onMouseUp={openInput}>{icons.image}</Button>
+              )}
 
               <input
                 ref={enteredMessage}
                 type="text"
                 onChange={() => typingHandler(roomId, authUser)}
-                placeholder="Write here"
+                placeholder="Type here..."
                 onBlur={() => blurHandler(roomId)}
               />
               <Button disabled={isLoading} type={"submit"}>
