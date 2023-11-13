@@ -76,7 +76,6 @@ const Setting = function ({ userInfo }) {
   const profilePicHandler = function () {
     setLoading(true);
     const file = enteredFile.current.files[0];
-    console.log(file);
     // uploading now
     updatePhoto(file, userInfo.uid, savingToProfile);
   };
