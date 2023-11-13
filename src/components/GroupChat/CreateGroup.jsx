@@ -3,7 +3,7 @@ import classes from "./CreateGroup.module.css";
 import ListPrinter from "../UI/ListPrinter";
 import Button from "../UI/Button/Button";
 import { useRef, useState } from "react";
-import useSearching from "../Friend/useSearching";
+import searchingUser from "../Friend/searchingUser";
 import {
   getDatabase,
   ref,
@@ -14,7 +14,11 @@ import {
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
-import { getStorage, ref as imageRef } from "firebase/storage";
+import {
+  connectStorageEmulator,
+  getStorage,
+  ref as imageRef,
+} from "firebase/storage";
 import uploadMedia from "../Feature/uploadMedia";
 
 const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
@@ -26,7 +30,7 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
     (item) => item.uid === auth.currentUser.uid
   );
 
-  const [selectedUser, setSelectedUser] = useState([currentUserInfo]);
+  const [selectedUser, setSelectedUser] = useState([currentUserInfo.uid]);
   const [userList, setUserList] = useState(acceptedFriend);
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isNotice, setNotice] = useState(false);
@@ -37,26 +41,26 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
   const checkboxHandler = function (event) {
     const value = event.target.checked;
     const roomId = event.target.id;
-    const member = allUser.find((item) => item.uid === roomId);
+
     if (value) {
-      setSelectedUser((prev) => [...prev, member]);
+      setSelectedUser((prev) => [...prev, roomId]);
     }
     if (!value) {
-      setSelectedUser((prev) => prev.filter((item) => item.uid !== roomId));
+      setSelectedUser((prev) => prev.filter((item) => item !== roomId));
     }
   };
 
+  console.log(selectedUser);
   const inputChangeHandler = function (event) {
     const value = event.target.value;
     if (value.trim().length !== 0) {
-      const data = useSearching(acceptedFriend, "name", value);
+      const data = searchingUser(acceptedFriend, value);
       setUserList(data);
     } else {
       setUserList(acceptedFriend);
     }
   };
   const selectImage = function () {
-    console.log(fileRef);
     fileRef.current.click();
   };
   const imageSelectorHandler = function () {
@@ -88,28 +92,16 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
       message: "Welcome to the group everyone",
     };
 
-    const allUser = {};
-    selectedUser.forEach((item) => {
-      let newKey = push(child(ref(db), "friends/")).key;
-      allUser[newKey] = {
-        userName: item.userName,
-        profilePic: item.profilePic,
-        uid: item.uid,
-        id: newKey,
-      };
-    });
-
     const updateDir = {};
     updateDir[`users/${auth.currentUser?.uid}/friends/${newKey}`] =
       groupDetails;
     updateDir[`chat-room/${newKey}/chats/${newKey}`] = firstMessage;
     updateDir[`chat-room/${newKey}/createdAt`] = serverTimestamp();
     console.log(selectedUser);
-    updateDir[`chat-room/${newKey}/roomMember`] = allUser;
+    updateDir[`chat-room/${newKey}/roomMember`] = selectedUser;
 
     selectedUser.forEach(
-      (item) =>
-        (updateDir[`users/${item.uid}/friends/${newKey}`] = groupDetails)
+      (item) => (updateDir[`users/${item}/friends/${newKey}`] = groupDetails)
     );
 
     return update(ref(db), updateDir).then(() => {
@@ -123,7 +115,6 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
     const db = getDatabase();
     const newKey = push(child(ref(db), "friends/")).key;
     const groupImageRef = imageRef(storage, `image/groupProifle/${newKey}`);
-    console.log(selectedUser);
 
     // validation
 
@@ -200,7 +191,7 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
                 (mainItem) => mainItem?.uid === item.userId
               );
               const isChecked = selectedUser.find((userItem) => {
-                if (userItem.uid === mainItem.uid) {
+                if (userItem === mainItem.uid) {
                   return true;
                 } else {
                   return false;

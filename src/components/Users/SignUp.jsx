@@ -9,7 +9,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithRedirect } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
   getDatabase,
@@ -119,13 +119,12 @@ const SignUp = function () {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
 
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
       .then((result) => {
         // const credential = GoogleAuthProvider.credentialFromResult(result);
         // const accessToken = credential.accessToken;
         const user = result.user;
 
-        console.log("going");
         writeUserData(
           user.displayName,
           user.email,
