@@ -27,7 +27,9 @@ const Setting = function ({ userInfo }) {
   };
   const fileSelection = function () {
     console.log("selected");
-    setIsSelected(true);
+    const profile = enteredFile.current.files[0];
+    const profileuUrl = URL.createObjectURL(profile);
+    setIsSelected(profileuUrl);
   };
 
   const cancelHandler = function () {
@@ -91,8 +93,15 @@ const Setting = function ({ userInfo }) {
         backHandler={toggleSetting}
         isShown={isSettingOpen}
       >
-        <div className={classes.settingInfo}>
-          <img src={userInfo.profilePic} alt="profilePic" />
+        <div
+          className={`${classes.settingInfo} ${
+            isSelected ? classes.profileFade : ""
+          }`}
+        >
+          <img
+            src={isSelected ? isSelected : userInfo.profilePic}
+            alt="profilePic"
+          />
           <div className={classes.updateName}>
             {nameChanging && (
               <>
@@ -141,7 +150,7 @@ const Setting = function ({ userInfo }) {
             ) : (
               <div className={classes.uploadMenu}>
                 <Button onClick={profilePicHandler}>
-                  {loading ? "..." : "Upload"}
+                  {loading ? "..." : "Save"}
                 </Button>
                 <Button onClick={cancelHandler}>Cancel</Button>
               </div>
