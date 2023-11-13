@@ -76,9 +76,26 @@ const Chat = function () {
         setGroupOpen(false);
         return;
       }
+
       const data = snap.val();
       const mainData = Object.values(data);
-      setRoomMember(mainData);
+
+      mainData.forEach((item) => {
+        const singleMember = ref(db, `users/${item}`);
+        onValue(singleMember, (snaps) => {
+          if (!snaps.exists()) return;
+          const data = snaps.val();
+          const mainData = {
+            userName: data.userName,
+            profilePic: data.profilePic,
+            uid: data.uid,
+          };
+
+          setRoomMember((prev) => [...prev, mainData]);
+          console.log("changed");
+        });
+        off(singleMember, undefined);
+      });
       setGroupOpen(true);
     });
 
@@ -279,10 +296,11 @@ const Chat = function () {
                   );
                 }
                 if (groupOpen) {
-                  const profile = roomMember.find(
-                    (data) => data.uid === item.from
-                  );
+                  const profile = roomMember.find((data) => {
+                    data.uid === item.from;
+                  });
                   const pic = profile?.profilePic;
+                  console.log(profile);
                   return (
                     <GroupChat
                       key={i}

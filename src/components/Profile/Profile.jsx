@@ -36,6 +36,8 @@ const Profile = function ({
     setIsConfirm(false);
   };
 
+  console.log(roomMember);
+
   return (
     <>
       <div

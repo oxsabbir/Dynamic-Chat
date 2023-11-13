@@ -1,16 +1,24 @@
 import Button from "../UI/Button/Button";
 import classes from "./GroupMenu.module.css";
 import DangerButton from "../UI//Button/DangerButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { icons } from "../UI/Icons";
 import { getAuth } from "firebase/auth";
 import { contextData } from "../auth/Context";
 import GetProfile from "./GetProfile";
-import { getDatabase, update, ref, push, child } from "firebase/database";
+import {
+  getDatabase,
+  update,
+  ref,
+  push,
+  child,
+  onValue,
+} from "firebase/database";
 
-const GroupMenu = function ({ memberList, groupInfo }) {
+const GroupMenu = function ({ groupInfo }) {
   const { toggleChatBox, toggleInbox } = contextData();
 
+  const [memberList, setMemberList] = useState([]);
   const { acceptedFriend, currentUserData } = contextData();
   const [isVisible, setIsVisible] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -18,24 +26,43 @@ const GroupMenu = function ({ memberList, groupInfo }) {
   const [searchInput, setSearchInput] = useState("");
   const auth = getAuth();
 
+  useEffect(() => {
+    const db = getDatabase();
+    const roomRef = ref(db, `chat-room/${groupInfo.roomId}/roomMember`);
+    onValue(roomRef, (snap) => {
+      if (!snap.exists()) return;
+      const member = snap.val();
+      console.log(member);
+    });
+  }, [groupInfo.roomId]);
+
+  console.log(memberList);
   const removeMemberHandler = async function (event) {
     const db = getDatabase();
     const roomId = groupInfo.roomId;
-    const refId = event.target.dataset.refid;
-    const getUser = memberList.find((user) => user.id === refId);
+
     let newKey = push(child(ref(db), "friends/")).key;
 
     const requireUser = event.target.id;
+    const newMember = memberList.map((member) => {
+      if (member.uid !== requireUser) {
+        return member.uid;
+      } else {
+        return null;
+      }
+    });
+
     const removeStatus = {
       type: "status",
-      title: `${currentUserData.userName} removed ${getUser?.userName} from the group`,
+      title: `${currentUserData.userName} removed from the group`,
     };
 
     const removeUser = {};
 
     removeUser[`users/${requireUser}/friends/${roomId}`] = null;
-    removeUser[`chat-room/${roomId}/roomMember/${refId}`] = null;
+    removeUser[`chat-room/${roomId}/roomMember/`] = newMember;
     removeUser[`chat-room/${roomId}/chats/${newKey}`] = removeStatus;
+    console.log(removeUser);
 
     return update(ref(db), removeUser).then(() => {
       console.log("success");

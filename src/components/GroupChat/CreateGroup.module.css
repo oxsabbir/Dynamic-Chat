@@ -11,6 +11,41 @@
     gap: 10px;
     margin: 10px 0;
 }
+
+.friendCard input[type="checkbox"] {
+     /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #ffffff;
+  /* Not removed via appearance */
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  display: grid;
+  place-content: center;
+}
+
+.friendCard input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    background: var(--DARK-ONLY);
+    transform: scale(0);
+    border-radius: 50%;
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--form-control-color);
+}
+
+ .friendCard input[type="checkbox"]:checked::before {
+    transform: scale(1);
+  }
+
+
 .friendCard p{
     color: #f0f0f0ab;
     padding: 10px ;
