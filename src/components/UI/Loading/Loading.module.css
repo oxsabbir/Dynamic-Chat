@@ -7,6 +7,10 @@
   }
   .loading{
     text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .ldsSpinner div {
     transform-origin: 40px 40px;
