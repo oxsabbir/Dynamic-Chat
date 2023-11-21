@@ -26,6 +26,8 @@ import { messagesSender as sendMsg } from "../Message/messageSender";
 import GroupChat from "../GroupChat/GroupChat";
 import timeGenarator from "../Feature/timeGenarator";
 import { typingHandler, blurHandler } from "../Feature/chatFeature";
+import Loading from "../UI/Loading/Loading";
+
 const Chat = function () {
   const auth = getAuth();
   const authUser = auth?.currentUser?.uid;
@@ -52,6 +54,7 @@ const Chat = function () {
   const [roomMember, setRoomMember] = useState([]);
   const [groupOpen, setGroupOpen] = useState(false);
   const [activeTime, setActiveTime] = useState("");
+  const [messageLoading, setMessageLoading] = useState(false);
 
   const enteredMessage = useRef();
   const enteredFile = useRef();
@@ -99,10 +102,12 @@ const Chat = function () {
       setGroupOpen(true);
     });
 
+    setMessageLoading(true);
     onValue(chatRef, (snap) => {
       if (!snap.exists()) return;
       const data = snap.val();
       const mainData = Object.values(data);
+      setMessageLoading(false);
       SetMessage(mainData);
       if (mainData[mainData.length - 1].blocked) {
         setBlocked(mainData[mainData.length - 1]);
@@ -120,7 +125,7 @@ const Chat = function () {
     }
 
     togglePrevValue(roomId);
-    scrollIntoViews();
+    // scrollIntoViews();
 
     if (userInfo?.isActive?.isActive === false) {
       const active = timeGenarator(userInfo?.isActive?.time);
@@ -149,7 +154,7 @@ const Chat = function () {
       enteredFile.current.value = "";
       setIsLoading(false);
       setIsImageSelected(false);
-      scrollIntoViews();
+      // scrollIntoViews();
     });
   };
 
@@ -271,103 +276,110 @@ const Chat = function () {
           </div>
         </div>
 
-        <div ref={unorderListRef} className={classes.message}>
-          {message.length >= 20 && (
-            <Button onClick={() => setLoadCount((prev) => prev + 20)}>
-              Load More
-            </Button>
-          )}
-          <ListPrinter>
-            {message &&
-              message.map((item, i) => {
-                if (message.length - 1 === i) {
-                  scrollIntoViews();
-                }
-                if (!groupOpen) {
-                  return (
-                    <Messages
-                      key={i}
-                      item={item}
-                      authUser={authUser}
-                      profilePic={profilePic}
-                      roomId={roomId}
-                      deleteHandler={messageDeleteHandler}
-                    />
-                  );
-                }
-                if (groupOpen) {
-                  const profile = roomMember.find((data) => {
-                    data.uid === item.from;
-                  });
-                  const pic = profile?.profilePic;
-                  console.log(profile);
-                  return (
-                    <GroupChat
-                      key={i}
-                      item={item}
-                      authUser={authUser}
-                      profilePic={pic}
-                      roomId={roomId}
-                      deleteHandler={messageDeleteHandler}
-                    />
-                  );
-                }
-              })}
-          </ListPrinter>
+        {messageLoading && <Loading />}
 
-          <div className={classes.scroller} ref={scrollElement}></div>
-        </div>
+        {!messageLoading && (
+          <>
+            <div ref={unorderListRef} className={classes.message}>
+              {message.length >= 20 && (
+                <Button onClick={() => setLoadCount((prev) => prev + 20)}>
+                  Load More
+                </Button>
+              )}
+              <ListPrinter>
+                {message &&
+                  message.map((item, i) => {
+                    if (message.length - 1 === i) {
+                      // scrollIntoViews();
+                    }
+                    if (!groupOpen) {
+                      return (
+                        <Messages
+                          key={i}
+                          item={item}
+                          authUser={authUser}
+                          profilePic={profilePic}
+                          roomId={roomId}
+                          deleteHandler={messageDeleteHandler}
+                        />
+                      );
+                    }
+                    if (groupOpen) {
+                      const profile = roomMember.find((data) => {
+                        data.uid === item.from;
+                      });
+                      const pic = profile?.profilePic;
+                      console.log(profile);
+                      return (
+                        <GroupChat
+                          key={i}
+                          item={item}
+                          authUser={authUser}
+                          profilePic={pic}
+                          roomId={roomId}
+                          deleteHandler={messageDeleteHandler}
+                        />
+                      );
+                    }
+                  })}
+              </ListPrinter>
 
-        {blocked.blockId && (
-          <div className={classes.blockedUi}>
-            {isBlockedFromMe ? (
-              <Button onClick={unBlockHandler}>Unblock</Button>
-            ) : (
-              <p>
-                You can't communicate with this person anymore. <br />
-                For some reason this person <span>Blocked</span> your account.
-              </p>
+              <div className={classes.scroller} ref={scrollElement}></div>
+            </div>
+
+            {blocked.blockId && (
+              <div className={classes.blockedUi}>
+                {isBlockedFromMe ? (
+                  <Button onClick={unBlockHandler}>Unblock</Button>
+                ) : (
+                  <p>
+                    You can't communicate with this person anymore. <br />
+                    For some reason this person <span>Blocked</span> your
+                    account.
+                  </p>
+                )}
+              </div>
             )}
-          </div>
+
+            <form onSubmit={sendMessage} name="message">
+              <div
+                className={`${classes.bottomOption} ${
+                  blocked.blocked ? classes.hidden : ""
+                }`}
+              >
+                <>
+                  <input
+                    className={classes.hidden}
+                    ref={enteredFile}
+                    type="file"
+                    onChange={fileSelection}
+                    accept=".png,.jpg,.jpeg,.gif"
+                  />
+                  {isImageSelected && (
+                    <div className={classes.selectedImage}>
+                      <img src={isImageSelected} alt="image-selected" />
+                      <span onClick={closeInput}>{icons.remove}</span>
+                    </div>
+                  )}
+                  {!isImageSelected && (
+                    <Button onMouseUp={openInput}>{icons.image}</Button>
+                  )}
+
+                  <input
+                    ref={enteredMessage}
+                    type="text"
+                    onChange={() => typingHandler(roomId, authUser)}
+                    placeholder="Type here..."
+                    onBlur={() => blurHandler(roomId)}
+                  />
+                  <Button disabled={isLoading} type={"submit"}>
+                    {isLoading ? "..." : icons.send}
+                  </Button>
+                </>
+              </div>
+            </form>
+          </>
         )}
-
-        <form onSubmit={sendMessage} name="message">
-          <div
-            className={`${classes.bottomOption} ${
-              blocked.blocked ? classes.hidden : ""
-            }`}
-          >
-            <>
-              <input
-                className={classes.hidden}
-                ref={enteredFile}
-                type="file"
-                onChange={fileSelection}
-                accept=".png,.jpg,.jpeg,.gif"
-              />
-              {isImageSelected && (
-                <div className={classes.selectedImage}>
-                  <img src={isImageSelected} alt="image-selected" />
-                  <span onClick={closeInput}>{icons.remove}</span>
-                </div>
-              )}
-              {!isImageSelected && (
-                <Button onMouseUp={openInput}>{icons.image}</Button>
-              )}
-
-              <input
-                ref={enteredMessage}
-                type="text"
-                onChange={() => typingHandler(roomId, authUser)}
-                placeholder="Type here..."
-                onBlur={() => blurHandler(roomId)}
-              />
-              <Button disabled={isLoading} type={"submit"}>
-                {isLoading ? "..." : icons.send}
-              </Button>
-            </>
-          </div>
-        </form>
       </div>
     </>
   );
