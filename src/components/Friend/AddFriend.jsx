@@ -34,6 +34,7 @@ const AddFriend = function (
   const requestObject = {
     from: requestType === "accept" ? currentUser.uid : currentUser,
     names: requestType === "accept" ? currentUser.names : names,
+    id: anotherKey,
     message: "Hello",
     time: serverTimestamp(),
   };
