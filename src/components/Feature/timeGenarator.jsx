@@ -1,8 +1,6 @@
 const timeGenarator = function (timeStamp) {
-  console.log(timeStamp);
   if (!timeGenarator) return;
   const diff = Date.now() - timeStamp;
-  console.log(new Date(timeStamp));
 
   const second = Math.round(diff / 1000);
   const minute = Math.round(diff / 1000 / 60);

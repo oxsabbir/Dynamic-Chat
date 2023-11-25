@@ -79,8 +79,7 @@ const RootLayout = function () {
         >
           <Loading />
           <p>
-            Authentication complete <br />
-            Now redirecting dashboard <br /> please wait a second
+            Checking Authentication <br /> please wait a second
           </p>
         </div>
       )}

@@ -1,15 +1,7 @@
 import classes from "./Message.module.css";
 import { Link } from "react-router-dom";
-import { getDatabase, ref, update } from "firebase/database";
-import { contextData } from "../auth/Context";
 
-const Messages = function ({
-  item,
-  authUser,
-  profilePic,
-  roomId,
-  deleteHandler,
-}) {
+const Messages = function ({ item, authUser, profilePic, deleteHandler }) {
   let message = item.message;
   if (item.isTyping) {
     message = item.message;
