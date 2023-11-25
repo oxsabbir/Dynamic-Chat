@@ -9,58 +9,12 @@
   border-radius: 20px;
 }
 
-
-.bottomOption {
-  background-color: var(--LIGHT-GLASS-UI);
-  padding: 15px 20px;
-  display: flex;
-  backdrop-filter: blur(15px);
-  gap: 10px;;
-  width: 100%;
-}
-
-.bottomOption input {
-  padding: 15px;
-  font-size: 16px;
-  border-radius: 10px;
-  flex-grow: 1;
-  border: none;
-  width: 100%;
-}
-
-
-.selectedImage {
-  height: auto;
-  width: 60px;
-  position: relative;
-}
-.selectedImage img {
-  display: flex;
-  width: 100%;
-  height: 50px;
-  border-radius:5px;
-  object-fit: cover;
-}
-.selectedImage span i {
-  background: black;
-  color:  white;
-  padding: 5px;
-  font-size: 12px;
-  display: inline-block;
-  text-align: center;
-  cursor: pointer;
-  position: absolute;
-  top:  -5px;
-  right: -5px;
-  border-radius: 50%;
-}
-
 .message {
-  padding: 5px 15px;
+  padding: 5px 15px 40px 15px;
   overflow: auto;
   display: flex;
   width: 100%;
-  flex-flow: column;
+  flex-flow: column-reverse;
   flex-grow: 2;
   scroll-behavior: smooth;
 }
@@ -193,24 +147,11 @@
   padding-top: 120px; 
 }
 
-
-
-.blockedUi{
-  padding: 20px;
-  box-shadow: 5px 5px 15px 2px rgb(12, 6, 16);
+.centerLoading{
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  color: white;
-}
-
-.blockedUi p{
-  line-height: 22px;
-}
-
-.blockedUi span {
-  color: rgb(243, 92, 36);
 }
 
 @media screen and (max-width: 768px) {
