@@ -14,11 +14,7 @@ import {
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
-import {
-  connectStorageEmulator,
-  getStorage,
-  ref as imageRef,
-} from "firebase/storage";
+import { getStorage, ref as imageRef } from "firebase/storage";
 import uploadMedia from "../Feature/uploadMedia";
 
 const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
