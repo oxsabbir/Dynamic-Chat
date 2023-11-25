@@ -80,6 +80,8 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
     };
 
     const userPending = pendingList?.find((item) => item.userId === reqUid);
+    console.log(userPending);
+
     AddFriend(
       "accept",
       reqUid,
