@@ -6,7 +6,6 @@
   flex-flow: column;
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
 }
 
 .message {
@@ -43,7 +42,7 @@
   padding: 5px 0;
 }
 
-.otherUser img {
+.otherUser img{
   width: 50px;
   height: 50px;
   object-fit: cover;
@@ -108,9 +107,7 @@
 .friendCard {
   background-color: var(--GLASS-UI);
   display: flex;
-  
   padding: 10px 25px;
-  border-radius: 20px;
   align-items: center;
   gap: 10px;
 }
@@ -180,7 +177,7 @@
     width: 50%;
   }
   .bottomOption {
-    position: fixed ;
+    position: sticky ;
     bottom:  0;
   }
 }

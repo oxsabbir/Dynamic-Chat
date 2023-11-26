@@ -1,11 +1,11 @@
 export const icons = {
   send: <i className="fa-solid fa-paper-plane"></i>,
   search: <i className="fa-solid fa-magnifying-glass"></i>,
-  logout: <i className="fa-solid fa-right-from-bracket"></i>,
   showRequest: <i className="fa-solid fa-user-group"></i>,
   peopleGroup: <i className="fa-solid fa-users"></i>,
   back: <i className="fa-solid fa-arrow-left"></i>,
   image: <i className="fa-regular fa-image"></i>,
+  logout: <i className="fa-solid fa-right-from-bracket"></i>,
   login: <i className="fa-solid fa-right-to-bracket"></i>,
   signup: <i className="fa-solid fa-user-plus"></i>,
   add: <i className="fa-solid fa-check"></i>,

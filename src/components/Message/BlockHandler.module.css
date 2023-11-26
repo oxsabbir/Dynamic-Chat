@@ -1,0 +1,18 @@
+.blockedUi{
+    padding: 20px;
+    box-shadow: 5px 5px 15px 2px rgb(12, 6, 16);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+  }
+  
+  .blockedUi p{
+    line-height: 22px;
+  }
+  
+  .blockedUi span {
+    color: rgb(243, 92, 36);
+  }
+  

@@ -1,13 +1,7 @@
 import classes from "../Message/Message.module.css";
 import { Link } from "react-router-dom";
 
-const GroupChat = function ({
-  item,
-  authUser,
-  profilePic,
-  roomId,
-  deleteHandler,
-}) {
+const GroupChat = function ({ item, authUser, profilePic, deleteHandler }) {
   let message = item.message;
   if (item.isTyping) {
     message = item.message;

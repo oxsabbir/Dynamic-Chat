@@ -57,33 +57,17 @@ const Chat = function () {
 
     const memberRef = ref(db, "chat-room/" + `${roomId}/roomMember`);
 
-    onValue(memberRef, (snap) => {
+    const unSub = onValue(memberRef, (snap) => {
       if (!snap.exists()) {
         setGroupOpen(false);
         return;
       }
-
       const data = snap.val();
       const mainData = Object.values(data);
-
-      mainData.forEach((item) => {
-        const singleMember = ref(db, `users/${item}`);
-        onValue(singleMember, (snaps) => {
-          if (!snaps.exists()) return;
-          const data = snaps.val();
-          const mainData = {
-            userName: data.userName,
-            profilePic: data.profilePic,
-            uid: data.uid,
-          };
-
-          setRoomMember((prev) => [...prev, mainData]);
-          console.log("changed");
-        });
-        off(singleMember, undefined);
-      });
+      setRoomMember(mainData);
       setGroupOpen(true);
     });
+
     setMessageLoading(true);
 
     onValue(chatRef, (snap) => {
@@ -149,7 +133,11 @@ const Chat = function () {
           activeTime={activeTime}
           profilePic={profilePic}
         />
-
+        {messageLoading && (
+          <div className={classes.centerLoading}>
+            <Loading />
+          </div>
+        )}
         {!messageLoading && (
           <>
             <MessagePrinter
