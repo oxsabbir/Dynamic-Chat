@@ -1,7 +1,13 @@
 import classes from "./Message.module.css";
 import { Link } from "react-router-dom";
 
-const Messages = function ({ item, authUser, profilePic, deleteHandler }) {
+const Messages = function ({
+  item,
+  authUser,
+  profilePic,
+  deleteHandler,
+  sameUser,
+}) {
   let message = item.message;
   if (item.isTyping) {
     message = item.message;
@@ -13,11 +19,11 @@ const Messages = function ({ item, authUser, profilePic, deleteHandler }) {
     <>
       {isMessage && (
         <div
-          className={
+          className={`${
             item.from === authUser ? classes.authUser : classes.otherUser
-          }
+          } ${sameUser ? classes.sameUser : ""}`}
         >
-          {item.from !== authUser && <img src={profilePic} />}
+          {item.from !== authUser && !sameUser && <img src={profilePic} />}
 
           {item.image && (
             <div
