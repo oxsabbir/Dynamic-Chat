@@ -135,7 +135,9 @@ const MessageMenu = function ({
     return media;
   };
 
-  const startRecording = async function () {
+  const startRecording = async function (ev) {
+    ev.preventDefault();
+
     const media = await getAudioPermission();
     media.start();
     media.addEventListener("dataavailable", function (ev) {
