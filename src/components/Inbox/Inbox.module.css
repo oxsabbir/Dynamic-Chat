@@ -1,6 +1,6 @@
 .inbox {
     background-color: var(--GLASS-UI);
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-flow: column;
     gap: 10px;
@@ -16,6 +16,9 @@
     font-size: 18px;
     border-radius: 10px;
 }
+.profileActive {
+  box-shadow: 0px 0px 15px -4px #5fff5f;
+}
 
 .friendCard  * {
     pointer-events: none;
@@ -25,7 +28,7 @@
     background-color: var(--GLASS-UI);
     display: flex;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
     align-items: center;
     transition: .4s;
@@ -63,7 +66,7 @@
     justify-content: space-between;
     align-items: center;
     color: white;
-    border-radius: 15px;
+    border-radius: 5px;
 }
 .contact img {
     border-radius: 50%;

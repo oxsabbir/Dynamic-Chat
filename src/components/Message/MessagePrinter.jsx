@@ -36,7 +36,6 @@ const MessagePrinter = function ({
   };
 
   let tempUser = "";
-
   return (
     <>
       <div className={classes.message}>

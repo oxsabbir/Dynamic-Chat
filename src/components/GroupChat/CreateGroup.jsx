@@ -40,6 +40,7 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
     const member = allUser.find((item) => item.uid === roomId);
     if (value) {
       setSelectedUser((prev) => [...prev, member]);
+      console.log(member);
     }
     if (!value) {
       setSelectedUser((prev) => prev.filter((item) => item.uid !== roomId));

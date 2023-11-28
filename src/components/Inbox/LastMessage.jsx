@@ -74,7 +74,10 @@ const LastMessage = function ({ item, uid }) {
         activeChat === item.roomId ? classes.active : ""
       }`}
     >
-      <img src={userInfo.profilePic} />
+      <img
+        className={userInfo?.isActive?.isActive ? classes.profileActive : ""}
+        src={userInfo.profilePic}
+      />
       <div>
         <h3>{userInfo.userName}</h3>
         <p

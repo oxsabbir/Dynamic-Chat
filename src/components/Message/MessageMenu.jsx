@@ -1,6 +1,6 @@
 import classes from "./MessageMenu.module.css";
 import { typingHandler, blurHandler } from "../Feature/chatFeature";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { getDatabase, ref, push, child } from "firebase/database";
 import { getStorage, ref as imageRef } from "firebase/storage";
 import { messagesSender as sendMsg } from "../Message/messageSender";
@@ -22,6 +22,7 @@ const MessageMenu = function ({
 
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [recordedFile, setRecordedFile] = useState("");
 
   const fileSelection = function (event) {
     const files = event.target.files[0];
@@ -91,6 +92,38 @@ const MessageMenu = function ({
     setIsImageSelected(false);
     enteredFile.current.value = "";
   };
+
+  let currentMedia;
+
+  const getAudioPermission = async function () {
+    const media = await navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        const audio = new MediaRecorder(stream);
+        currentMedia = audio;
+        return audio;
+      });
+    return media;
+  };
+
+  const startRecording = async function () {
+    const media = await getAudioPermission();
+    console.log(currentMedia);
+    media.start();
+
+    media.addEventListener("dataavailable", function (ev) {
+      const blobFile = new Blob([ev.data], { type: "audio/webm;codecs=opus" });
+      console.log(blobFile);
+      const fileLink = URL.createObjectURL(blobFile);
+      console.log(fileLink);
+      setRecordedFile(fileLink);
+    });
+  };
+
+  const StopRecording = async function () {
+    currentMedia.stop();
+  };
+
   return (
     <>
       <form onSubmit={sendMessage} name="message">
@@ -104,6 +137,7 @@ const MessageMenu = function ({
               className={classes.hidden}
               ref={enteredFile}
               type="file"
+              c
               onChange={fileSelection}
               accept=".png,.jpg,.jpeg,.gif"
             />
@@ -116,6 +150,20 @@ const MessageMenu = function ({
             {!isImageSelected && (
               <Button onMouseUp={openInput}>{icons.image}</Button>
             )}
+
+            <div>
+              <Button
+                onTouchStart={startRecording}
+                onTouchEnd={StopRecording}
+                onMouseDown={startRecording}
+                onMouseUp={StopRecording}
+              >
+                Voice
+              </Button>
+            </div>
+            <div>
+              <audio src={recordedFile} controls type="audio/mp3"></audio>
+            </div>
 
             <input
               ref={enteredMessage}
