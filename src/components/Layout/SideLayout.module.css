@@ -10,7 +10,6 @@
     display: flex;
     flex-flow: column;
     width: 40%;
-    border-radius: 20px;
   }
   .layoutBar {
     display:  flex;

@@ -1,16 +1,14 @@
-
-
 .bottomOption {
     background-color: var(--LIGHT-GLASS-UI);
-    padding: 12px 20px;
+    padding: 10px 20px;
     display: flex;
-    backdrop-filter: blur(15px);
     gap: 10px;;
+    backdrop-filter: blur(15px);
     width: 100%;
   }
   
   .bottomOption input {
-    padding: 15px;
+    padding: 10px 15px;
     font-size: 16px;
     border-radius: 10px;
     flex-grow: 1;
@@ -73,6 +71,7 @@
   @media screen and (max-width: 768px) {
     .bottomOption {
       position: fixed;
+      z-index: 55;
       bottom: 0;
     }
   }

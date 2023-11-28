@@ -1,0 +1,41 @@
+.modal {
+  background: hsla(0, 0%, 0%, 0.264);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  padding: 10px;
+  max-height: 90%;
+  max-width: 90%;
+}
+
+.mainContent img {
+  max-width: 80vw;
+  max-height: 80vh;
+}
+.options {
+  display: flex;
+  justify-content: space-between;
+}
+.options button {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.614);
+}
+
+@media screen and (max-width: 767px) {
+  .mainContent img {
+    max-width: 80vw;
+    max-height: 85vh;
+  }
+}

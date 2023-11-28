@@ -83,8 +83,9 @@ const GroupMenu = function ({ memberList, groupInfo }) {
           <div
             className={`${classes.userListAdding} ${classes.memberList} ${classes.showMember}`}
           >
-            {acceptedFriend.map((accepted) => {
+            {acceptedFriend.map((accepted, i) => {
               if (accepted.type === "group") return;
+
               const alreadyAdded = memberList.find((item) => {
                 if (item?.uid === accepted?.userId) return true;
                 if (item?.uid !== accepted?.userId) return false;
@@ -93,13 +94,15 @@ const GroupMenu = function ({ memberList, groupInfo }) {
               if (alreadyAdded) return;
               const names = accepted.name;
               const isExist = names.toLowerCase();
-              if (searchInput.trim().length !== 0) {
-                if (!isExist.startsWith(searchInput)) {
-                  return;
-                }
+              if (
+                searchInput.trim().length !== 0 &&
+                !isExist.startsWith(searchInput.toLowerCase())
+              ) {
+                return;
               }
               return (
                 <GetProfile
+                  key={i}
                   userId={accepted.userId}
                   roomId={groupInfo.roomId}
                   groupInfo={groupInfo}
