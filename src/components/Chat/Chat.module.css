@@ -118,6 +118,12 @@
   height: 50px;
   object-fit: cover;
 }
+
+.profileActive {
+  box-shadow: 0px 0px 15px -4px #5fff5f;
+}
+
+
 .friendCard button {
   padding: 10px;
 }
@@ -167,6 +173,9 @@
     padding: 10px ;
     z-index: 3;
   }
+  .message{
+    padding-bottom: 90px;
+  }
   
   .chatBody {
     height: 100vh;
@@ -175,9 +184,5 @@
   
   .imageFile {
     width: 50%;
-  }
-  .bottomOption {
-    position: sticky ;
-    bottom:  0;
   }
 }

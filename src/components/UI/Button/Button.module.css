@@ -1,12 +1,11 @@
 .button {
     border: 0;
     padding: 10px 20px;
-    border-radius: 20px;
+    border-radius: 5px;
     font-size: 16px;
     color: white;
     font-weight: 500;
 }
-
 .buttonDark{
     background: var(--DARK-BUTTON);
 }
