@@ -5,6 +5,22 @@ import { icons } from "../Icons";
 
 const ImageModal = function ({ children, onClose, isOpen, image }) {
   if (!isOpen) return;
+
+  const downLoadImage = function () {
+    fetch(image)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const anchor = document.createElement("a");
+        anchor.href = URL.createObjectURL(blob);
+        anchor.download = `message${Math.random().toFixed(4)}.jpg`;
+        anchor.style.display = "none";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+      })
+      .catch((err) => console.error("Error during downloading image : ", err));
+  };
+
   return createPortal(
     <>
       <div onClick={onClose} className={classes.overlay}></div>
@@ -13,10 +29,7 @@ const ImageModal = function ({ children, onClose, isOpen, image }) {
           {children}
 
           <div className={classes.options}>
-            <a href={image} download={true}>
-              <Button>{icons.download}</Button>
-            </a>
-
+            <Button onClick={downLoadImage}>{icons.download}</Button>
             <Button onClick={onClose}>{icons.remove}</Button>
           </div>
         </div>
