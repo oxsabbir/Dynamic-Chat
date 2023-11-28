@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { icons } from "../UI/Icons";
 import { contextData } from "../auth/Context";
 import BrandLogo from "../UI/BrandLogo";
+import makeOffline from "../Feature/makeOffline";
+
 const Header = function () {
   const navigate = useNavigate();
   const auth = getAuth();
@@ -17,8 +19,9 @@ const Header = function () {
     toggleTheme,
     isDarkTheme,
   } = contextData();
+
   const LogoutHandler = function () {
-    auth.signOut().then(() => setLogOut(false));
+    makeOffline().then(() => auth.signOut().then(() => setLogOut(false)));
     navigate("/");
   };
 
