@@ -28,4 +28,6 @@ export const icons = {
   dropUp: <i className="fa-solid fa-caret-up"></i>,
   download: <i className="fa-solid fa-download"></i>,
   mic: <i className="fa-solid fa-microphone"></i>,
+  play: <i className="fa-solid fa-play"></i>,
+  pause: <i className="fa-solid fa-pause"></i>,
 };

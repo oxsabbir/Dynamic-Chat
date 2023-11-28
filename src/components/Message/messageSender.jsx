@@ -8,7 +8,8 @@ export const messagesSender = async function (
   message,
   newKey,
   isGroup,
-  imageUrl
+  imageUrl,
+  voiceUrl
 ) {
   const auth = getAuth();
   const authUser = auth?.currentUser?.uid;
@@ -21,9 +22,15 @@ export const messagesSender = async function (
     id: newKey,
     time: serverTimestamp(),
   };
+
   if (imageUrl) {
     messages.image = imageUrl;
   }
+
+  if (voiceUrl) {
+    messages.voice = voiceUrl;
+  }
+
   const updates = {};
   // updating timestamps on the both side for the sorting
   // these two update are for sorting inbox card
