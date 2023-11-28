@@ -1,5 +1,8 @@
 import classes from "./Message.module.css";
 import { Link } from "react-router-dom";
+import TextPrinter from "./mediaPrinter/TextPrinter";
+import ImagePrinter from "./mediaPrinter/imagePrinter";
+import VoicePrinter from "./mediaPrinter/VoicePrinter";
 
 const Messages = function ({
   item,
@@ -9,10 +12,12 @@ const Messages = function ({
   sameUser,
 }) {
   let message = item.message;
+
   if (item.isTyping) {
     message = item.message;
   }
   let status = item.type === "status";
+
   let isMessage = item.message !== undefined;
 
   return (
@@ -25,43 +30,13 @@ const Messages = function ({
         >
           {item.from !== authUser && !sameUser && <img src={profilePic} />}
 
-          {item.image && (
-            <div
-              className={`${
-                item.from === authUser
-                  ? classes.imageFileAuth
-                  : classes.imageFileOther
-              } ${classes.imageFile}`}
-            >
-              <Link to={item.image} target="blank">
-                <img src={item.image} loading="lazy" />
-              </Link>
-              {item.message && (
-                <p
-                  className={`${
-                    item.from === authUser
-                      ? classes.authTextMsg
-                      : classes.textMsg
-                  } ${classes.textFull}`}
-                >
-                  {item.message}
-                </p>
-              )}
-            </div>
+          {item.image && <ImagePrinter item={item} authUser={authUser} />}
+
+          {!item.image && !item.voice && (
+            <TextPrinter authUser={authUser} item={item} message={message} />
           )}
 
-          {!item.image && (
-            <>
-              <div
-                className={`${
-                  item.from === authUser ? classes.authTextMsg : classes.textMsg
-                } ${item.isTyping && item.from === authUser && classes.hidden}`}
-              >
-                {!item.isTyping && <p>{message}</p>}
-                {item.isTyping && item.from !== authUser && <p>{message}</p>}
-              </div>
-            </>
-          )}
+          {item.voice && <VoicePrinter authUser={authUser} item={item} />}
 
           {item.from === authUser && (
             <div
