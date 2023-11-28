@@ -1,6 +1,6 @@
 import classes from "./MessageMenu.module.css";
 import { typingHandler, blurHandler } from "../Feature/chatFeature";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { getDatabase, ref, push, child } from "firebase/database";
 import { getStorage, ref as imageRef } from "firebase/storage";
 import { messagesSender as sendMsg } from "../Message/messageSender";
@@ -8,6 +8,7 @@ import { getAuth } from "firebase/auth";
 import { icons } from "../UI/Icons";
 import Button from "../UI/Button/Button";
 import uploadMedia from "../Feature/uploadMedia";
+import WaveSurfer from "wavesurfer.js";
 
 const MessageMenu = function ({
   roomId,
@@ -17,12 +18,16 @@ const MessageMenu = function ({
   blocked,
 }) {
   const auth = getAuth();
-  const enteredMessage = useRef();
-  const enteredFile = useRef();
+  const enteredMessage = useRef(null);
+  const enteredFile = useRef(null);
+  const voiceWaveRef = useRef(null);
+  const playRecordRef = useRef(null);
+  const deleteRecordRef = useRef(null);
 
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [recordedFile, setRecordedFile] = useState("");
+  const [isRecorded, setIsRecorded] = useState(false);
+  const [recordedVoice, setRecordedVoice] = useState("");
 
   const fileSelection = function (event) {
     const files = event.target.files[0];
@@ -32,11 +37,15 @@ const MessageMenu = function ({
 
   const messageSender = async function () {
     await sendMsg(...arguments).then(() => {
-      enteredMessage.current.value = "";
-      enteredMessage.current.focus();
-      enteredFile.current.value = "";
+      if (!recordedVoice) {
+        enteredMessage.current.value = "";
+        enteredMessage.current.focus();
+        enteredFile.current.value = "";
+      }
       setIsLoading(false);
       setIsImageSelected(false);
+      setRecordedVoice(false);
+      setIsRecorded(false);
     });
   };
 
@@ -44,7 +53,8 @@ const MessageMenu = function ({
     event.preventDefault();
     const db = getDatabase();
     const message = enteredMessage.current?.value;
-    if (message.trim().length <= 0 && !isImageSelected) {
+
+    if (message?.trim().length <= 0 && !recordedVoice && !isImageSelected) {
       enteredMessage.current.focus();
       return;
     }
@@ -57,6 +67,11 @@ const MessageMenu = function ({
     const picRef = imageRef(
       storage,
       `image/chats/${roomId}/${auth.currentUser.uid}/${newKey}`
+    );
+    // sendig voice message
+    const voiceRef = imageRef(
+      storage,
+      `voice/chats/${roomId}/${auth.currentUser.uid}/${newKey}`
     );
 
     if (isImageSelected) {
@@ -71,8 +86,22 @@ const MessageMenu = function ({
         groupOpen,
       ]);
     }
+
+    if (isRecorded) {
+      setIsLoading(true);
+      uploadMedia(recordedVoice, voiceRef, messageSender, [
+        roomId,
+        authUser,
+        userId,
+        "",
+        newKey,
+        groupOpen,
+        null,
+      ]);
+    }
+
     // Sending only text message without image
-    if (!isImageSelected) {
+    if (!isImageSelected && !isRecorded) {
       messageSender(
         roomId,
         auth.currentUser.uid,
@@ -108,20 +137,43 @@ const MessageMenu = function ({
 
   const startRecording = async function () {
     const media = await getAudioPermission();
-    console.log(currentMedia);
     media.start();
-
     media.addEventListener("dataavailable", function (ev) {
       const blobFile = new Blob([ev.data], { type: "audio/webm;codecs=opus" });
-      console.log(blobFile);
+
+      setRecordedVoice(blobFile);
       const fileLink = URL.createObjectURL(blobFile);
-      console.log(fileLink);
-      setRecordedFile(fileLink);
+
+      // Wave surfer
+      const waveSurfer = WaveSurfer.create({
+        container: voiceWaveRef.current,
+        waveColor: "#4F4A85",
+        progressColor: "#383351",
+        height: 35,
+        url: fileLink,
+      });
+      waveSurfer.on("interaction", () => waveSurfer.play());
+
+      // all about surfer
+
+      const deleteRecording = function () {
+        console.log("delete");
+        setIsRecorded(false);
+        setRecordedVoice("");
+        waveSurfer.destroy();
+      };
+      const playRecording = function () {
+        waveSurfer.play();
+        console.log("play");
+      };
+      deleteRecordRef.current.addEventListener("click", deleteRecording);
+      playRecordRef.current.addEventListener("click", playRecording);
     });
   };
 
   const StopRecording = async function () {
     currentMedia.stop();
+    setIsRecorded(true);
   };
 
   return (
@@ -137,7 +189,6 @@ const MessageMenu = function ({
               className={classes.hidden}
               ref={enteredFile}
               type="file"
-              c
               onChange={fileSelection}
               accept=".png,.jpg,.jpeg,.gif"
             />
@@ -150,28 +201,36 @@ const MessageMenu = function ({
             {!isImageSelected && (
               <Button onMouseUp={openInput}>{icons.image}</Button>
             )}
+            {!isRecorded && (
+              <div>
+                <Button
+                  onTouchStart={startRecording}
+                  onTouchEnd={StopRecording}
+                  onMouseDown={startRecording}
+                  onMouseUp={StopRecording}
+                >
+                  {icons.mic}
+                </Button>
+              </div>
+            )}
 
-            <div>
-              <Button
-                onTouchStart={startRecording}
-                onTouchEnd={StopRecording}
-                onMouseDown={startRecording}
-                onMouseUp={StopRecording}
-              >
-                Voice
-              </Button>
-            </div>
-            <div>
-              <audio src={recordedFile} controls type="audio/mp3"></audio>
-            </div>
+            {isRecorded && (
+              <div className={classes.controller}>
+                <span ref={playRecordRef}>{icons.play}</span>
+                <div ref={voiceWaveRef} className={classes.voiceWave}></div>
+                <span ref={deleteRecordRef}>{icons.remove}</span>
+              </div>
+            )}
+            {!isRecorded && (
+              <input
+                ref={enteredMessage}
+                type="text"
+                onChange={() => typingHandler(roomId, authUser)}
+                placeholder="Type here..."
+                onBlur={() => blurHandler(roomId)}
+              />
+            )}
 
-            <input
-              ref={enteredMessage}
-              type="text"
-              onChange={() => typingHandler(roomId, authUser)}
-              placeholder="Type here..."
-              onBlur={() => blurHandler(roomId)}
-            />
             <Button disabled={isLoading} type={"submit"}>
               {isLoading ? "..." : icons.send}
             </Button>

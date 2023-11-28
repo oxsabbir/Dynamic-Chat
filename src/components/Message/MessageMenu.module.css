@@ -18,6 +18,26 @@
     width: 100%;
   }
 
+  .controller{
+    width: 100%;
+    background: var(--DARK-ONLY); 
+    padding: 0 10px;
+    gap: 5px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  .controller span {
+    font-size: 18px;
+    cursor: pointer;
+    color:  white;
+    padding: 5px;
+  }
+  .voiceWave {
+    width: 100%;
+  }
+
   .selectedImage {
     height: auto;
     width: 60px;
