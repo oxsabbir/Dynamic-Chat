@@ -27,7 +27,9 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
   );
 
   const [selectedUser, setSelectedUser] = useState([currentUserInfo]);
+
   const [userList, setUserList] = useState(acceptedFriend);
+
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isNotice, setNotice] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,10 +39,10 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
   const checkboxHandler = function (event) {
     const value = event.target.checked;
     const roomId = event.target.id;
+
     const member = allUser.find((item) => item.uid === roomId);
     if (value) {
       setSelectedUser((prev) => [...prev, member]);
-      console.log(member);
     }
     if (!value) {
       setSelectedUser((prev) => prev.filter((item) => item.uid !== roomId));
@@ -49,11 +51,8 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
 
   const inputChangeHandler = function (event) {
     const value = event.target.value;
-    console.log(value);
     if (value.trim().length !== 0) {
-      const data = searchingUser(acceptedFriend, "name", value);
-      console.log(data);
-
+      const data = searchingUser(acceptedFriend, value);
       setUserList(data);
     } else {
       setUserList(acceptedFriend);
@@ -192,7 +191,7 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
         <div className={classes.searchBar}>
           <input
             type="search"
-            placeholder="Type user Name"
+            placeholder="Type Friend Name"
             onChange={inputChangeHandler}
           />
         </div>
