@@ -1,12 +1,13 @@
 import classes from "../Message/Message.module.css";
-import { Link } from "react-router-dom";
+import VoicePrinter from "../Message/mediaPrinter/VoicePrinter";
+import ImagePrinter from "../Message/mediaPrinter/ImagePrinter";
+import TextPrinter from "../Message/mediaPrinter/TextPrinter";
 
 const GroupChat = function ({ item, authUser, profilePic, deleteHandler }) {
   let message = item.message;
   if (item.isTyping) {
     message = item.message;
   }
-
   let status = item.type === "status";
   let isMessage = item.message !== undefined;
 
@@ -20,43 +21,12 @@ const GroupChat = function ({ item, authUser, profilePic, deleteHandler }) {
         >
           {item.from !== authUser && <img src={profilePic} />}
 
-          {item.image && (
-            <div
-              className={`${
-                item.from === authUser
-                  ? classes.imageFileAuth
-                  : classes.imageFileOther
-              } ${classes.imageFile}`}
-            >
-              <Link to={item.image} target="blank">
-                <img src={item.image} loading="lazy" />
-              </Link>
-              {item.message && (
-                <p
-                  className={`${
-                    item.from === authUser
-                      ? classes.authTextMsg
-                      : classes.textMsg
-                  } ${classes.textFull}`}
-                >
-                  {item.message}
-                </p>
-              )}
-            </div>
-          )}
+          {item.image && <ImagePrinter item={item} authUser={authUser} />}
 
-          {!item.image && (
-            <>
-              <div
-                className={`${
-                  item.from === authUser ? classes.authTextMsg : classes.textMsg
-                } ${item.isTyping && item.from === authUser && classes.hidden}`}
-              >
-                {!item.isTyping && <p>{message}</p>}
-                {item.isTyping && item.from !== authUser && <p>{message}</p>}
-              </div>
-            </>
+          {!item.image && !item.voice && (
+            <TextPrinter item={item} authUser={authUser} message={message} />
           )}
+          {item.voice && <VoicePrinter item={item} authUser={authUser} />}
 
           {item.from === authUser && (
             <div

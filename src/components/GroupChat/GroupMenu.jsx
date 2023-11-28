@@ -89,6 +89,7 @@ const GroupMenu = function ({ memberList, groupInfo }) {
                 if (item?.uid === accepted?.userId) return true;
                 if (item?.uid !== accepted?.userId) return false;
               });
+
               if (alreadyAdded) return;
               const names = accepted.name;
               const isExist = names.toLowerCase();

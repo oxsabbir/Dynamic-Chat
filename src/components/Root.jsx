@@ -39,7 +39,8 @@ const RootLayout = function () {
     }
 
     setLoading(true);
-    const unsubcribe = onAuthStateChanged(auth, (snapshot) => {
+
+    onAuthStateChanged(auth, (snapshot) => {
       if (snapshot) {
         setLogin(true);
         navigate("/dashboard");

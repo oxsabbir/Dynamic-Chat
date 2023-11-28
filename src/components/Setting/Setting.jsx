@@ -9,6 +9,7 @@ import { update, ref, getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import SideLayout from "../Layout/SideLayout";
+import makeOffline from "../Feature/makeOffline";
 
 const Setting = function ({ userInfo }) {
   const { toggleSetting, isSettingOpen, setLogOut } = contextData();
@@ -81,7 +82,7 @@ const Setting = function ({ userInfo }) {
   };
 
   const logOutHandler = function () {
-    auth.signOut().then(() => setLogOut());
+    makeOffline().then(() => auth.signOut().then(() => setLogOut(false)));
     navigate("/sign-up");
   };
 

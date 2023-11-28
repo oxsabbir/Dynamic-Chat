@@ -49,13 +49,17 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
 
   const inputChangeHandler = function (event) {
     const value = event.target.value;
+    console.log(value);
     if (value.trim().length !== 0) {
       const data = searchingUser(acceptedFriend, "name", value);
+      console.log(data);
+
       setUserList(data);
     } else {
       setUserList(acceptedFriend);
     }
   };
+
   const selectImage = function () {
     console.log(fileRef);
     fileRef.current.click();

@@ -11,7 +11,6 @@ const MobileUi = function () {
   const auth = getAuth();
   const {
     isInboxOpen,
-    setLogOut,
     toggleFriend,
     toggleSetting,
     togglePeople,
