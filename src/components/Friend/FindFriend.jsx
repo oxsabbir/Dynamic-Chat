@@ -39,8 +39,10 @@ const FindFriend = function ({ getBack, userInfo }) {
       return;
     }
     clearTimeout(timer);
+
     timer = setTimeout(() => {
       const mainData = userData?.filter((item) => {
+        if (!item.email && !item.uid) return;
         const names = item.userName.toLowerCase();
         const input = inputValue.toLowerCase();
         return names.startsWith(input);
