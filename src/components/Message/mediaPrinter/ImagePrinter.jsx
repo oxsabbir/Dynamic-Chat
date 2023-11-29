@@ -6,6 +6,12 @@ import ImageModal from "../../UI/Modal/imageModal";
 const ImagePrinter = function ({ item, authUser }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isShown, setIsShown] = useState(false);
+
+  const dateShowHanlder = function () {
+    setIsShown((prev) => !prev);
+  };
+
   const closeModal = function () {
     setIsOpen(false);
   };
@@ -17,6 +23,7 @@ const ImagePrinter = function ({ item, authUser }) {
     <>
       {item.image && (
         <div
+          onClick={dateShowHanlder}
           className={`${
             item.from === authUser
               ? classes.imageFileAuth
@@ -38,7 +45,11 @@ const ImagePrinter = function ({ item, authUser }) {
             >
               <div>
                 <p>{item.message}</p>
-                <p className={classes.dateTime}>{makeDate(item.time)}</p>
+                <p
+                  className={`${isShown ? classes.dateShow : classes.dateTime}`}
+                >
+                  {makeDate(item.time)}
+                </p>
               </div>
             </div>
           )}

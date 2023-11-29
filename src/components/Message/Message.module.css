@@ -5,6 +5,7 @@
   display: flex;
   padding: 3px 0;
   gap: 5px;
+  cursor: pointer;
 }
 .authUser {
   flex-flow: row-reverse;
@@ -77,31 +78,30 @@
   flex-flow: column;
   justify-content: center;
 }
-.authUser:hover .dateTime {
-  height: 20px;
-  opacity: .6;
-  overflow: hidden;
-  transition: all 0..15s ease;
-  transform: translateZ(0);
 
-} 
+@keyframes showSome {
+    from {
+      opacity: .0;
+      height: 0px;
+    }
+    to {
+      opacity: .7;
+      height: 20px;
+    }
 
-.otherUser:hover .dateTime{
-  height: 20px;
-  opacity: .6;
-  overflow: hidden;
-  transform: translateZ(0);
-
-  transition: all 0.2s ease;
 }
-
+.dateShow {
+  font-size: 10px;
+  overflow: hidden;
+  transform: translateZ(0);
+  animation: showSome .3s ease-in-out both ;
+}
 
 .dateTime {
   font-size: 10px;
   height: 0px;
   opacity: 0;
   transform: translateZ(0);
-  transition: all 0.5s ease;
 }
 
 .imageFile  img {
