@@ -1,6 +1,6 @@
 import classes from "../Message.module.css";
 import makeDate from "../../Feature/makeDate";
-
+import Typing from "../../UI/Typing";
 const TextPrinter = function ({ item, authUser, message }) {
   return (
     <>
@@ -16,7 +16,7 @@ const TextPrinter = function ({ item, authUser, message }) {
           </div>
         )}
 
-        {item.isTyping && item.from !== authUser && <p>{message}</p>}
+        {item.isTyping && item.from !== authUser && <Typing />}
       </div>
     </>
   );

@@ -60,6 +60,7 @@ const MessagePrinter = function ({
                   />
                 );
               }
+
               if (groupOpen) {
                 const profile = roomMember.find((data) => {
                   if (data.uid === item.from && item.type !== "status") {
@@ -75,6 +76,7 @@ const MessagePrinter = function ({
                     profilePic={pic}
                     roomId={roomId}
                     deleteHandler={messageDeleteHandler}
+                    sameUser={sameUser}
                   />
                 );
               }

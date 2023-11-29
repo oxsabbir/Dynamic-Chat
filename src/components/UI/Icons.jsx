@@ -29,5 +29,6 @@ export const icons = {
   download: <i className="fa-solid fa-download"></i>,
   mic: <i className="fa-solid fa-microphone"></i>,
   play: <i className="fa-solid fa-play"></i>,
+  arrowRight: <i className="fa-solid fa-circle-chevron-right"></i>,
   pause: <i className="fa-solid fa-pause"></i>,
 };

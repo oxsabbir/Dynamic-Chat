@@ -24,11 +24,12 @@ const GroupMenu = function ({ memberList, groupInfo }) {
     const refId = event.target.dataset.refid;
     const getUser = memberList.find((user) => user.id === refId);
     let newKey = push(child(ref(db), "friends/")).key;
-
     const requireUser = event.target.id;
     const removeStatus = {
       type: "status",
       title: `${currentUserData.userName} removed ${getUser?.userName} from the group`,
+      removed: true,
+      uid: getUser?.uid,
     };
 
     const removeUser = {};

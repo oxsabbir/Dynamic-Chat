@@ -13,10 +13,12 @@ const ProfileMenu = function ({ activeTime, profilePic, userInfo }) {
           <Button onClick={toggleInbox} className={classes.backBtn}>
             {icons.back}
           </Button>
+
           <img
             className={activeTime === "Active now" ? classes.profileActive : ""}
             src={profilePic}
           />
+
           <div className={classes.profileName}>
             <h3>{userInfo.userName}</h3>
             <p>{activeTime}</p>
