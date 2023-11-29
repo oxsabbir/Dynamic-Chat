@@ -80,7 +80,7 @@ const RootLayout = function () {
         >
           <Loading />
           <p>
-            Checking Authentication <br /> please wait a second
+            Loading our application <br /> please wait a second
           </p>
         </div>
       )}
