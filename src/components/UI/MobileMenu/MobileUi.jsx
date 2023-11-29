@@ -4,11 +4,7 @@ import Button from "../Button/Button";
 import { icons } from "../Icons";
 import { useContext } from "react";
 import { stateContext } from "../../auth/Context";
-import { getAuth } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 const MobileUi = function () {
-  const navigate = useNavigate();
-  const auth = getAuth();
   const {
     isInboxOpen,
     toggleFriend,

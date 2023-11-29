@@ -1,6 +1,6 @@
 import { useState } from "react";
 import classes from "../Message.module.css";
-
+import makeDate from "../../Feature/makeDate";
 import ImageModal from "../../UI/Modal/imageModal";
 
 const ImagePrinter = function ({ item, authUser }) {
@@ -36,7 +36,10 @@ const ImagePrinter = function ({ item, authUser }) {
                 item.from === authUser ? classes.authTextMsg : classes.textMsg
               } ${classes.textFull}`}
             >
-              {item.message}
+              <div>
+                <p>{item.message}</p>
+                <p className={classes.dateTime}>{makeDate(item.time)}</p>
+              </div>
             </p>
           )}
         </div>

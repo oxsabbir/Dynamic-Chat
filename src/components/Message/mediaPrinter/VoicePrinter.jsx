@@ -10,7 +10,6 @@ const VoicePrinter = function ({ item, authUser }) {
 
   useEffect(() => {
     if (voiceRef?.current?.childNodes.length === 1) return;
-
     const waveSurfer = WaveSurfer.create({
       container: voiceRef.current,
       waveColor: "white",
@@ -18,15 +17,12 @@ const VoicePrinter = function ({ item, authUser }) {
       height: 30,
       url: item.voice,
     });
-
     waveSurfer.on("interaction", () => {
       waveSurfer.play();
       setIsPlaying(true);
     });
 
     playVoiceRef.current?.addEventListener("click", function (ev) {
-      console.log(ev?.target.classList.contains("fa-play"));
-
       if (ev?.target.classList.contains("fa-play")) {
         waveSurfer.play();
         setIsPlaying(true);
