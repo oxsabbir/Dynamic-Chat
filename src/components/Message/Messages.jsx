@@ -1,5 +1,4 @@
 import classes from "./Message.module.css";
-import { Link } from "react-router-dom";
 import TextPrinter from "./mediaPrinter/TextPrinter";
 import ImagePrinter from "./mediaPrinter/imagePrinter";
 import VoicePrinter from "./mediaPrinter/VoicePrinter";

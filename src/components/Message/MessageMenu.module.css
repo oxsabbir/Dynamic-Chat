@@ -1,6 +1,6 @@
 .bottomOption {
     background-color: var(--LIGHT-GLASS-UI);
-    padding: 10px 20px;
+    padding: 15px 20px;
     display: flex;
     gap: 10px;;
     backdrop-filter: blur(15px);
@@ -71,7 +71,7 @@
   @media screen and (max-width: 768px) {
     .bottomOption {
       position: fixed;
-      z-index: 55;
+      z-index: 2;
       bottom: 0;
     }
   }

@@ -125,19 +125,20 @@ const MessageMenu = function ({
   let currentMedia;
 
   const getAudioPermission = async function () {
+    console.log(await navigator);
+
     const media = await navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
         const audio = new MediaRecorder(stream);
         currentMedia = audio;
         return audio;
-      });
+      })
+      .catch((err) => console.error(err));
     return media;
   };
 
-  const startRecording = async function (ev) {
-    ev.preventDefault();
-
+  const startRecording = async function () {
     const media = await getAudioPermission();
     media.start();
     media.addEventListener("dataavailable", function (ev) {

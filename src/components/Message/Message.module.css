@@ -3,11 +3,9 @@
   align-items: center;
   justify-content: flex-start;
   display: flex;
-  padding: 5px 0;
+  padding: 3px 0;
   gap: 5px;
 }
-
-
 .authUser {
   flex-flow: row-reverse;
   
@@ -17,6 +15,11 @@
   transform: translateY(-5px);
   padding-left: 55px;
 }
+
+.singleMessage{
+  background: red;
+}
+
 
 .status {
   display: flex;
@@ -74,7 +77,32 @@
   flex-flow: column;
   justify-content: center;
 }
+.authUser:hover .dateTime {
+  height: 20px;
+  opacity: .6;
+  overflow: hidden;
+  transition: all 0..15s ease;
+  transform: translateZ(0);
 
+} 
+
+.otherUser:hover .dateTime{
+  height: 20px;
+  opacity: .6;
+  overflow: hidden;
+  transform: translateZ(0);
+
+  transition: all 0.2s ease;
+}
+
+
+.dateTime {
+  font-size: 10px;
+  height: 0px;
+  opacity: 0;
+  transform: translateZ(0);
+  transition: all 0.5s ease;
+}
 
 .imageFile  img {
   width: 100%;
@@ -88,9 +116,35 @@
 
 .moreOption {
   margin-right: 10px;
-  transition: 0.5s;
+  transition: 0.4s;
+  transform: scale(0);
   opacity: 0;
+  display: flex;
+  flex-flow: row-reverse; 
+  justify-content: center;
+  align-items: center;
 }
+.moreOption p {
+  font-size: 12px;
+  font-weight: medium;
+  color: white;
+}
+
+.authUser:hover .moreOption {
+  opacity: 1;
+  transform: scale(1);
+}
+.otherUser:hover{
+  .moreOption {
+    opacity: 1;
+    transform: scale(1);
+  }
+} 
+
+.time {
+  background: red;
+}
+
 
   .controller{
     width: 100%;
@@ -132,9 +186,7 @@
   padding: 10px;
 }
 
-.authUser:hover .moreOption {
-  opacity: 1;
-}
+
 
 @media screen and (max-width: 768px) {
   .imageFile {
