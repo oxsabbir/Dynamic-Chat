@@ -31,7 +31,7 @@ const ImagePrinter = function ({ item, authUser }) {
           </div>
 
           {item.message && (
-            <p
+            <div
               className={`${
                 item.from === authUser ? classes.authTextMsg : classes.textMsg
               } ${classes.textFull}`}
@@ -40,7 +40,7 @@ const ImagePrinter = function ({ item, authUser }) {
                 <p>{item.message}</p>
                 <p className={classes.dateTime}>{makeDate(item.time)}</p>
               </div>
-            </p>
+            </div>
           )}
         </div>
       )}
