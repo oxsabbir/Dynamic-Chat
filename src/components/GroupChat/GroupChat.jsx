@@ -3,7 +3,13 @@ import VoicePrinter from "../Message/mediaPrinter/VoicePrinter";
 import ImagePrinter from "../Message/mediaPrinter/ImagePrinter";
 import TextPrinter from "../Message/mediaPrinter/TextPrinter";
 
-const GroupChat = function ({ item, authUser, profilePic, deleteHandler }) {
+const GroupChat = function ({
+  item,
+  authUser,
+  profilePic,
+  deleteHandler,
+  sameUser,
+}) {
   let message = item.message;
   if (item.isTyping) {
     message = item.message;
@@ -15,11 +21,11 @@ const GroupChat = function ({ item, authUser, profilePic, deleteHandler }) {
     <>
       {isMessage && (
         <div
-          className={
+          className={`${
             item.from === authUser ? classes.authUser : classes.otherUser
-          }
+          } ${sameUser ? classes.sameUser : ""}`}
         >
-          {item.from !== authUser && <img src={profilePic} />}
+          {item.from !== authUser && !sameUser && <img src={profilePic} />}
 
           {item.image && <ImagePrinter item={item} authUser={authUser} />}
 

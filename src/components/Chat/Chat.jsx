@@ -8,7 +8,7 @@ import {
   limitToLast,
   off,
 } from "firebase/database";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { contextData } from "../auth/Context";
 import Profile from "../Profile/Profile";
 import defaultProfile from "../../assets/defaultProfile.jpg";
@@ -42,6 +42,7 @@ const Chat = function () {
   const [groupOpen, setGroupOpen] = useState(false);
   const [activeTime, setActiveTime] = useState("");
   const [messageLoading, setMessageLoading] = useState(false);
+  const [isRemoved, setIsRemoved] = useState(false);
 
   const getMoreMessage = function () {
     setLoadCount((prev) => prev + 20);
@@ -57,7 +58,8 @@ const Chat = function () {
 
     const memberRef = ref(db, "chat-room/" + `${roomId}/roomMember`);
 
-    const unSub = onValue(memberRef, (snap) => {
+    setIsRemoved(false);
+    onValue(memberRef, (snap) => {
       if (!snap.exists()) {
         setGroupOpen(false);
         return;
@@ -76,6 +78,13 @@ const Chat = function () {
       const mainData = Object.values(data);
       setMessageLoading(false);
       SetMessage(mainData);
+      if (
+        mainData[mainData.length - 1]?.removed &&
+        mainData[mainData.length - 1]?.uid === authUser
+      ) {
+        console.log("removed");
+        setIsRemoved(true);
+      }
       if (mainData[mainData.length - 1].blocked) {
         setBlocked(mainData[mainData.length - 1]);
       } else {
@@ -155,13 +164,15 @@ const Chat = function () {
               roomId={roomId}
               isBlockedFromMe={isBlockedFromMe}
             />
-            <MessageMenu
-              roomId={roomId}
-              userId={userId}
-              authUser={authUser}
-              blocked={blocked}
-              groupOpen={groupOpen}
-            />
+            {!isRemoved && (
+              <MessageMenu
+                roomId={roomId}
+                userId={userId}
+                authUser={authUser}
+                blocked={blocked}
+                groupOpen={groupOpen}
+              />
+            )}
           </>
         )}
       </div>

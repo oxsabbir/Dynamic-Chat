@@ -9,6 +9,7 @@ import { icons } from "../UI/Icons";
 import Button from "../UI/Button/Button";
 import uploadMedia from "../Feature/uploadMedia";
 import WaveSurfer from "wavesurfer.js";
+import RecordingUI from "./RecordingUI";
 
 const MessageMenu = function ({
   roomId,
@@ -28,6 +29,9 @@ const MessageMenu = function ({
   const [isLoading, setIsLoading] = useState(false);
   const [isRecorded, setIsRecorded] = useState(false);
   const [recordedVoice, setRecordedVoice] = useState("");
+  const [currentMedia, setCurrentMedia] = useState({});
+  const [isRecordingStart, setIsRecordingStart] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const fileSelection = function (event) {
     const files = event.target.files[0];
@@ -119,10 +123,9 @@ const MessageMenu = function ({
 
   const closeInput = function () {
     setIsImageSelected(false);
+    setIsTyping(false);
     enteredFile.current.value = "";
   };
-
-  let currentMedia;
 
   const getAudioPermission = async function () {
     console.log(await navigator);
@@ -131,7 +134,7 @@ const MessageMenu = function ({
       .getUserMedia({ audio: true })
       .then((stream) => {
         const audio = new MediaRecorder(stream);
-        currentMedia = audio;
+        setCurrentMedia(audio);
         return audio;
       })
       .catch((err) => console.error(err));
@@ -141,10 +144,11 @@ const MessageMenu = function ({
   const startRecording = async function () {
     const media = await getAudioPermission();
     media.start();
+    setIsRecordingStart(true);
     media.addEventListener("dataavailable", function (ev) {
       const blobFile = new Blob([ev.data], { type: "audio/webm;codecs=opus" });
-
       setRecordedVoice(blobFile);
+
       const fileLink = URL.createObjectURL(blobFile);
 
       // Wave surfer
@@ -176,7 +180,12 @@ const MessageMenu = function ({
 
   const StopRecording = async function () {
     currentMedia.stop();
+    setIsRecordingStart(false);
     setIsRecorded(true);
+  };
+
+  const toggleMenu = function () {
+    setIsTyping(false);
   };
 
   return (
@@ -201,10 +210,11 @@ const MessageMenu = function ({
                 <span onClick={closeInput}>{icons.remove}</span>
               </div>
             )}
-            {!isImageSelected && (
+
+            {!isImageSelected && !isTyping && (
               <Button onMouseUp={openInput}>{icons.image}</Button>
             )}
-            {!isRecorded && (
+            {!isRecorded && !isTyping && (
               <div>
                 <Button
                   onTouchStart={startRecording}
@@ -217,6 +227,10 @@ const MessageMenu = function ({
               </div>
             )}
 
+            {isTyping && !isImageSelected && (
+              <Button onMouseUp={toggleMenu}>{icons.arrowRight}</Button>
+            )}
+
             {isRecorded && (
               <div className={classes.controller}>
                 <span ref={playRecordRef}>{icons.play}</span>
@@ -224,19 +238,27 @@ const MessageMenu = function ({
                 <span ref={deleteRecordRef}>{icons.remove}</span>
               </div>
             )}
-            {!isRecorded && (
+            {isRecordingStart && <RecordingUI />}
+
+            {!isRecorded && !isRecordingStart && (
               <input
                 ref={enteredMessage}
                 type="text"
                 onChange={() => typingHandler(roomId, authUser)}
                 placeholder="Type here..."
-                onBlur={() => blurHandler(roomId)}
+                onFocus={() => setIsTyping(true)}
+                onBlur={() => {
+                  blurHandler(roomId);
+                  setIsTyping(false);
+                }}
               />
             )}
 
-            <Button disabled={isLoading} type={"submit"}>
-              {isLoading ? "..." : icons.send}
-            </Button>
+            {!isRecordingStart && (
+              <Button disabled={isLoading} type={"submit"}>
+                {isLoading ? "..." : icons.send}
+              </Button>
+            )}
           </>
         </div>
       </form>

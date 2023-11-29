@@ -93,6 +93,7 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
     };
 
     const allUser = {};
+
     selectedUser.forEach((item) => {
       let newKey = push(child(ref(db), "friends/")).key;
       allUser[newKey] = {
@@ -100,14 +101,16 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
         profilePic: item.profilePic,
         uid: item.uid,
         id: newKey,
+        time: serverTimestamp(),
       };
     });
 
     const updateDir = {};
-    updateDir[`users/${auth.currentUser?.uid}/friends/${newKey}`] =
-      groupDetails;
+
     updateDir[`chat-room/${newKey}/chats/${newKey}`] = firstMessage;
     updateDir[`chat-room/${newKey}/createdAt`] = serverTimestamp();
+    updateDir[`users/${auth.currentUser?.uid}/friends/${newKey}`] =
+      groupDetails;
     console.log(selectedUser);
     updateDir[`chat-room/${newKey}/roomMember`] = allUser;
 
@@ -142,9 +145,9 @@ const CreateGroup = function ({ getBack, isShown, acceptedFriend, allUser }) {
       setNoticeMessage("Select a group profile picture first");
       return;
     }
-    if (selectedUser.length <= 3) {
+    if (selectedUser.length < 3) {
       setNotice(true);
-      setNoticeMessage("You must more than 1 person to continue");
+      setNoticeMessage("You must more than 2 person to continue");
       return;
     }
 
