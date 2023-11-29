@@ -6,6 +6,10 @@
     color: white;
     font-weight: 500;
 }
+.button i {
+    pointer-events: none;
+
+}
 .buttonDark{
     background: var(--DARK-BUTTON);
 }

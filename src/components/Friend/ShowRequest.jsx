@@ -14,10 +14,12 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
   const { show, toggleFriend, toggleAcceptedFriend, toggleCurrentUser } =
     contextData();
   const [pendingList, setPendingList] = useState([]);
+
   const auth = getAuth();
 
   useEffect(() => {
     if (!uid) return;
+
     const db = getDatabase();
     const dbRef = ref(db, "users/" + uid + "/friends");
 
@@ -27,12 +29,20 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
         setPendingList([]);
         return;
       }
+
       const data = snap.val();
       const mainData = Object.values(data);
 
-      const pendingFriend = mainData?.filter(
-        (item) => item.status === "pending"
-      );
+      console.log(mainData);
+
+      const pendingFriend = mainData?.filter((item) => {
+        if (item.status === "pending") {
+          return true;
+        }
+      });
+
+      setPendingList(pendingFriend);
+
       const acceptedFriend = mainData?.filter(
         (item) => item.status === "success"
       );
@@ -40,7 +50,7 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
       acceptedFriend.sort((item, items) => {
         return items.lastSent - item.lastSent;
       });
-      setPendingList(pendingFriend);
+
       toggleAcceptedFriend(acceptedFriend);
     });
 
@@ -57,6 +67,7 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
   }, [uid]);
 
   const cancelHandler = async function (event) {
+    event.stopPropagation();
     const db = getDatabase();
     const roomId = event.target.id;
 
@@ -64,23 +75,24 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
     const updateCreator = {};
 
     updateCreator["chat-room/" + roomId] = deleteValue;
+
     updateCreator[`users/${auth.currentUser.uid}/friends/` + roomId] =
       deleteValue;
+
     return update(ref(db), updateCreator)
       .then(() => console.log("cancel Successs"))
       .catch((err) => console.log(err));
   };
 
   const acceptHandler = function (event) {
-    const reqUid = event.target.id;
     const auth = getAuth();
+    const reqUid = event.target.id;
+
     const currentUser = {
       uid: auth?.currentUser?.uid,
       names: auth?.currentUser.displayName,
     };
-
-    const userPending = pendingList?.find((item) => item.userId === reqUid);
-    console.log(userPending);
+    const userPending = pendingList.find((items) => items.userId === reqUid);
 
     AddFriend(
       "accept",
@@ -105,6 +117,7 @@ const ShowRequest = function ({ uid, getCurrentUser }) {
         <ul style={{ listStyle: "none" }}>
           {pendingList &&
             pendingList.map((item) => {
+              console.log(item.roomId);
               return (
                 <li key={item.userId}>
                   <div className={classes.friendCard}>

@@ -46,15 +46,15 @@ Dynamic-chat uses a number of open source projects to work properly:
 - Firebase-Authentication - For keep our authenticated and safe 
 - Context-Api - For managing our application state
 
-## User Interface preview 
+# User Interface preview 
 
 
-# Landing Page
+## Landing Page
 
 ![Landing Page](./src/assets/screenshot/landingPage.png)
 
 
-# Main Dashboard 
+## Main Dashboard 
 
 ![Dashboard](./src/assets/screenshot/dashboard.png)
 
