@@ -1,7 +1,7 @@
 # Dynamic Chat 
 ## _The Last Markdown Editor, Ever_
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://dynamic-chat.netlify.app/)
+[![N|Solid](/src/assets//screenshot/logo.jpg.png)](https://dynamic-chat.netlify.app/)
 
 Dynamic-chat is a cloud-hosted, mobile-ready, realtime communicationable,
 React Js powered Chat Application.
@@ -56,7 +56,7 @@ Dynamic-chat uses a number of open source projects to work properly:
 
 # Main Dashboard 
 
-![Dashboard](./src/assets/screenshot/landingPage.png)
+![Dashboard](./src/assets/screenshot/dashboard.png)
 
 
 
