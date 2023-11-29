@@ -7,7 +7,6 @@
   align-items: center;
   background: var(--DARK-GRADIENT);
   box-shadow: 5px 5px 17px 1px #151519;
-  border-radius: 20px;
 }
 .loginPage {
   height: 100%;
@@ -16,7 +15,6 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
 }
 
 .wrapper {
