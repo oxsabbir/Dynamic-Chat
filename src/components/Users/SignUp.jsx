@@ -1,10 +1,11 @@
 import classes from "./SignUp.module.css";
 import Button from "../UI/Button/Button";
 import GLogo from "../../assets/GLogo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRef } from "react";
 import {
   getAuth,
+  getRedirectResult,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
@@ -34,9 +35,30 @@ const SignUp = function () {
 
   const auth = getAuth();
 
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const accessToken = credential.accessToken;
+        const user = result.user;
+        writeUserData(
+          user.displayName,
+          user.email,
+          user.uid,
+          user.emailVerified,
+          user.photoURL
+        );
+        toggleChatBox(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const [isSignIn, setIsSignIn] = useState(true);
 
   const writeUserData = function (name, email, userId, isVerifyed, photoUrl) {
+    console.log(arguments);
     const db = getDatabase();
 
     const userRef = ref(db, "users/" + userId);
@@ -64,7 +86,9 @@ const SignUp = function () {
       const data = snap.val();
       if (!data?.uid) {
         console.log("can write");
-        return update(ref(db), updates).then(() => console.log("user Created"));
+        return update(ref(db), updates).then(() => navigate("/dashboard"));
+      } else {
+        console.log("okay");
       }
     });
 
@@ -115,36 +139,16 @@ const SignUp = function () {
       });
   };
 
-  const signUpWithGoogle = function (e) {
+  const signUpWithGoogle = async function (e) {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
-
-    signInWithRedirect(auth, provider)
-      .then((result) => {
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const accessToken = credential.accessToken;
-        const user = result.user;
-
-        writeUserData(
-          user.displayName,
-          user.email,
-          user.uid,
-          user.emailVerified,
-          user.photoURL
-        );
-        toggleChatBox(false);
-      })
-      .then(() => navigate("/dashboard"))
-      .catch((error) => {
-        console.log(error);
-      });
+    signInWithRedirect(auth, provider);
   };
 
   const userLoginHandler = function (e) {
     e.preventDefault();
     const email = enteredEmail.current.value;
     const password = enteredPassword.current.value;
-    console.log(email, password);
     setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((info) => {
