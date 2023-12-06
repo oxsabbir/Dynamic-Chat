@@ -1,5 +1,5 @@
 # Dynamic Chat 
-## _The Last Markdown Editor, Ever_
+## _The Last  Chat Application, Ever_
 
 [![N|Solid](/src/assets//screenshot/logo.jpg.png)](https://dynamic-chat.netlify.app/)
 
