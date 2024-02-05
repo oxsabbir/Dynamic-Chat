@@ -9,6 +9,7 @@ const initialState = {
   toggleInbox: () => {},
   toggleActiveChat: () => {},
 };
+
 export const stateContext = createContext();
 
 const ContextWrapper = function ({ children }) {
